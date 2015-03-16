@@ -98,7 +98,126 @@ def siesta_read_coefficients(filename):
                 psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  # and make a row of complex numbers
     return psi
 
+def siesta_read_HSX(nkpts_array, filename, debug=0):
+    """
+    reads Hamiltonian, and Overlap from Siesta .HSX file
 
+    Input: kpoints_array, filename (everything before .HSX)
+    kpoints array must have dimensions [nkpts, 4] where the 
+    first three elements are the fractional kpoint coordinates
+    Output: H[norb, norb, nkpts, nspin], S[norb, norb]
+    units are in Rydberg!!
+    """
+
+    #two different cases
+    #just gamma point or k sampling
+    f = FortranFile(filename+'.HSX')
+    nkpts = len(nkpts_array)
+    
+    print 'Reading Hamiltonian and Overlap from file : '+filename+'.HSX'
+
+    #1st line: 
+    # No. of orbs in cell, No. of orbs in supercell, nspin, nnzs
+    no_u, no_s, nspin, nnzs = f.read_ints()
+    if debug: print no_u, no_s, nspin, nnzs
+    # 0 if klist, 1 if only gamma pnt is used
+    gamma = f.read_ints()[0]
+    if debug: print gamma
+    #index list, for every orb in supercell finds 
+    #correspond orb in small cell
+    if gamma==0:
+        indxuo = f.read_ints() 
+        if debug: 
+            print 'indxuo'
+            print indxuo.shape
+            print indxuo
+    #numh contains the number of orbitals connected 
+    #with orbital i
+    numh = f.read_ints()
+    if debug:
+        print 'numh'
+        print numh.shape
+        print numh
+    #listhptr = np.zeros(nu_o,dtype=np.float)
+    #listhptr[0] = 0
+    #for oi in xrange(1,nu_o):
+        #listhptr[oi] = listhptr[oi-1] + numh[oi-1]
+    #listh = np.zeros(nnzs,dtype=np.float)
+    #for oi in xrange(nu_o):
+        #listh[listhptr[oi]:(listhptr[oi]+numh[oi])] = f.read_ints()
+    listh  = []
+    for i in xrange(no_u):
+        listh += list(f.read_ints())
+    listh = np.array(listh)
+    if debug: 
+        print 'listh'
+        print listh.shape
+        print listh
+
+    h = np.zeros([nnzs,nspin],dtype=np.float)
+    for si in range(nspin):
+        tmp = []
+        for i in range(no_u):
+            bla = list(f.read_reals('f'))
+            tmp += bla 
+        h[:,si] = np.array(tmp)
+    s = []
+    for i in range(no_u):
+        bla = list(f.read_reals('f'))
+        s += bla
+    s = np.array(s)
+    if debug:
+        print h.shape
+        print s.shape
+   
+    #reading No. of elecs, fermi smearing
+    nelec, fermi_smear = f.read_reals('d')
+    if debug: print nelec, fermi_smear
+
+    if gamma==0:
+        #now we read the xij array, atomic position distances in supercell
+        xij = []
+        for i in range(no_u):
+            xij.append(np.array(f.read_reals('f')).reshape(-1,3))
+ 
+    if debug: print xij[0].shape
+
+    ##THAT was the READ_IN part
+    ## now we construct the hamiltonian and overlap
+    if gamma==0:
+        H = np.zeros([no_u,no_u,nkpts,nspin],dtype=np.complex)
+        S = np.zeros([no_u,no_u,nkpts],dtype=np.complex)
+    else:
+        H = np.zeros([no_u,no_u,1,nspin],dtype=np.float)
+        S = np.zeros([no_u,no_u,1],dtype=np.float)
+
+    # only gamma point
+    if gamma==0:
+        for si in range(nspin):
+            #print 's ',si
+            for ki,k in enumerate(nkpts_array):
+                kvec = k[:3]
+                for iuo in xrange(no_u):
+                    #print 'iuo :', iuo
+                    for j in range(numh[iuo]):
+                        jo = listh[numh[iuo]+j]
+                        #print 'jo :', jo
+                        juo = indxuo[numh[iuo]+j] -1
+                        #print 'juo :', juo
+                        kx = np.dot(kvec,xij[iuo][j])
+                        phasef = np.exp(1.0j*kx)
+                        #print numh[iuo]+j
+                        #print h[numh[iuo]+j,si]
+                        #print iuo, juo, ki, si
+                        H[iuo, juo,ki,si] += phasef * h[numh[iuo]+j,si]
+                        if si==0:
+                            S[iuo, juo,ki] += phasef * s[numh[iuo]+j]
+        pass
+    else:
+        H[:,:,0,:] = h.reshape(no_u,no_u,nspin)
+        S[:,:] = s.reshape(no_u,no_u)
+
+    return H, S
 
 """
 To call the routine from this file just type 
