@@ -76,24 +76,24 @@ def siesta_read_coefficients(filename):
     """
 
     f= FortranFile("%s.WFSX" % filename)
-    nk,gamma= f.readInts()
+    nk,gamma= f.read_ints()
     print "nk, gamma  = ", nk,gamma
-    nspin = int(f.readInts())
+    nspin = int(f.read_ints())
     print "nspin =",nspin
-    nuotot = int(f.readInts())
+    nuotot = int(f.read_ints())
     print "nuotot =",nuotot
-    f.readRecord()
+    f.read_record('f')
     psi=np.zeros((nk,nspin,nuotot,nuotot))
     psi = psi +0j
     for iik in range (1,nk+1):  #for each k-point
         for iispin in range (1,nspin+1):  #for each spin
-            f.readRecord()
-            ispin = int(f.readInts())
-            nwflist =int(f.readInts())
+            f.read_record('f')
+            ispin = int(f.read_ints())
+            nwflist =int(f.read_ints())
             for iw in range(1,nwflist+1):  # for each state (nwflist = total number of states)
-                indwf=f.readInts()
-                energy=f.readReals('d')    # we first read the energy of the state 
-                read_psi = f.readReals()   # and all the orbital coefficients (real value, followed by the imaginary value
+                indwf=f.read_ints()
+                energy=f.read_reals('d')    # we first read the energy of the state 
+                read_psi = f.read_reals('f')   # and all the orbital coefficients (real value, followed by the imaginary value
                 read_psi=np.reshape(read_psi, (nwflist,2))  # reshape it 
                 psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  # and make a row of complex numbers
     return psi

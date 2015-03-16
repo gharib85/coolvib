@@ -1,0 +1,9 @@
+
+In order to use the code type
+python setup.py build.
+
+This generates a build/ directory.
+
+Put following line in your .bashrc
+
+export PYTHONPATH=<path to vibcooling>/vibcooling/build/lib.<arch>-x86_64-<py-version>:$PYTHONPATH
