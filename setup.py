@@ -1,5 +1,7 @@
 import os
-from setuptools import setup
+from distutils.core import setup
+from distutils.extension import Extension
+from Cython.Distutils import build_ext 
 
 # Utility function to read the README file.
 def read(fname):
@@ -18,6 +20,11 @@ packages = [ package_name ]
 for package in __all__:
     packages.append(package_name + '.' + package)
 
+ext_modules = [
+           Extension("vibcooling.parser.siesta_mod",["src/parser/siesta_mod.pyx"]) 
+
+        ]
+
 setup(
     name = package_name,
     version = __version__,
@@ -30,7 +37,9 @@ setup(
     license = "TBA",
     keywords = "vibrational cooling, quantum chemistry",
     url = "TBA",
+    cmdclass = {'build_ext' : build_ext},
     package_dir = {package_name: 'src'},
-    packages = packages, 
+    packages = packages,
+    ext_modules= ext_modules,
     long_description=read('README'),
 )

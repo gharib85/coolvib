@@ -5,7 +5,7 @@ Parsing routine for Siesta
 import numpy as np
 import struct
 from scipy.io import FortranFile
-
+import siesta_mod
 
 def siesta_read_eigenvalues(filename):
     """
@@ -98,7 +98,7 @@ def siesta_read_coefficients(filename):
                 psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  # and make a row of complex numbers
     return psi
 
-def siesta_read_HSX(nkpts_array, filename, debug=0):
+def siesta_read_HSX(kpts_array, filename, debug=0):
     """
     reads Hamiltonian, and Overlap from Siesta .HSX file
 
@@ -112,7 +112,7 @@ def siesta_read_HSX(nkpts_array, filename, debug=0):
     #two different cases
     #just gamma point or k sampling
     f = FortranFile(filename+'.HSX')
-    nkpts = len(nkpts_array)
+    nkpts = len(kpts_array)
     
     print 'Reading Hamiltonian and Overlap from file : '+filename+'.HSX'
 
@@ -178,41 +178,34 @@ def siesta_read_HSX(nkpts_array, filename, debug=0):
         #now we read the xij array, atomic position distances in supercell
         xij = []
         for i in range(no_u):
-            xij.append(np.array(f.read_reals('f')).reshape(-1,3))
- 
+            xij += list(f.read_reals('f'))
+    xij = np.array(xij)
     if debug: print xij[0].shape
 
     ##THAT was the READ_IN part
     ## now we construct the hamiltonian and overlap
     if gamma==0:
-        H = np.zeros([no_u,no_u,nkpts,nspin],dtype=np.complex)
-        S = np.zeros([no_u,no_u,nkpts],dtype=np.complex)
+        H = np.zeros([no_u,no_u,nkpts,nspin],dtype=np.float)
+        S = np.zeros([no_u,no_u,nkpts],dtype=np.float)
     else:
         H = np.zeros([no_u,no_u,1,nspin],dtype=np.float)
         S = np.zeros([no_u,no_u,1],dtype=np.float)
-
+    
     # only gamma point
     if gamma==0:
-        for si in range(nspin):
-            #print 's ',si
-            for ki,k in enumerate(nkpts_array):
-                kvec = k[:3]
-                for iuo in xrange(no_u):
-                    #print 'iuo :', iuo
-                    for j in range(numh[iuo]):
-                        jo = listh[numh[iuo]+j]
-                        #print 'jo :', jo
-                        juo = indxuo[numh[iuo]+j] -1
-                        #print 'juo :', juo
-                        kx = np.dot(kvec,xij[iuo][j])
-                        phasef = np.exp(1.0j*kx)
-                        #print numh[iuo]+j
-                        #print h[numh[iuo]+j,si]
-                        #print iuo, juo, ki, si
-                        H[iuo, juo,ki,si] += phasef * h[numh[iuo]+j,si]
-                        if si==0:
-                            S[iuo, juo,ki] += phasef * s[numh[iuo]+j]
-        pass
+        kpts_array = np.array(kpts_array,dtype=np.float)
+        xij = np.array(xij,dtype=np.float)
+        h = np.array(h,dtype=np.float)
+        s = np.array(s,dtype=np.float)
+        listh = np.array(listh,dtype=np.int)
+        numh = np.array(numh,dtype=np.int)
+        indxuo = np.array(indxuo,dtype=np.int)
+
+        H_r, H_i, S_r, S_i = siesta_mod.siesta_calc_HSX(nspin, kpts_array, 
+                no_u, numh, listh, indxuo, xij, h, s)
+        H = H_r +1j*H_i
+        S = S_r +1j*S_i
+
     else:
         H[:,:,0,:] = h.reshape(no_u,no_u,nspin)
         S[:,:] = s.reshape(no_u,no_u)

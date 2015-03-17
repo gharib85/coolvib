@@ -18,7 +18,12 @@ psi = siesta_read_coefficients(filename)
 print 'psi'
 print psi.shape
 
+from time import time
+start = time()
+#kpt_array = kpt_array[0:4]
+#print kpt_array
 H,S = siesta_read_HSX(kpt_array, filename,debug=1)
+print time() - start
 
 print 'H'
 print H.shape
