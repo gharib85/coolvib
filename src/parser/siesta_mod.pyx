@@ -8,11 +8,17 @@ ctypedef np.int_t INT_TYPE_t
 ctypedef np.float_t REAL_TYPE_t
 ctypedef np.complex_t COMPLEX_TYPE_t
 
+from libc.math cimport sin, cos
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+@cython.nonecheck(False)
 def siesta_calc_HSX(int nspin, np.ndarray[REAL_TYPE_t,ndim=2] kpts_array, 
                     int no_u, np.ndarray[INT_TYPE_t,ndim=1] numh, 
+                    np.ndarray[INT_TYPE_t,ndim=1] listhptr,
                     np.ndarray[INT_TYPE_t,ndim=1] listh, 
                     np.ndarray[INT_TYPE_t,ndim=1] indxuo,
-                    np.ndarray[REAL_TYPE_t,ndim=1] xij,
+                    np.ndarray[REAL_TYPE_t,ndim=2] xij,
                     np.ndarray[REAL_TYPE_t,ndim=2] h,
                     np.ndarray[REAL_TYPE_t,ndim=1] s,
             ):
@@ -23,38 +29,36 @@ def siesta_calc_HSX(int nspin, np.ndarray[REAL_TYPE_t,ndim=2] kpts_array,
     #INIT H and S
     cdef int nkpts
     nkpts = len(kpts_array)
-    cdef np.ndarray[REAL_TYPE_t,ndim=4] H_r = np.empty([no_u,no_u,nkpts,nspin],dtype=REAL_TYPE)
-    cdef np.ndarray[REAL_TYPE_t,ndim=3] S_r = np.empty([no_u,no_u,nkpts],dtype=REAL_TYPE)
-    cdef np.ndarray[REAL_TYPE_t,ndim=4] H_i = np.empty([no_u,no_u,nkpts,nspin],dtype=REAL_TYPE)
-    cdef np.ndarray[REAL_TYPE_t,ndim=3] S_i = np.empty([no_u,no_u,nkpts],dtype=REAL_TYPE)
+    cdef np.ndarray[REAL_TYPE_t,ndim=4] H_r = np.zeros([nkpts,nspin,no_u,no_u],dtype=REAL_TYPE)
+    cdef np.ndarray[REAL_TYPE_t,ndim=4] S_r = np.zeros([nkpts,nspin,no_u,no_u],dtype=REAL_TYPE)
+    cdef np.ndarray[REAL_TYPE_t,ndim=4] H_i = np.zeros([nkpts,nspin,no_u,no_u],dtype=REAL_TYPE)
+    cdef np.ndarray[REAL_TYPE_t,ndim=4] S_i = np.zeros([nkpts,nspin,no_u,no_u],dtype=REAL_TYPE)
 
-    cdef unsigned int si, ki, iuo, j, jo, juo
+    cdef unsigned int si, ki, iuo, j, jo, juo, ind
     cdef np.ndarray[REAL_TYPE_t,ndim=1] k=np.empty(4,dtype=REAL_TYPE), kvec=np.empty(3,dtype=REAL_TYPE)
-    cdef REAL_TYPE_t phasef_r, phasef_i
+    cdef REAL_TYPE_t phasef_r, phasef_i, kx
 
-    # only gamma point
-    for si in range(nspin):
-        for ki,k in enumerate(kpts_array):
-            kvec = k[:3]
+    #numh number of non-zero elements per row
+    #listhptr points to the start of each orbital row
+    #listh non-zero H elements for each orbital 
+    #indxuo tells me which orbital in supercell corresponds
+    #to which orbital in unit cell
+
+    for ki,k in enumerate(kpts_array):
+        kvec = k[:3]
+        for si in range(nspin):
             for iuo in xrange(no_u):
                 for j in xrange(numh[iuo]):
-                    jo = listh[numh[iuo]+j]
-                    #print 'jo :', jo
-                    juo = indxuo[numh[iuo]+j] -1
-                    #print 'juo :', juo
-                    #print kvec
-                    #print xij[iuo][j]
-                    kx = np.dot(kvec,xij[(numh[iuo]+j)*3:(numh[iuo]+j)*3+3])
-                    phasef_r = np.cos(kx)
-                    phasef_i = np.sin(kx)
-                    #print phasef
-                    #print h[numh[iuo]+j,si]
-                    #print iuo, juo, ki, si
-                    H_r[iuo,juo,ki,si] += phasef_r*h[numh[iuo]+j,si]
-                    H_i[iuo,juo,ki,si] += phasef_i*h[numh[iuo]+j,si]
-                    if si==0:
-                        S_r[iuo,juo,ki] += phasef_r*s[numh[iuo]+j]
-                        S_i[iuo,juo,ki] += phasef_i*s[numh[iuo]+j]
-
-    return H_r, H_i, S_r, S_i
+                    ind = listhptr[iuo] + j
+                    jo = listh[ind] -1
+                    juo = indxuo[jo] -1
+                    kx = np.dot(kvec,xij[ind,:])
+                    phasef_r = cos(kx)
+                    phasef_i = sin(kx)
+                    H_r[ki,si,iuo,juo] += phasef_r*h[ind,si]
+                    H_i[ki,si,iuo,juo] += phasef_i*h[ind,si]
+                    S_r[ki,si,iuo,juo] += phasef_r*s[ind]
+                    S_i[ki,si,iuo,juo] += phasef_i*s[ind]
+     
+    return H_r, H_i, S_r[:,0,:,:], S_i[:,0,:,:]
 

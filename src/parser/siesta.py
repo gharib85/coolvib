@@ -11,6 +11,7 @@ def siesta_read_eigenvalues(filename):
     """
     This routine reads the number of K points, the eigenvalues and the \
     and the number of states
+    Output is given in units of eV.
 
     Input: the name of the eigenvalue file
     Output: Fermi_level, Eigenvalues i
@@ -64,6 +65,21 @@ def siesta_read_kpoints(filename):
     return kpoints_weights
 
 
+def siesta_read_struct_out(filename):
+    """
+    reads the .STRUCT_OUT file for the unit cell and positions
+    is needed by siesta_read_HSX
+    cell is a 3x3 matrix in Angstrom units
+    """
+    with open("%s.STRUCT_OUT" % filename, "r") as f:
+        content=f.readlines()
+        cell = np.zeros([3,3],dtype=np.float)
+        for i in range(3):
+            bla = content[i].split()
+            for j in range(3):
+                cell[i,j] = np.float(bla[j])
+    
+    return cell 
 def siesta_read_coefficients(filename):
     """
     This routine reads siesta eigenvectors from MyM.WFSX binary
@@ -98,7 +114,7 @@ def siesta_read_coefficients(filename):
                 psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  # and make a row of complex numbers
     return psi
 
-def siesta_read_HSX(kpts_array, filename, debug=0):
+def siesta_read_HSX(kpts_array, cell, filename, debug=0):
     """
     reads Hamiltonian, and Overlap from Siesta .HSX file
 
@@ -106,15 +122,22 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
     kpoints array must have dimensions [nkpts, 4] where the 
     first three elements are the fractional kpoint coordinates
     Output: H[norb, norb, nkpts, nspin], S[norb, norb]
-    units are in Rydberg!!
+    units are in Rydberg and Bohr!!
     """
 
     #two different cases
     #just gamma point or k sampling
     f = FortranFile(filename+'.HSX')
     nkpts = len(kpts_array)
-    
+
     print 'Reading Hamiltonian and Overlap from file : '+filename+'.HSX'
+    
+    #Angstrom to Bohr
+    cell = cell*1.889726124565
+    rcell = 2. * np.pi * np.linalg.inv(cell.T)
+    ##transform kpts_array to absolute kpts
+    for i, k in enumerate(kpts_array):
+        kpts_array[i,:3] = np.dot(kpts_array[i,:3],rcell)
 
     #1st line: 
     # No. of orbs in cell, No. of orbs in supercell, nspin, nnzs
@@ -138,17 +161,17 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
         print 'numh'
         print numh.shape
         print numh
-    #listhptr = np.zeros(nu_o,dtype=np.float)
-    #listhptr[0] = 0
-    #for oi in xrange(1,nu_o):
-        #listhptr[oi] = listhptr[oi-1] + numh[oi-1]
-    #listh = np.zeros(nnzs,dtype=np.float)
-    #for oi in xrange(nu_o):
-        #listh[listhptr[oi]:(listhptr[oi]+numh[oi])] = f.read_ints()
-    listh  = []
-    for i in xrange(no_u):
-        listh += list(f.read_ints())
-    listh = np.array(listh)
+    #generating listhptr
+    listhptr = np.zeros(no_u,dtype=np.float)
+    listhptr[0] = 0
+    for oi in xrange(1,no_u):
+        listhptr[oi] = listhptr[oi-1] + numh[oi-1]
+    #reading listh
+    listh = np.zeros(nnzs,dtype=np.float)
+    for oi in xrange(no_u):
+        bla = f.read_ints()
+        for im in xrange(numh[oi]):
+            listh[listhptr[oi]+im] = bla[im] 
     if debug: 
         print 'listh'
         print listh.shape
@@ -156,16 +179,15 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
 
     h = np.zeros([nnzs,nspin],dtype=np.float)
     for si in range(nspin):
-        tmp = []
-        for i in range(no_u):
-            bla = list(f.read_reals('f'))
-            tmp += bla 
-        h[:,si] = np.array(tmp)
-    s = []
-    for i in range(no_u):
-        bla = list(f.read_reals('f'))
-        s += bla
-    s = np.array(s)
+        for oi in range(no_u):
+            bla = f.read_reals('f')
+            for mi in xrange(numh[oi]):
+                h[listhptr[oi]+mi,si] = bla[mi]
+    s = np.zeros([nnzs],dtype=np.float)
+    for oi in range(no_u):
+        bla = f.read_reals('f')
+        for mi in xrange(numh[oi]):
+            s[listhptr[oi]+mi] = bla[mi]
     if debug:
         print h.shape
         print s.shape
@@ -175,22 +197,24 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
     if debug: print nelec, fermi_smear
 
     if gamma==0:
+        xij = np.zeros([nnzs,3],dtype=np.float)
         #now we read the xij array, atomic position distances in supercell
-        xij = []
-        for i in range(no_u):
-            xij += list(f.read_reals('f'))
-    xij = np.array(xij)
-    if debug: print xij[0].shape
+        for oi in range(no_u):
+            bla = f.read_reals('f')
+            for mi in xrange(numh[oi]):
+                for xyz in range(3):
+                    xij[listhptr[oi]+mi,xyz] = bla[(3*mi)+xyz]
+    if debug: print xij.shape
 
     ##THAT was the READ_IN part
     ## now we construct the hamiltonian and overlap
     if gamma==0:
-        H = np.zeros([no_u,no_u,nkpts,nspin],dtype=np.float)
-        S = np.zeros([no_u,no_u,nkpts],dtype=np.float)
+        H = np.zeros([nkpts,nspin,no_u,no_u],dtype=np.complex)
+        S = np.zeros([nkpts,no_u,no_u],dtype=np.complex)
     else:
-        H = np.zeros([no_u,no_u,1,nspin],dtype=np.float)
-        S = np.zeros([no_u,no_u,1],dtype=np.float)
-    
+        H = np.zeros([1,nspin,no_u,no_u],dtype=np.float)
+        S = np.zeros([1,no_u,no_u],dtype=np.float)
+
     # only gamma point
     if gamma==0:
         kpts_array = np.array(kpts_array,dtype=np.float)
@@ -198,18 +222,18 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
         h = np.array(h,dtype=np.float)
         s = np.array(s,dtype=np.float)
         listh = np.array(listh,dtype=np.int)
+        listhptr = np.array(listhptr,dtype=np.int)
         numh = np.array(numh,dtype=np.int)
         indxuo = np.array(indxuo,dtype=np.int)
-
         H_r, H_i, S_r, S_i = siesta_mod.siesta_calc_HSX(nspin, kpts_array, 
-                no_u, numh, listh, indxuo, xij, h, s)
-        H = H_r +1j*H_i
-        S = S_r +1j*S_i
-
+                no_u, numh, listhptr, listh, indxuo, xij, h, s)
+        H[:,:,:,:] = H_r[:,:,:,:] +1j*H_i[:,:,:,:]
+        S[:,:,:] = S_r[:,:,:] +1j*S_i[:,:,:]
     else:
-        H[:,:,0,:] = h.reshape(no_u,no_u,nspin)
-        S[:,:] = s.reshape(no_u,no_u)
-
+        H[0,:,:,:] = h.reshape(nspin,no_u,no_u)
+        S[0,:,:] = s.reshape(1,no_u,no_u)
+    
+    H *= complex(13.60569253)
     return H, S
 
 """
