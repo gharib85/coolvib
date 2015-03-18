@@ -1,3 +1,10 @@
+"""
+Parent module and routine for parsing input from 
+different QM codes
+
+written by Mikhail Askerka and Reinhard J. Maurer, Yale University, 03/17/2015
+"""
+
 from __future__ import print_function
 import os
 import glob

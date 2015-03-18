@@ -1,3 +1,7 @@
+"""
+Copyright Reinhard J. Maurer, Yale University, 03/17/2015
+"""
+
 import cython
 import numpy as np
 cimport numpy as np
@@ -23,7 +27,10 @@ def siesta_calc_HSX(int nspin, np.ndarray[REAL_TYPE_t,ndim=2] kpts_array,
                     np.ndarray[REAL_TYPE_t,ndim=1] s,
             ):
     """
-    calculates actual H and S matrices
+    efficiently calculates actual H and S matrices for each kpoint and spin 
+    from the sparse h and s matrices using the 'Siesta approach'
+    
+    written by R. J. Maurer, Yale University, 03/17/2015
     """
 
     #INIT H and S

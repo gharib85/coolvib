@@ -2,6 +2,7 @@ import os
 from distutils.core import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext 
+import numpy as np
 
 # Utility function to read the README file.
 def read(fname):
@@ -21,7 +22,8 @@ for package in __all__:
     packages.append(package_name + '.' + package)
 
 ext_modules = [
-           Extension("vibcooling.parser.siesta_mod",["src/parser/siesta_mod.pyx"]) 
+           Extension("vibcooling.parser.siesta_mod",["src/parser/siesta_mod.pyx"],
+               include_dirs=[np.get_include()]) 
 
         ]
 

@@ -1,5 +1,7 @@
 """
-Parsing routine for Siesta
+Parsing routines for Siesta
+
+Copyright Mikhail Askerka and Reinhard Maurer, Yale University, 03/17/2015
 """
 
 import numpy as np
@@ -20,6 +22,8 @@ def siesta_read_eigenvalues(filename):
     1) K point
     2) Spin
     3) State
+
+    written by Mikhail Askerka, Yale University, 03/17/2015
     """
 
     with open("%s.EIG" % filename, "r") as f:
@@ -52,6 +56,8 @@ def siesta_read_kpoints(filename):
     This routine reads the weights of K points and returns a 2 d array with dimensions:
     1) index of the k point 
     2) x,y,z coordinate and weight
+    
+    written by Mikhail Askerka, Yale University, 03/17/2015
     """
 
     with open("%s.KP" % filename, "r") as f:
@@ -70,6 +76,8 @@ def siesta_read_struct_out(filename):
     reads the .STRUCT_OUT file for the unit cell and positions
     is needed by siesta_read_HSX
     cell is a 3x3 matrix in Angstrom units
+    
+    written by Reinhard J. Maurer, Yale University, 03/17/2015
     """
     with open("%s.STRUCT_OUT" % filename, "r") as f:
         content=f.readlines()
@@ -89,6 +97,8 @@ def siesta_read_coefficients(filename):
     2) the spin index
     3) the state index (nwflist)
     4) the coefficient for each basis set index (nuotot)
+    
+    written by Mikhail Askerka, Yale University, 03/17/2015
     """
 
     f= FortranFile("%s.WFSX" % filename)
@@ -123,6 +133,8 @@ def siesta_read_HSX(kpts_array, cell, filename, debug=0):
     first three elements are the fractional kpoint coordinates
     Output: H[norb, norb, nkpts, nspin], S[norb, norb]
     units are in Rydberg and Bohr!!
+    
+    written by Reinhard J. Maurer, Yale University, 03/17/2015
     """
 
     #two different cases
