@@ -26,8 +26,11 @@ else:
                     #keyword: output k_point_list.')
 
         if 'K-points in task  ' in line:
-            n_line = l+1
             nkpts = int(line.split()[-1])
+            n_line = l+1
+            while 'K-points in task  ' in lines[n_line]:
+                nkpts += int(lines[n_line].split()[-1])
+                n_line += 1
             for nk in range(nkpts):
                 kpoint = []
                 kpoint.append(float(lines[n_line].split()[4]))
@@ -36,6 +39,7 @@ else:
                 kpoint.append(float(lines[n_line].split()[9]))
                 kpoints.append(kpoint)
                 n_line += 1
+            break
 
     kpoints = np.array(kpoints)
 

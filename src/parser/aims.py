@@ -36,10 +36,14 @@ def aims_read_fermi_and_kpoints(filename):
 
             kpoints = []
             fermi_level = 0.0
+            k_points_are_done = False
             for l, line in enumerate(content):
-                if '| K-points in task ' in line:
-                    n_line = l + 1
+                if '| K-points in task ' in line and not k_points_are_done:
                     nkpts = int(line.split()[-1])
+                    n_line = l+1
+                    while 'K-points in task  ' in content[n_line]:
+                        nkpts += int(content[n_line].split()[-1])
+                        n_line += 1
                     for nk in range(nkpts):
                         kpoint = []
                         kpoint.append(float(content[n_line].split()[4]))
@@ -48,6 +52,7 @@ def aims_read_fermi_and_kpoints(filename):
                         kpoint.append(float(content[n_line].split()[9]))
                         kpoints.append(kpoint)
                         n_line += 1
+                    k_points_are_done = True
 
                 if '| Chemical potential (Fermi level) in eV      ' in line:
                     fermi_level = float(line.split()[-1])
@@ -77,6 +82,7 @@ def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
     written by Reinhard J. Maurer, Yale University, 04/08.2015
     """
 
+    #name_base = directory+'/KS_eigenvectors'
     name_base = 'KS_eigenvectors'
     #spin 0 is dn spin 1 is up
     spin_postfix = ['_dn', '_up']
@@ -86,7 +92,7 @@ def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
     #how many files exist
     for file in os.listdir(directory):
         if file.startswith(name_base):
-            eigenvector_files.append(file)
+            eigenvector_files.append(directory+'/'+file)
 
     if spin:
         n_kpts = len(eigenvector_files)/2
@@ -94,6 +100,8 @@ def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
     else:
         n_kpts = len(eigenvector_files)
         n_spin = 1
+
+    name_base = directory + '/' + name_base
 
     #now we need to find out how many basis functions are used
     if spin:
@@ -109,7 +117,7 @@ def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
     eigenvalues = np.zeros([n_kpts, n_spin, n_states])
     occ = np.zeros([n_kpts, n_spin, n_states])
     psi = np.zeros([n_kpts, n_spin, n_states, n_basis],dtype=complex)
-
+    orbital_pos = np.zeros(n_basis)
     #loop through all files
     for s in range(n_spin):
         prefix = name_base
@@ -132,10 +140,11 @@ def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
                 for i in range(n_basis):
                     read_psi = np.array(lines[nline+i].split()[6:]).astype(np.float).reshape(-1,2)
                     psi[k,s,:,i] = read_psi[:,0] + 1j*read_psi[:,1]
+                    orbital_pos[i] = int(lines[nline+i].split()[1]) -1
 
-    return eigenvalues, psi, occ
+    return eigenvalues, psi, occ, orbital_pos
 
-def aims_read_HS(directory, spin=False):
+def aims_read_HS(directory='./', spin=False):
     """
     This routine extracts hamiltonian and overlap matrix from FHI-Aims 
     outputfiles generated with the keyword 'output band ....' and 
@@ -171,7 +180,7 @@ def aims_read_HS(directory, spin=False):
         n_spin = 1
 
     #now we need to find out how many basis functions are used
-    filename = name_base_S + '.band_1.kpt_1.out'
+    filename = directory+'/'+name_base_S + '.band_1.kpt_1.out'
     with open(filename, 'r') as f:
         lines = f.readlines()
         n_basis = len(lines) -2 
@@ -182,8 +191,8 @@ def aims_read_HS(directory, spin=False):
     for k in range(n_kpts):
         band = int(k/band_basis)+1
         kp = k%band_basis+1
-        filename_H = name_base_H + '.band_{0}.kpt_{1}.out'.format(band,kp)
-        filename_S = name_base_S + '.band_{0}.kpt_{1}.out'.format(band,kp)
+        filename_H = directory + '/'+name_base_H + '.band_{0}.kpt_{1}.out'.format(band,kp)
+        filename_S = directory + '/'+name_base_S + '.band_{0}.kpt_{1}.out'.format(band,kp)
         #opening files
         with open(filename_S,'r') as f:
             print 'Reading overlap_matrix from {0} '.format(filename_S)
