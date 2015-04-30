@@ -41,7 +41,7 @@ def siesta_calc_HSX(int nspin, np.ndarray[REAL_TYPE_t,ndim=2] kpts_array,
     cdef np.ndarray[REAL_TYPE_t,ndim=4] H_i = np.zeros([nkpts,nspin,no_u,no_u],dtype=REAL_TYPE)
     cdef np.ndarray[REAL_TYPE_t,ndim=4] S_i = np.zeros([nkpts,nspin,no_u,no_u],dtype=REAL_TYPE)
 
-    cdef unsigned int si, ki, iuo, j, jo, juo, ind
+    cdef unsigned int si, ki, iuo, j, io, jo, juo, ind
     cdef np.ndarray[REAL_TYPE_t,ndim=1] k=np.empty(4,dtype=REAL_TYPE), kvec=np.empty(3,dtype=REAL_TYPE)
     cdef REAL_TYPE_t phasef_r, phasef_i, kx
 

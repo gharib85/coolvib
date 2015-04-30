@@ -88,7 +88,7 @@ def siesta_read_struct_out(filename):
                 cell[i,j] = np.float(bla[j])
     
     return cell 
-def siesta_read_coefficients(filename):
+def siesta_read_coefficients(filename, debug=0):
     """
     This routine reads siesta eigenvectors from MyM.WFSX binary
     using the FortranFile magical binary reader
@@ -103,24 +103,27 @@ def siesta_read_coefficients(filename):
 
     f= FortranFile("%s.WFSX" % filename)
     nk,gamma= f.read_ints()
-#    print "nk, gamma  = ", nk,gamma
-    print "gamma from coeff",bool(gamma)
+    if debug: print "nk, gamma  = ", nk,gamma
     nspin = int(f.read_ints())
-#    print "nspin =",nspin
+    if debug: print "nspin =",nspin
     nuotot = int(f.read_ints())
- #   print "nuotot =",nuotot
+    if debug: print "nuotot =",nuotot
     f.read_record('f')
     psi=np.zeros((nk,nspin,nuotot,nuotot))
     psi = psi +0j
-    if bool(gamma)==True:  #separate condition for gamma point since the array is real
+    #separate condition for gamma point since the array is real
+    if bool(gamma)==True:  
         for iispin in range (1,nspin+1):  #for each spin
             f.read_record('f')
             ispin = int(f.read_ints())
             nwflist =int(f.read_ints())
-            for iw in range(1,nwflist+1):  # for each state (nwflist = total number of states)
+            for iw in range(1,nwflist+1):  
+                # for each state (nwflist = total number of states)
                 indwf=f.read_ints()
-                energy=f.read_reals('d')    # we first read the energy of the state 
-                read_psi = f.read_reals('f')   # and all the orbital coefficients (real value, followed by the imaginary value
+                # we first read the energy of the state 
+                energy=f.read_reals('d')
+                # and all the orbital coefficients
+                read_psi = f.read_reals('f')   
             read_psi=np.reshape(read_psi, (nuotot,1)) 
             psi[0,iispin-1,iw-1,:]=read_psi[:,0]
     else:
@@ -129,18 +132,20 @@ def siesta_read_coefficients(filename):
                 f.read_record('f')
                 ispin = int(f.read_ints())
                 nwflist =int(f.read_ints())
-                for iw in range(1,nwflist+1):  # for each state (nwflist = total number of states)
+                for iw in range(1,nwflist+1):  
+                    # for each state (nwflist = total number of states)
                     indwf=f.read_ints()
-                    energy=f.read_reals('d')    # we first read the energy of the state 
-                    read_psi = f.read_reals('f')   # and all the orbital coefficients (real value, followed by the imaginary value
-    #                read_psi=np.reshape(read_psi, (nwflist,2))  # reshape it
-    #                print "nutot", nuotot, 'len(read_psi)', len(read_psi)
-    #                else:
+                    # we first read the energy of the state 
+                    energy=f.read_reals('d')
+                    # and all the orbital coefficients (real value, followed by the imaginary value
+                    read_psi = f.read_reals('f')
+                    if debug: print "nutot", nuotot, 'len(read_psi)', len(read_psi)
                     read_psi=np.reshape(read_psi, (nuotot,2))  # reshape it 
-                    psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  # and make a row of complex numbers
+                    # and make a row of complex numbers
+                    psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  
     return psi
 
-def siesta_read_HSX(kpts_array, cell, filename, debug=0):
+def siesta_read_HSX(kpts_array, filename, debug=0):
     """
     reads Hamiltonian, and Overlap from Siesta .HSX file
 
@@ -154,57 +159,52 @@ def siesta_read_HSX(kpts_array, cell, filename, debug=0):
     """
 
     #two different cases
-    #just gamma point or k sampling
+    #gamma=0: just gamma point (TODO not yet implemented) gamma!=0: k sampling
     f = FortranFile(filename+'.HSX')
     nkpts = len(kpts_array)
 
-#    print 'Reading Hamiltonian and Overlap from file : '+filename+'.HSX'
+    if debug: print 'Reading Hamiltonian and Overlap from file : '+filename+'.HSX'
     
-    #Angstrom to Bohr
-    cell = cell*1.889726124565
-    rcell = 2. * np.pi * np.linalg.inv(cell.T)
-    ##transform kpts_array to absolute kpts
-    for i, k in enumerate(kpts_array):
-        kpts_array[i,:3] = np.dot(kpts_array[i,:3],rcell)
-
     #1st line: 
     # No. of orbs in cell, No. of orbs in supercell, nspin, nnzs
     no_u, no_s, nspin, nnzs = f.read_ints()
-   # if debug: print no_u, no_s, nspin, nnzs
-    # 0 if klist, 1 if only gamma pnt is used
+    if debug: print no_u, no_s, nspin, nnzs
+    # 0 if klist, -1 if only gamma pnt is used
     gamma = bool(f.read_ints()[0])
-    print "gamma from HSX", gamma
-    #if debug: print gamma
+    if debug: print "gamma from HSX", gamma
     #index list, for every orb in supercell finds 
     #correspond orb in small cell
     if gamma==False:
         indxuo = f.read_ints() 
- #       if debug: 
- #           print 'indxuo'
- #           print indxuo.shape
- #           print indxuo
+        if debug: 
+            print 'indxuo'
+            print indxuo.shape
+            print indxuo
     #numh contains the number of orbitals connected 
     #with orbital i
     numh = f.read_ints()
- #   if debug:
-  #      print 'numh'
-  #      print numh.shape
-  #      print numh
+    if debug:
+        print 'numh'
+        print numh.shape
+        print numh
     #generating listhptr
     listhptr = np.zeros(no_u,dtype=np.float)
     listhptr[0] = 0
     for oi in xrange(1,no_u):
         listhptr[oi] = listhptr[oi-1] + numh[oi-1]
+    if debug:
+        print 'listhptr'
+        print listhptr
     #reading listh
     listh = np.zeros(nnzs,dtype=np.float)
     for oi in xrange(no_u):
         bla = f.read_ints()
         for im in xrange(numh[oi]):
             listh[listhptr[oi]+im] = bla[im] 
-  #  if debug: 
-   #     print 'listh'
-   #     print listh.shape
-   #     print listh
+    if debug: 
+        print 'listh'
+        print listh.shape
+        print listh
 
     h = np.zeros([nnzs,nspin],dtype=np.float)
     for si in range(nspin):
@@ -217,13 +217,13 @@ def siesta_read_HSX(kpts_array, cell, filename, debug=0):
         bla = f.read_reals('f')
         for mi in xrange(numh[oi]):
             s[listhptr[oi]+mi] = bla[mi]
-   # if debug:
-    #    print h.shape
-    #    print s.shape
+    if debug:
+        print h.shape
+        print s.shape
    
     #reading No. of elecs, fermi smearing
     nelec, fermi_smear = f.read_reals('d')
-#    if debug: print nelec, fermi_smear
+    if debug: print nelec, fermi_smear
 
     if gamma==False:
         xij = np.zeros([nnzs,3],dtype=np.float)
@@ -233,7 +233,7 @@ def siesta_read_HSX(kpts_array, cell, filename, debug=0):
             for mi in xrange(numh[oi]):
                 for xyz in range(3):
                     xij[listhptr[oi]+mi,xyz] = bla[(3*mi)+xyz]
- #   if debug: print xij.shape
+    if debug: print xij.shape
 
     ##THAT was the READ_IN part
     ## now we construct the hamiltonian and overlap
@@ -242,10 +242,8 @@ def siesta_read_HSX(kpts_array, cell, filename, debug=0):
         S = np.zeros([nkpts,no_u,no_u],dtype=np.complex)
     else:
         H = np.zeros([1,nspin,no_u,no_u],dtype=np.float)
-        print "H.shape", H.shape
         S = np.zeros([1,no_u,no_u],dtype=np.float)
 
-    # only gamma point
     if gamma==False:
         kpts_array = np.array(kpts_array,dtype=np.float)
         xij = np.array(xij,dtype=np.float)
@@ -257,31 +255,34 @@ def siesta_read_HSX(kpts_array, cell, filename, debug=0):
         indxuo = np.array(indxuo,dtype=np.int)
         H_r, H_i, S_r, S_i = siesta_mod.siesta_calc_HSX(nspin, kpts_array, 
                 no_u, numh, listhptr, listh, indxuo, xij, h, s)
-        H[:,:,:,:] = H_r[:,:,:,:] +1j*H_i[:,:,:,:]
-        S[:,:,:] = S_r[:,:,:] +1j*S_i[:,:,:]
+        H[:,:,:,:] = H_r[:,:,:,:] +1.j*H_i[:,:,:,:]
+        S[:,:,:] = S_r[:,:,:] +1.j*S_i[:,:,:]
+    # only gamma point
     else: # TODO implement for gamma point only
-        print "H.shape", h.shape
         H[0,:,:,:] = h.reshape(1,nspin,no_u,no_u)
         S[0,:,:] = s.reshape(1,no_u,no_u)
     
-    H *= complex(13.60569253)
+    #this value of Rydberg is directly from siesta/Src/units.f90
+    # Siesta Version 3.2 04/29/2015
+    H *= complex(13.60580)
     return H, S
 
 
 def siesta_read_total_energy(filename):
     """
     Reads the total energy from the siesta output file 
-    The way the utility is writen now the file will be called 
+    The way the utility is written now the file will be called 
     input.out
     """
 
-#    filename = "input"
     with open("%s.out" % filename, "r") as f:
         for line in f.readlines():
             if "siesta:         Total"  in line:
                 total_energy = line.split()[3]
 
     return total_energy
+
+
 """
 To call the routine from this file just type 
 from siesta py import function
