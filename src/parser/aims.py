@@ -210,5 +210,5 @@ def aims_read_HS(directory='./', spin=False):
                 h = h.reshape([n_basis,n_basis,2])
                 H[k, 0, :, :] = h[:,:,0] + 1j*h[:,:,1]
 
-    return H, S
+    return H*27.211384500, S
 
