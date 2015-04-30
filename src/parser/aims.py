@@ -66,15 +66,15 @@ def aims_read_fermi_and_kpoints(filename):
                     Either k_point_list keyword not set, or run is not converged')
 
 
-def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
+def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=False):
     """
     This routine reads eigenvalues and eigenvectors from aims output
     generated via the keywords 'output band x1 y1 z1 x2 y2 z2 2' and 
     'output eigenvectors'.
 
     arguments are the directory where the 
-    KS_eigenvectors_XX.band_X.kpt_X.out files lie and a logical specifying 
-    if the calculation was spin-collinear or without spin.
+    KS_eigenvectors_XX.band_X.kpt_X.out files lie, the value of the fermi_level, 
+    and a logical specifying if the calculation was spin-collinear or without spin.
 
     the routine returns the eigenvalues, eigenvectors, and occupations
     in this order as np.arrays
@@ -142,7 +142,7 @@ def aims_read_eigenvalues_and_coefficients(directory='./', spin=False):
                     psi[k,s,:,i] = read_psi[:,0] + 1j*read_psi[:,1]
                     orbital_pos[i] = int(lines[nline+i].split()[1]) -1
 
-    return eigenvalues, psi, occ, orbital_pos
+    return eigenvalues+fermi_level, psi, occ, orbital_pos
 
 def aims_read_HS(directory='./', spin=False):
     """

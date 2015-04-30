@@ -17,12 +17,10 @@ print kpoint_weights
 
 nkpts = len(kpoint_weights)
 
-eigenvalues, psi, occ = aims_read_eigenvalues_and_coefficients('./',spin=True)
+eigenvalues, psi, occ, orb_pos = aims_read_eigenvalues_and_coefficients(fermi_level, './', spin=True)
 
 
 print eigenvalues
-
-print psi
 
 print eigenvalues.shape
 print psi.shape
@@ -33,6 +31,19 @@ print H.shape
 
 print S.shape
 
-print H[0,0,0,0]
-print S[0,0,0]
+nspin = 0
+nk = 0
+
+psi1 = psi[nk,nspin,:,:]
+S1 = S[nk,:,:]
+H1 = H[nk,nspin,:,:]
+S_inv = np.linalg.inv(S1)
+S_invH = np.dot(S_inv,H1)
+
+import scipy.linalg as la
+E, V = la.eigh(H1,S1)
+print E*27.2114
+
+for i in range(len(psi1)):
+    print np.dot(psi1[i].conjugate(),np.dot(S_invH,psi1[i]))/np.dot(psi1[i].conjugate(),psi1[i])*27.2114
 
