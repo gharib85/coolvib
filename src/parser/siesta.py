@@ -108,7 +108,8 @@ def siesta_read_coefficients(filename, debug=0):
     if debug: print "nspin =",nspin
     nuotot = int(f.read_ints())
     if debug: print "nuotot =",nuotot
-    f.read_record('f')
+    bla = f.read_record([('orbital_pos','i4'),('b','20S'),('c','i4'),('d','i4'),('e','20S')])
+    orbital_pos = bla['orbital_pos']
     psi=np.zeros((nk,nspin,nuotot,nuotot))
     psi = psi +0j
     #separate condition for gamma point since the array is real
@@ -143,7 +144,7 @@ def siesta_read_coefficients(filename, debug=0):
                     read_psi=np.reshape(read_psi, (nuotot,2))  # reshape it 
                     # and make a row of complex numbers
                     psi[iik-1,iispin-1,iw-1,:]=read_psi[:,0]+1j*read_psi[:,1]  
-    return psi
+    return psi, orbital_pos
 
 def siesta_read_HSX(kpts_array, filename, debug=0):
     """

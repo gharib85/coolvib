@@ -7,7 +7,7 @@ Copyright Reinhard J. Maurer, Yale University, 04/08/2015
 import numpy as np
 import os
 
-def aims_read_fermi_and_kpoints(filename):
+def aims_read_fermi_and_kpoints(filename,cell=None):
     """
     Reads the fermi_level and the kpoint information from the 
     main OUTPUT file of FHI-Aims. In order for this to work one needs 
@@ -15,6 +15,10 @@ def aims_read_fermi_and_kpoints(filename):
     
     written by Reinhard J. Maurer, Yale University, 04/08.2015
     """
+
+    if cell is None:
+        raise ValueError('Please supply unit cell for aims_read_fermi_kpoints')
+    rcell = 2.*np.pi*np.linalg.inv(cell.T)
 
     with open(filename,'r') as f:
         
@@ -58,7 +62,9 @@ def aims_read_fermi_and_kpoints(filename):
                     fermi_level = float(line.split()[-1])
             
             kpoint_weights = np.array(kpoints)
-
+            #transform k points fromr reciprocal to absolute values
+            for i in range(len(kpoint_weights)):
+                kpoint_weights[i,:3] = np.dot(kpoint_weights[i,:3],rcell)
             return (fermi_level, kpoint_weights)
 
         else:
