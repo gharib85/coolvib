@@ -15,6 +15,7 @@ __version__ = '0.0.1'
 __all__ = [
         'parser',
         'tools',
+        'routines',
         ]
 
 packages = [ package_name ]
@@ -23,8 +24,9 @@ for package in __all__:
 
 ext_modules = [
            Extension("vibcooling.parser.siesta_mod",["src/parser/siesta_mod.pyx"],
+               include_dirs=[np.get_include()]), 
+           Extension("vibcooling.routines.lifetime_ext",["src/routines/lifetime_ext.pyx"],
                include_dirs=[np.get_include()]) 
-
         ]
 
 setup(

@@ -77,17 +77,23 @@ def siesta_read_struct_out(filename):
     is needed by siesta_read_HSX
     cell is a 3x3 matrix in Angstrom units
     
-    written by Reinhard J. Maurer, Yale University, 03/17/2015
+    written by Reinhard J. Maurer and Mikhail Askerka Yale University, 03/17/2015
     """
     with open("%s.STRUCT_OUT" % filename, "r") as f:
         content=f.readlines()
         cell = np.zeros([3,3],dtype=np.float)
+        atomic_positions = np.zeros([len(content)-4,3],dtype=np.float)
         for i in range(3):
             bla = content[i].split()
             for j in range(3):
                 cell[i,j] = np.float(bla[j])
-    
-    return cell 
+        for i in range(len(content)-4):
+            for j in range(3):
+                atomic_positions[i,j] = np.float(content[i+4].split()[j+2])
+	for i in range(len(atomic_positions)):
+            atomic_positions[i]=np.dot(atomic_positions[i],cell)
+    return cell, atomic_positions
+
 def siesta_read_coefficients(filename, debug=0):
     """
     This routine reads siesta eigenvectors from MyM.WFSX binary
@@ -109,7 +115,7 @@ def siesta_read_coefficients(filename, debug=0):
     nuotot = int(f.read_ints())
     if debug: print "nuotot =",nuotot
     bla = f.read_record([('orbital_pos','i4'),('b','20S'),('c','i4'),('d','i4'),('e','20S')])
-    orbital_pos = bla['orbital_pos']
+    orbital_pos = np.array(bla['orbital_pos']-1,dtype=np.int)
     psi=np.zeros((nk,nspin,nuotot,nuotot))
     psi = psi +0j
     #separate condition for gamma point since the array is real

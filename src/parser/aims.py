@@ -123,7 +123,7 @@ def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=Fal
     eigenvalues = np.zeros([n_kpts, n_spin, n_states])
     occ = np.zeros([n_kpts, n_spin, n_states])
     psi = np.zeros([n_kpts, n_spin, n_states, n_basis],dtype=complex)
-    orbital_pos = np.zeros(n_basis)
+    orbital_pos = np.zeros(n_basis,dtype=np.int)
     #loop through all files
     for s in range(n_spin):
         prefix = name_base
