@@ -8,6 +8,7 @@ import numpy as np
 import struct
 from scipy.io import FortranFile
 import siesta_mod
+from vibcooling.constants import bohr,ryd
 
 def siesta_read_eigenvalues(filename):
     """
@@ -68,6 +69,8 @@ def siesta_read_kpoints(filename):
         while line_number <=len(content)-1:
             kpoints_weights[line_number-1]= content[line_number].split()[1:] 
             line_number+=1
+    #from 1/bohr to 1/angstrom
+        kpoints_weights[:,:3] /= bohr
     return kpoints_weights
 
 
@@ -169,7 +172,9 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
     #gamma=0: just gamma point (TODO not yet implemented) gamma!=0: k sampling
     f = FortranFile(filename+'.HSX')
     nkpts = len(kpts_array)
-
+    #transform back to 1/bohr
+    kpts = kpts_array.copy()
+    kpts[:,:3] *= bohr
     if debug: print 'Reading Hamiltonian and Overlap from file : '+filename+'.HSX'
     
     #1st line: 
@@ -252,7 +257,7 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
         S = np.zeros([1,no_u,no_u],dtype=np.float)
 
     if gamma==False:
-        kpts_array = np.array(kpts_array,dtype=np.float)
+        kpts = np.array(kpts,dtype=np.float)
         xij = np.array(xij,dtype=np.float)
         h = np.array(h,dtype=np.float)
         s = np.array(s,dtype=np.float)
@@ -260,7 +265,7 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
         listhptr = np.array(listhptr,dtype=np.int)
         numh = np.array(numh,dtype=np.int)
         indxuo = np.array(indxuo,dtype=np.int)
-        H_r, H_i, S_r, S_i = siesta_mod.siesta_calc_HSX(nspin, kpts_array, 
+        H_r, H_i, S_r, S_i = siesta_mod.siesta_calc_HSX(nspin, kpts, 
                 no_u, numh, listhptr, listh, indxuo, xij, h, s)
         H[:,:,:,:] = H_r[:,:,:,:] +1.j*H_i[:,:,:,:]
         S[:,:,:] = S_r[:,:,:] +1.j*S_i[:,:,:]
@@ -271,7 +276,7 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
     
     #this value of Rydberg is directly from siesta/Src/units.f90
     # Siesta Version 3.2 04/29/2015
-    H *= complex(13.60580)
+    H *= complex(ryd)
     return H, S
 
 
