@@ -1,7 +1,8 @@
 import numpy as np
 from vibcooling.constants import hbar, hbar_1, pi, sqrt_pi, conversion_factor
 import vibcooling.routines.lifetime_ext as lt_ext
-from math import exp
+from math import exp 
+from math import sqrt 
 
 from time import time
 
@@ -17,7 +18,7 @@ def generate_delta_approximation(dirac_method, fermi_centered, delta, window):
         #else:
             return 1./window
     def dirac_weight_gaussian(exc):
-        gaussian = exp(-((exc-delta)*(exc-delta))/(window*window))/(window*sqrt_pi)
+        gaussian = exp(-((exc-delta)*(exc-delta))/(2*window*window))/(window*np.sqrt(2*pi))
         return gaussian 
     
     if dirac_method is 'window':
