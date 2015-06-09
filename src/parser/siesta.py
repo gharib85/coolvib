@@ -77,17 +77,24 @@ def siesta_read_struct_out(filename):
     is needed by siesta_read_HSX
     cell is a 3x3 matrix in Angstrom units
     
-    written by Reinhard J. Maurer, Yale University, 03/17/2015
+    written by Reinhard J. Maurer and Mikhail Askerka Yale University, 03/17/2015
     """
     with open("%s.STRUCT_OUT" % filename, "r") as f:
         content=f.readlines()
         cell = np.zeros([3,3],dtype=np.float)
+        atomic_positions = np.zeros([len(content)-4,4],dtype=np.float)
         for i in range(3):
             bla = content[i].split()
             for j in range(3):
                 cell[i,j] = np.float(bla[j])
-    
-    return cell 
+        for i in range(len(content)-4):
+            for j in range(4):
+                atomic_positions[i,j] = np.content[i+4].split()[j+1]
+        atomic_positions[:,1]*=cell[0,0]
+        atomic_positions[:,2]*=cell[1,1]
+        atomic_positions[:,3]*=cell[2,2]
+#        print atomic_positions
+    return cell, atomic_positions
 def siesta_read_coefficients(filename, debug=0):
     """
     This routine reads siesta eigenvectors from MyM.WFSX binary
