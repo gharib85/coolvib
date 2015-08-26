@@ -15,13 +15,22 @@ sqrt(eV)/Angst  Hz                  cm-1
 1.000000        98226949774380.300000   3.276498E+03
 """
 pi=3.14159265359
+
 conversion_factor = 98226949774380.3 #for omega from sqrt(eV/amu)/Ang to Hz
 hbar=6.58211928E-16 #eV*s
+
 #hbar_1=3.990313E+13  #amu*ang2/s
+
 hbar_1=3.990313E+13/2./pi  #amu*ang2/s
+
 sqrt_pi = 1.772453851
+
 sqrt_2pi = 2.506628275 
+
 ryd = 13.605698066 #eV
+
 k_b = 8.6173324E-5 #eV / K
+
 bohr = 0.529177249 #Ang
+
 me = 1822.88839 # mass of the atom relative to electron
