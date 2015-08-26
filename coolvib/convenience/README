@@ -1,0 +1,10 @@
+
+ToDo
+
+write Parser wrapper for Aims and Siesta
+
+write convenience function that handles friction_tensor calculation
+
+write convenience function that handles calculation of friction along a given displacement
+
+write convenience function that handles displacement

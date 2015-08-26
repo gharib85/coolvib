@@ -1,37 +1,52 @@
 import os
-from distutils.core import setup
+#from distutils.core import setup
+from distutils.core import setup, Command
 from distutils.extension import Extension
 from Cython.Distutils import build_ext 
 import numpy as np
+
+
 
 # Utility function to read the README file.
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
-package_name = 'vibcooling'
+package_name = 'coolvib'
 
-__version__ = '0.0.1'
+__version__ = '0.1'
 
 __all__ = [
-        'parser',
-        'tools',
-        'routines',
-        ]
+    'parser',
+    'tools',
+    'routines',
+    'convenience',
+    'test',
+    ]
 
 packages = [ package_name ]
 for package in __all__:
     packages.append(package_name + '.' + package)
 
+class test(Command):
+    def __init__(self, dist):
+        Command.__init__(self, dist)
+        self.sub_commands = ['build']
+
+    #STUFF TO BE ADDED FOR TESTING
+    def run(self):
+        pass
+
 ext_modules = [
-           Extension("vibcooling.parser.siesta_mod",["src/parser/siesta_mod.pyx"],
+           Extension("coolvib.parser.siesta_mod",["coolvib/parser/siesta_mod.pyx"],
                include_dirs=[np.get_include()]), 
-           Extension("vibcooling.routines.lifetime_ext",["src/routines/lifetime_ext.pyx"],
+           Extension("coolvib.routines.lifetime_ext",["coolvib/routines/lifetime_ext.pyx"],
                include_dirs=[np.get_include()]) 
         ]
 
 setup(
     name = package_name,
     version = __version__,
+    url = "TBA",
     author = "Mikhail Askerka & Reinhard J. Maurer",
     author_email = "mikhail.askerka@yale.edu, reinhard.maurer@yale.edu",
     description = ("This package contains routines and scripts to calculate \
@@ -40,10 +55,12 @@ setup(
             "),
     license = "TBA",
     keywords = "vibrational cooling, quantum chemistry",
-    url = "TBA",
-    cmdclass = {'build_ext' : build_ext},
-    package_dir = {package_name: 'src'},
+    install_requires=['ase'],
+    cmdclass = {'build_ext' : build_ext,
+        'test' : test},
     packages = packages,
+    package_dir = {package_name: package_name},
+    platforms='linux',
     ext_modules= ext_modules,
-    long_description=read('README'),
+    long_description=read('README.md'),
 )
