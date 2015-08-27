@@ -2,6 +2,13 @@
 Routines __init__.py
 """
 
+import coolvib.routines.spectral_function as spectral_functions
+import coolvib.routines.friction_tensor as friction_tensor
+
+calculate_spectral_function_tensor = spectral_functions.calculate_spectral_function_tensor
+calculate_spectral_function_tensor_q = spectral_functions.calculate_spectral_function_tensor_q
+calculate_tensor = friction_tensor.calculate_tensor
+
 
 def gaussian(x, x_mean, broadening): 
     gaussian_val = 1/np.sqrt(2*pi*broadening*broadening)*np.exp(-0.5*(((x-x_mean) / (broadening))**2));
