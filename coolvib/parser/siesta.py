@@ -5,10 +5,64 @@ Copyright Mikhail Askerka and Reinhard Maurer, Yale University, 03/17/2015
 """
 
 import numpy as np
+from os.path import join as pathjoin
 import struct
 from scipy.io import FortranFile
 import siesta_mod
-from vibcooling.constants import bohr,ryd
+from coolvib.constants import bohr,ryd
+
+def parse_siesta(model, path='./',seed='MyM',atoms=[1], incr=0.01,debug=0):
+    """
+    This subroutine returns all necessary information stored in the siesta output files
+    and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
+    overlap matrices
+
+    Input
+        path : string
+        seed : string
+        atoms : list
+        incr : float
+        debug : 0 / 1
+
+    Output
+        eigenvalues
+        fermi_level
+        kpoints_weights
+        psi
+        basis_pos
+        cell
+        atomic_positions
+        H_q
+        S_q
+    """
+
+    fermi_energy, eigenvalues = siesta_read_eigenvalues(path+'/eq/'+seed)
+    n_spin = eigenvalues.shape[1]
+    kpoints_weights = siesta_read_kpoints(path+'/eq'+seed)
+    psi, basis_pos = siesta_read_coefficients(path+'/eq/'+seed)
+    n_states = psi.shape[2]
+    n_basis = psi.shape[3]
+    cell, atomic_positions = siesta_read_struct_out(path+'/eq/'+seed)
+
+    H_q = np.zeros([len(atoms),3,len(kpoints_weights), n_spin, n_basis, n_basis],dtype=np.complex)
+    S_q = np.zeros([len(atoms),3,len(kpoints_weights), n_basis, n_basis],dtype=np.complex)
+
+    for a in atoms:
+        for c in range(3):
+            H_plus, S_plus = siesta_read_HSX(kpoints_weights, path+'/a{0}c{1}+/'.format(int(a),int(c))+seed,debug=debug)
+            H_minus, S_minus = siesta_read_HSX(kpoints_weights, path+'/a{0}c{1}-/'.format(int(a),int(c))+seed,debug=debug)
+            H_q[a,c,:,:,:,:] = (H_plus - H_minus)/2.0/incr
+            S_q[a,c,:,:,:] = (S_plus - S_minus)/2.0/incr
+
+    model.eigenvalues = eigenvalues
+    model.fermi_energy = fermi_energy
+    model.kpoints = kpoints_weights
+    model.psi = psi
+    model.basis_pos = basis_pos
+    model.first_order_H = H_q
+    model.first_order_S = S_q
+
+    return model
 
 def siesta_read_eigenvalues(filename):
     """

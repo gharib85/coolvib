@@ -17,6 +17,8 @@ sqrt(eV)/Angst  Hz                  cm-1
 pi=3.14159265359
 
 conversion_factor = 98226949774380.3 #for omega from sqrt(eV/amu)/Ang to Hz
+ps = 1/(conversion_factor*1E-12)
+
 hbar=6.58211928E-16 #eV*s
 
 #hbar_1=3.990313E+13  #amu*ang2/s

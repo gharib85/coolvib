@@ -1,10 +1,10 @@
 import numpy as np
 
-from vibcooling.constants import hbar, hbar_1, pi, sqrt_pi, conversion_factor
-import vibcooling.routines.lifetime_ext as lt_ext
-from vibcooling.routines import gaussian, square, sine, sine_VSB, lorentzian
+from coolvib.constants import hbar, hbar_1, sqrt_pi, conversion_factor
+import coolvib.routines.lifetime_ext as lt_ext
+from coolvib.routines import gaussian, square, sine, sine_VSB, lorentzian
 
-from math import exp
+from math import exp, pi
 from time import time
 
 def lifetime_routine_momentum(kpoints_weights,n_spin,eigenvalues,

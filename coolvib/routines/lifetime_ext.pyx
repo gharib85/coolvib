@@ -7,9 +7,9 @@ COMPLEX_TYPE = np.complex
 ctypedef np.int_t INT_TYPE_t
 ctypedef np.float_t REAL_TYPE_t
 ctypedef np.complex_t COMPLEX_TYPE_t
-from cmath import exp
+from cmath import exp, pi
 from libc.math cimport sqrt, cos, sin
-from vibcooling.constants import hbar_1, pi, sqrt_pi, conversion_factor
+from coolvib.constants import hbar_1, sqrt_pi, conversion_factor
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
