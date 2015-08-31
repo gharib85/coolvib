@@ -1,9 +1,30 @@
-from sys import argv
+#!/usr/bin/python
+"""
+plot_spectral_function.py plots the spectral function 
+of a given component using matplotlib
+
+python plot_spectral_function.py <filename> <component no.>
+
+Arguments:
+
+    <filename>: str
+        Name of the file holding the spectral functions
+
+    <component no.>: int
+        Index of the spectral function to be plotted
+
+"""
+
+from sys import argv, exit
 
 import numpy as np
 import matplotlib.pyplot as plt
 from math import pi, factorial
 
+if __name__=="__main__":
+    pass
+else:
+    exit()
 
 
 f = open(str(argv[1]))#'nacs-spectrum.out')

@@ -1,3 +1,11 @@
+
+from sys import exit
+
+if __name__=="__main__":
+    pass
+else:
+    exit()
+
 from vibcooling.parser.siesta import *
 
 filename = 'siesta_parser_test/MyM'

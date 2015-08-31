@@ -1,5 +1,11 @@
 """
 parser module
+
+This module contains all necessary routines to read
+data from quantum chemistry packages. There are routines 
+that bundle the IO for certain purposes, but one can also 
+use the individual routines.
+
 """
 
 codes = {
@@ -13,5 +19,5 @@ code_type = {
         }
 
 
-from coolvib.parser.siesta import parse_siesta
-from coolvib.parser.aims import parse_aims
+from coolvib.parser.siesta import parse_siesta_tensor, parse_siesta_mode
+from coolvib.parser.aims import parse_aims_tensor, parse_aims_mode

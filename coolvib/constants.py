@@ -11,9 +11,8 @@ force : eV/Angstorm
 time : Angstrom*sqrt(amu/e)
 action, angular momentum : sqrt(e*amu)*Angstrom
 
-"""
 
-"""
+
 Hz          cm-1    
 1.000000    3.335641E-11
 eV          J   

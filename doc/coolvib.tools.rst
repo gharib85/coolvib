@@ -12,26 +12,26 @@ coolvib.tools.fhiaims_add_outputoptions_to_control module
     :undoc-members:
     :show-inheritance:
 
-coolvib.tools.integrate_friction module
+coolvib.tools.integrate_tensor module
 ---------------------------------------
 
-.. automodule:: coolvib.tools.integrate_friction
+.. automodule:: coolvib.tools.integrate_tensor
     :members:
     :undoc-members:
     :show-inheritance:
 
-coolvib.tools.integrate_friction2 module
-----------------------------------------
+coolvib.tools.integrate_tensor_along_dir module
+-----------------------------------------------
 
-.. automodule:: coolvib.tools.integrate_friction2
+.. automodule:: coolvib.tools.integrate_tensor_along_dir
     :members:
     :undoc-members:
     :show-inheritance:
 
-coolvib.tools.integrate_friction3 module
-----------------------------------------
+coolvib.tools.integrate_plot_spectral_function module
+-----------------------------------------------------
 
-.. automodule:: coolvib.tools.integrate_friction3
+.. automodule:: coolvib.tools.plot_spectral_function
     :members:
     :undoc-members:
     :show-inheritance:

@@ -85,7 +85,7 @@ class workflow_tensor():
         if self.code is None:
             print 'Please set code first using .set_code'
 
-        method_to_call =getattr(parser,parser.codes[self.code])
+        method_to_call =getattr(parser,parser.codes[self.code]+'_tensor')
         self = method_to_call(self, **kwargs)
 
         self.input_read = True
@@ -127,8 +127,11 @@ class workflow_tensor():
         """
         initiates calculation of the spectral functions and 
         takes the same arguments as coolvib.routines.calculate_spectral_function
-        
-        mode : 'default' or 'momentum' for q=0 or q not 0 versions
+     
+        Parameters:
+
+        mode : str
+            'default' or 'momentum' for q=0 or q not 0 versions
         
         """
 
@@ -180,7 +183,12 @@ class workflow_tensor():
 
     def print_spectral_function(self, filename='nacs-spectrum.out'):
         """
-        prints spectral function to file nacs-spectrum.out
+        prints spectral function to a file
+
+        Parameters:
+
+        filename: str
+            name of the output file, default is nacs-spectrum.out
         """
 
         output.print_spectral_function(
@@ -191,6 +199,11 @@ class workflow_tensor():
     def print_jmol_friction_eigenvectors(self, filename='friction-eigenvectors.jmol'):
         """
         prints friction eigenvectors in jmol format
+        
+        Parameters:
+
+        filename: str
+            name of the output file, default is friction-eigenvectors.jmol 
         """
         
         if hasattr(self, 'friction_eigenvectors'):

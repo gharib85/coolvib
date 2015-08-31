@@ -156,7 +156,7 @@ def calculate_spectral_function_tensor(
                                 # print e, ' ' , occ, ' ', nacs
                                 spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
-            spectral_function[counter,:] *= (pi*hplanck) / sqrt(masses[d/3]*masses[d2/3])
+            spectral_function[counter,:] *= (pi*hplanck) #/ sqrt(masses[d/3]*masses[d2/3])
             counter += 1
 
 

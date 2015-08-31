@@ -1,5 +1,8 @@
 """
-Copyright Reinhard J. Maurer, Yale University, 03/17/2015
+siesta_mod.pyx is a Cython extension to the coolvib.parser.siesta module 
+that deals with the transformation of Hamiltonian and overlap matrix into 
+k space. This is very time consuming and therefore written in Cython.
+
 """
 
 import cython
@@ -30,7 +33,13 @@ def siesta_calc_HSX(int nspin, np.ndarray[REAL_TYPE_t,ndim=2] kpts_array,
     efficiently calculates actual H and S matrices for each kpoint and spin 
     from the sparse h and s matrices using the 'Siesta approach'
     
-    written by R. J. Maurer, Yale University, 03/17/2015
+    Parameters:
+
+
+
+    Output:
+
+    
     """
 
     #INIT H and S

@@ -1,7 +1,6 @@
 """
 Parsing routines for Siesta
 
-Copyright Mikhail Askerka and Reinhard Maurer, Yale University, 03/17/2015
 """
 
 import numpy as np
@@ -11,31 +10,41 @@ from scipy.io import FortranFile
 import siesta_mod
 from coolvib.constants import bohr,ryd
 
-def parse_siesta(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0):
+def parse_siesta_tensor(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0):
     """
     This subroutine returns all necessary information stored in the siesta output files
     and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
     overlap matrices
 
     Input
-        path : string
-        seed : string
-        atoms : list
-        incr : float
-        debug : 0 / 1
+        model : workflow_tensor class
+            workflow_tensor class into which the data is supposed to be
+            written
 
-    Output
-        eigenvalues
-        fermi_level
-        kpoints_weights
-        psi
-        basis_pos
-        cell
-        atomic_positions
-        H_q
-        S_q
+        path : string
+            path to the main directory that holds the data
+
+        seed : string
+            seed of the filename to the main output of the equilibrium run, 
+            it is assumed that the equilibrium run lies at path/eq/seed.out
+
+        active_atoms : list
+            list of atoms which are to be included in the friction_tensor
+
+        incr : float
+            finite difference increment that was used to calculate the matrices
+
+        debug : 0 / 1
+            debug flag 0 = no, 1 = yes
+
+    Output:
+
+        model: workflow_tensor class
+
+
     """
 
+    print 'Reading eigenvalues and eigenvectors'
     fermi_energy, eigenvalues = siesta_read_eigenvalues(path+'/eq/'+seed)
     n_spin = eigenvalues.shape[1]
     kpoints_weights = siesta_read_kpoints(path+'/eq/'+seed)
@@ -50,6 +59,7 @@ def parse_siesta(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0
     ai = 0
     for a in active_atoms:
         for c in range(3):
+            print 'Reading hamiltonian and overlap matrices for coordinate {0} {1}'.format(a, c)
             H_plus, S_plus = siesta_read_HSX(kpoints_weights, path+'/a{0}c{1}+/'.format(int(a),int(c))+seed,debug=debug)
             H_minus, S_minus = siesta_read_HSX(kpoints_weights, path+'/a{0}c{1}-/'.format(int(a),int(c))+seed,debug=debug)
             H_q[ai,c,:,:,:,:] = (H_plus - H_minus)/2.0/incr
@@ -66,6 +76,13 @@ def parse_siesta(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0
 
     return model
 
+def parse_siesta_mode(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0):
+    """
+    TODO
+    """
+
+    raise NotImplementedError('parse_siesta_mode needs to be implemented')
+
 def siesta_read_eigenvalues(filename):
     """
     This routine reads the number of K points, the eigenvalues and the \
@@ -80,7 +97,6 @@ def siesta_read_eigenvalues(filename):
     2) Spin
     3) State
 
-    written by Mikhail Askerka, Yale University, 03/17/2015
     """
 
     with open("%s.EIG" % filename, "r") as f:
@@ -114,7 +130,6 @@ def siesta_read_kpoints(filename):
     1) index of the k point 
     2) x,y,z coordinate and weight
     
-    written by Mikhail Askerka, Yale University, 03/17/2015
     """
 
     with open("%s.KP" % filename, "r") as f:
@@ -136,7 +151,6 @@ def siesta_read_struct_out(filename):
     is needed by siesta_read_HSX
     cell is a 3x3 matrix in Angstrom units
     
-    written by Reinhard J. Maurer and Mikhail Askerka Yale University, 03/17/2015
     """
     with open("%s.STRUCT_OUT" % filename, "r") as f:
         content=f.readlines()
@@ -163,7 +177,6 @@ def siesta_read_coefficients(filename, debug=0):
     3) the state index (nwflist)
     4) the coefficient for each basis set index (nuotot)
     
-    written by Mikhail Askerka, Yale University, 03/17/2015
     """
 
     f= FortranFile("%s.WFSX" % filename)
@@ -221,7 +234,6 @@ def siesta_read_HSX(kpts_array, filename, debug=0):
     Output: H[kpoints,spin,norb, norb], S[kpoints, norb, norb]
     units are in Rydberg and Bohr!!
     
-    written by Reinhard J. Maurer, Yale University, 03/17/2015
     """
 
     #two different cases

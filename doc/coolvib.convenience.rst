@@ -1,18 +1,6 @@
 coolvib.convenience package
 ===========================
 
-Submodules
-----------
-
-coolvib.convenience.workflow_tensor module
-------------------------------------------
-
-.. automodule:: coolvib.convenience.workflow_tensor
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
 Module contents
 ---------------
 
@@ -20,3 +8,24 @@ Module contents
     :members:
     :undoc-members:
     :show-inheritance:
+
+
+workflow_tensor class
+------------------------------------------
+
+.. automodule:: coolvib.convenience.workflow_tensor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+workflow_mode class
+------------------------------------------
+
+
+
+.. automodule:: coolvib.convenience.workflow_mode
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+

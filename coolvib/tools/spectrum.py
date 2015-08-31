@@ -1,3 +1,6 @@
+#TODO split this file into different scripts that 
+#each calculate DOS etc. 
+
 import numpy as np
 import os, sys
 import math

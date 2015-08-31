@@ -1,11 +1,25 @@
-#!/bin/python
+#!/usr/bin/python
 """
 This script takes an FHI-AIMS output generated with 
-keyword 'output k_point_list' and prints 
+keyword 'output k_point_list' and prints the necessary 
+input parameters for the control.in file that enable writing 
+of Hamiltonian, Overlap and eigenvectors.
+
+Execute this script the following way::
+
+    fhiaims_add_outputoptions_to_control.py <OUTPUT_filename>
+
+OUTPUT_filename has to be an FHI-AIMS OUTPUT file generated with control.in keyword
+'output k_point_list'
 """
 
-from sys import argv
+from sys import argv, exit
 import numpy as np
+
+if __name__=="__main__":
+    pass
+else:
+    exit()
 
 if len(argv)<2:
     print 'Execute this script the following way:'

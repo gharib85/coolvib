@@ -1,37 +1,49 @@
 """
-Parsing routines for FHI-Aims 
+Parsing routines for FHI-Aims
 
-Copyright Reinhard J. Maurer, Yale University, 04/08/2015
+
+
 """
 
 import numpy as np
 import os
 from os.path import join as pathjoin
 
-def parse_aims(model, spin=True, path='./', filename='aims.out', active_atoms=[1], incr=0.01, debug=0):
+def parse_aims_tensor(model, spin=True, path='./', filename='aims.out', active_atoms=[1], incr=0.01, debug=0):
     """
     This subroutine returns all necessary information stored in the siesta output files
     and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
     overlap matrices
 
-    Input
-        cell : np.array
+    Parameters: 
+    
+        model : workflow_tensor class
+            workflow_tensor class into which the data is supposed to be
+            written
+
         spin : boolean
+            True or False for spin collinear or no spin
+
         path : string
+            path to the main directory that holds the data
+
         filename : string
+            filename to the main output of the equilibrium run, 
+            it is assumed that the equilibrium run lies at path/eq/filename
+
         active_atoms : list
+            list of atoms which are to be included in the friction_tensor
+
         incr : float
+            finite difference increment that was used to calculate the matrices
+
         debug : 0 / 1
+            debug flag 0 = no, 1 = yes
 
     Output
-        eigenvalues
-        fermi_level
-        kpoints_weights
-        psi
-        basis_pos
-        occ
-        H_q
-        S_q
+
+        model: workflow_tensor class
+            returns the workflow_tensor class including the read data
 
     """
 
@@ -74,13 +86,37 @@ def parse_aims(model, spin=True, path='./', filename='aims.out', active_atoms=[1
 
     return model
 
+def parse_aims_mode(model, spin=True, path='./', filename='aims.out', incr=0.01, debug=0):
+    """
+    TODO
+    """
+
+    raise NotImplementedError('parse_aims_mode still needs to be implemented') 
+
 def aims_read_fermi_and_kpoints(filename,cell=None):
     """
     Reads the fermi_level and the kpoint information from the 
     main OUTPUT file of FHI-Aims. In order for this to work one needs 
-    to set the keyword 'output ki_point_list
-    
-    written by Reinhard J. Maurer, Yale University, 04/08/2015
+    to set the keyword 'output k_point_list
+
+    Parameters:
+
+        filename: str
+            FHI-Aims output file name
+
+        cell: np.array
+            array containing the unit cell data
+   
+    Output:
+
+        fermi_level: float
+            Fermi Energy of the system
+
+        kpoint_weights: np.array
+            Array of dimensions (n_kpoints, 4) that holds the 
+            x, y and z components of the k vectors in reciprocal space and the 
+            kpoint weights.
+
     """
 
     if cell is None:
@@ -152,7 +188,6 @@ def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=Fal
     the routine returns the eigenvalues, eigenvectors, and occupations
     in this order as np.arrays
 
-    written by Reinhard J. Maurer, Yale University, 04/08.2015
     """
 
     #name_base = directory+'/KS_eigenvectors'
@@ -229,7 +264,6 @@ def aims_read_HS(directory='./', spin=False, debug=False):
 
     the function returns the Hamiltonian and overlap matrix as np.arrays
 
-    written by Reinhard J. Maurer, Yale University, 04/08.2015
     """
 
     name_base_H = 'KS_hamiltonian_matrix'

@@ -1,3 +1,12 @@
+
+from sys import exit
+
+if __name__=="__main__":
+    pass
+else:
+    exit()
+
+
 from fortran_file_class import FortranFile
 f=FortranFile("MyM.WFSX")
 n_kpoints,gamma=f.readInts("i")
