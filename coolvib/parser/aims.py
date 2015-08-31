@@ -52,13 +52,16 @@ def parse_aims(model, spin=True, path='./', filename='aims.out', active_atoms=[1
     H_q = np.zeros([len(active_atoms),3,len(kpoints_weights), n_spin, n_basis, n_basis],dtype=np.complex)
     S_q = np.zeros([len(active_atoms),3,len(kpoints_weights), n_basis, n_basis],dtype=np.complex)
 
+    ai = 0
     for a in active_atoms:
         for c in range(3):
             print 'Reading hamiltonian and overlap matrices for coordinate {0} {1}'.format(a, c)
             H_plus, S_plus = aims_read_HS(path+'/a{0}c{1}+/'.format(int(a),int(c)),spin=spin,debug=debug)
             H_minus, S_minus = aims_read_HS(path+'/a{0}c{1}-/'.format(int(a),int(c)),spin=spin,debug=debug)
-            H_q[a,c,:,:,:,:] = (H_plus - H_minus)/2.0/incr
-            S_q[a,c,:,:,:] = (S_plus - S_minus)/2.0/incr
+            H_q[ai,c,:,:,:,:] = (H_plus - H_minus)/2.0/incr
+            S_q[ai,c,:,:,:] = (S_plus - S_minus)/2.0/incr
+        ai += 1
+
 
     model.eigenvalues = eigenvalues
     model.fermi_energy = fermi_level

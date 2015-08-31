@@ -11,7 +11,7 @@ from scipy.io import FortranFile
 import siesta_mod
 from coolvib.constants import bohr,ryd
 
-def parse_siesta(model, path='./',seed='MyM',atoms=[1], incr=0.01,debug=0):
+def parse_siesta(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0):
     """
     This subroutine returns all necessary information stored in the siesta output files
     and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
@@ -44,15 +44,17 @@ def parse_siesta(model, path='./',seed='MyM',atoms=[1], incr=0.01,debug=0):
     n_basis = psi.shape[3]
     cell, atomic_positions = siesta_read_struct_out(path+'/eq/'+seed)
 
-    H_q = np.zeros([len(atoms),3,len(kpoints_weights), n_spin, n_basis, n_basis],dtype=np.complex)
-    S_q = np.zeros([len(atoms),3,len(kpoints_weights), n_basis, n_basis],dtype=np.complex)
+    H_q = np.zeros([len(active_atoms),3,len(kpoints_weights), n_spin, n_basis, n_basis],dtype=np.complex)
+    S_q = np.zeros([len(active_atoms),3,len(kpoints_weights), n_basis, n_basis],dtype=np.complex)
 
-    for a in atoms:
+    ai = 0
+    for a in active_atoms:
         for c in range(3):
             H_plus, S_plus = siesta_read_HSX(kpoints_weights, path+'/a{0}c{1}+/'.format(int(a),int(c))+seed,debug=debug)
             H_minus, S_minus = siesta_read_HSX(kpoints_weights, path+'/a{0}c{1}-/'.format(int(a),int(c))+seed,debug=debug)
-            H_q[a,c,:,:,:,:] = (H_plus - H_minus)/2.0/incr
-            S_q[a,c,:,:,:] = (S_plus - S_minus)/2.0/incr
+            H_q[ai,c,:,:,:,:] = (H_plus - H_minus)/2.0/incr
+            S_q[ai,c,:,:,:] = (S_plus - S_minus)/2.0/incr
+        ai += 1
 
     model.eigenvalues = eigenvalues
     model.fermi_energy = fermi_energy

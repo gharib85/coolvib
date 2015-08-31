@@ -4,7 +4,7 @@ output.py
 contains functions for output
 """
 
-from coolvib.constants import ps
+from coolvib.constants import time_to_ps
 
 def print_spectral_function(x_axis, spectral_function, n_dim, filename='nacs-spectrum.out'):
     """
@@ -33,8 +33,8 @@ def print_spectral_function(x_axis, spectral_function, n_dim, filename='nacs-spe
             file.write(string)
             for ei, e in enumerate(x_axis):
                 file.write("{0:9.4f} {1:16.6E} {2:16.6E} \n".format(e, \
-                        (spectral_function[counter, ei]).real/ps,
-                        (spectral_function[counter, ei]).imag/ps))
+                        (spectral_function[counter, ei]).real/time_to_ps,
+                        (spectral_function[counter, ei]).imag/time_to_ps))
             counter += 1
 
     file.close()
@@ -52,7 +52,7 @@ def print_jmol_friction_eigenvectors(atoms,active_atoms,
 
     for n in range(len(eigenvalues)):
         file.write("{0:6d}".format(n_atoms))
-        file.write("Mode # {0:3d} f = {1:16.5F} ps".format(n,(1/eigenvalues[n])*ps))
+        file.write("Mode # {0:3d} f = {1:16.5F} ps".format(n,1./(eigenvalues[n]/time_to_ps)) )
         
         c = 0
         for a in range(n_atoms):
@@ -88,7 +88,7 @@ def plot_spectral_function(x_axis, spectral_function):
     except:
         raise ImportError('Could not find matplotlib')
 
-    plt.plot(x_axis, spectral_function.real, x_axis, spectral_function.imag)
+    plt.plot(x_axis, spectral_function.real/time_to_ps, x_axis, spectral_function.imag/time_to_ps)
 
     plt.show()
     

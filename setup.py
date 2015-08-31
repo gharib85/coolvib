@@ -55,7 +55,6 @@ setup(
             "),
     license = "TBA",
     keywords = "vibrational cooling, quantum chemistry",
-    install_requires=['ase'],
     cmdclass = {'build_ext' : build_ext,
         'test' : test},
     packages = packages,

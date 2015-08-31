@@ -22,7 +22,7 @@ def fermi_occ(e, e0, T=300):
     """
     beta = 1.0/(T*k_b)
     try:
-        return 1./(exp((e-e0)*beta)+1)
+        return 1./(exp((e-e0)*beta)+1.)
     except OverflowError:
         return 0.0
 
@@ -69,7 +69,9 @@ def delta_function(x,x0,s, method):
     yields true or false if its argument is inside the given 
     window defined by minimum and maximum.
     """
-    
+    epsilon = 1E-100
+    from math import isnan
+
     if method is 'gaussian':
         dirac_weight = gaussian(x,x0,s)
     elif method is 'square':
@@ -85,6 +87,8 @@ def delta_function(x,x0,s, method):
     else:
         raise NotImplementedError('delta method {0} is unknown'.format(method))
 
+    if dirac_weight<epsilon:
+        dirac_weight = 0.0
     return dirac_weight
 
 
@@ -102,9 +106,9 @@ def discretize_peak(e, nacs, x_axis, sigma, delta_method):
         norm += delta
         spectrum[i] += delta*nacs
     norm *= de
-    # if norm <= 1E-30:
+     # if norm <= 1E-30:
         # return np.zeros(len(x_axis),dtype=np.complex)
-    # else:
+     # else:
     return spectrum/norm
 
 
@@ -120,7 +124,7 @@ def evaluate_delta_function(x_axis, f, x0, sigma, delta_method):
         norm += delta
         result += f[i]*x*delta
 
-    result /= norm
+    result/= norm
 
     return result
 

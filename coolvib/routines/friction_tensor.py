@@ -4,7 +4,7 @@ friction_tensor.py
 
 from coolvib.routines import evaluate_delta_function
 from coolvib.routines.output import print_matrix
-from coolvib.constants import ps
+from coolvib.constants import time_to_ps
 
 import numpy as np
 import numpy.linalg as la
@@ -25,7 +25,7 @@ def calculate_tensor(n_dim, x_axis, spectral_function, **kwargs):
 
     keys = {}
     for key in default_keywords.keys():
-        if hasattr(kwargs,key):
+        if key in kwargs:
             keys[key] = kwargs[key] 
         else:
             keys[key] = default_keywords[key]
@@ -45,7 +45,6 @@ def calculate_tensor(n_dim, x_axis, spectral_function, **kwargs):
 
             c += 1
 
-
     return friction_tensor 
 
 
@@ -58,16 +57,16 @@ def analyse_tensor(friction_tensor):
 
     #printing
     print 'Friction Tensor' 
-    print_matrix(friction_tensor/ps)
+    print_matrix(friction_tensor/time_to_ps)
     print ' '
     print 'Friction Eigenvalues in 1/ps'
     print ' '.join( ['{0:10d}'.format(y) for y in range(len(eigenvalues)) ])
-    print ' '.join( ['{0:10.4f}'.format(y) for y in eigenvalues/ps ]  )
+    print ' '.join( ['{0:10.4f}'.format(y) for y in eigenvalues/time_to_ps ]  )
     print 'Friction Eigenvectors'
     print_matrix(eigenvectors)
     print 'Principal lifetimes in ps'
     print ' '.join( ['{0:10d}'.format(y) for y in range(len(eigenvalues)) ])
-    print ' '.join( ['{0:10.4f}'.format(y) for y in ps/eigenvalues ]  )
+    print ' '.join( ['{0:10.4f}'.format(y) for y in 1./(eigenvalues/time_to_ps) ]  )
 
     return eigenvectors, eigenvalues
     

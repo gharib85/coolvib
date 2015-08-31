@@ -99,7 +99,6 @@ class workflow_tensor():
         Parameters:
 
         mode: str
-            
 
         This is a wrapper function for :py:coolvib.routines.friction_tensor.calculate_tensor:
         For detailed documentation please look there.
@@ -134,7 +133,6 @@ class workflow_tensor():
         """
 
         masses = self.atoms.get_masses()[self.active_atoms]
-
         #CASE CODE
         if parser.code_type[self.code] is 'local':
             #CASE mode
@@ -147,6 +145,7 @@ class workflow_tensor():
                         self.first_order_H,
                         self.first_order_S,
                         masses,
+                        self.occ,
                         **kwargs)
             elif mode is 'momentum':
                 self.x_axis, self.spectral_function = spectral.calculate_spectral_function_tensor_q(
