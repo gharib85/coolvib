@@ -28,7 +28,7 @@ sqrt(eV)/Angst  Hz                  cm-1
 
 from math import pi
 
-conversion_factor = 98226935315503.17 #value taken from ASE, CODATA02
+conversion_factor = 98226935315503.17 #sqrt(amu/e)*Ang to seconds value taken from ASE, CODATA02
 #conversion_factor = 98226949774380.3 #for omega from sqrt(eV/amu)/Ang to Hz
 time_to_ps = 1./(conversion_factor*1E-12)
 hplanck = 0.40623411488 # in units of sqrt(e*amu)*Angstrom

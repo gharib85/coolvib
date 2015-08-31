@@ -126,8 +126,8 @@ def calculate_spectral_function_tensor(
                     orb_homo = 0
                     orb_max = 0
                     for ei,e in enumerate(eigenvalues[k,s,:]):
-                        # occ = fermi_occ(e,ef,T)
-                        occ = pop[k,s,ei]
+                        occ = fermi_occ(e,ef,T)
+                        # occ = pop[k,s,ei]
                         if e<ef-2.00*keys['max_energy']:
                             orb_min = ei
                         if occ>=0.999:
@@ -139,8 +139,8 @@ def calculate_spectral_function_tensor(
                     for i in range(orb_min,orb_homo):
                         for f in range(orb_lumo, orb_max):
                             e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
-                            # occ =fermi_occ(eigenvalues[k,s,i],ef,T) - fermi_occ(eigenvalues[k,s,f],ef,T)
-                            occ =pop[k,s,i] - pop[k,s,f]
+                            occ =fermi_occ(eigenvalues[k,s,i],ef,T) - fermi_occ(eigenvalues[k,s,f],ef,T)
+                            # occ =pop[k,s,i] - pop[k,s,f]
                             if e>0.0 and e<=1.0*keys['max_energy'] and occ>=1.E-5:
                                 #calculate transition strength
 
@@ -153,7 +153,7 @@ def calculate_spectral_function_tensor(
                                 nacs *= wk
                                 nacs *= occ*(3.-n_spin)
                                 # print e, ' ' , fermi_occ(eigenvalues[k,s,i],ef,T)-fermi_occ(eigenvalues[k,s,f],ef,T), ' ', nacs
-                                print e, ' ' , occ, ' ', nacs
+                                # print e, ' ' , occ, ' ', nacs
                                 spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
             spectral_function[counter,:] *= (pi*hplanck) / sqrt(masses[d/3]*masses[d2/3])

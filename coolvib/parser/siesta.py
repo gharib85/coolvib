@@ -38,7 +38,7 @@ def parse_siesta(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0
 
     fermi_energy, eigenvalues = siesta_read_eigenvalues(path+'/eq/'+seed)
     n_spin = eigenvalues.shape[1]
-    kpoints_weights = siesta_read_kpoints(path+'/eq'+seed)
+    kpoints_weights = siesta_read_kpoints(path+'/eq/'+seed)
     psi, basis_pos = siesta_read_coefficients(path+'/eq/'+seed)
     n_states = psi.shape[2]
     n_basis = psi.shape[3]
