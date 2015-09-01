@@ -86,7 +86,7 @@ for s in ss:
             norm = 0.
             friction = 0.+1.0j*0.
             for b in range(nbins):
-                delta = gauss(xaxis[b],x0,s) 
+                delta = gaussian(xaxis[b],x0,s) 
                 norm += delta
                 friction += delta*xaxis[b]*spectrum[k,b]
             friction /= norm
@@ -95,7 +95,7 @@ for s in ss:
             norm = 0.
             friction = 0.+1.0j*0.
             for b in range(nbins):
-                delta = fermi(xaxis[b],x0,s) 
+                delta = squashed_fermi(xaxis[b],x0,s) 
                 norm += delta
                 friction += delta*xaxis[b]*spectrum[k,b]
             friction /= norm
@@ -113,7 +113,7 @@ for s in ss:
             norm = 0.
             friction = 0.+1.0j*0.
             for b in range(nbins):
-                delta = lorentz(xaxis[b],x0,s) 
+                delta = lorentzian(xaxis[b],x0,s) 
                 norm += delta
                 friction += delta*xaxis[b]*spectrum[k,b]
             friction /= norm
@@ -123,7 +123,8 @@ for s in ss:
 
     #throw away imaginary parts
     friction_tensor = np.array(friction_tensor,dtype=np.float)
+    string =''
     for f in range(5):
-         string += str(float( 1./np.dot(e.transpose(),np.dot(friction_tensor[:,:,f],e)))) +' '
+         string += str(float( 1./np.dot(mode.transpose(),np.dot(friction_tensor[:,:,f],mode)))) +' '
     print string
     

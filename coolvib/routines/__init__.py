@@ -48,7 +48,7 @@ def lorentzian(x,x0,s):
         ((x-x0)*(x-x0)+(0.5*s)*(0.5*s)))
 
 def sine(x,x0,s):
-    if abs(x-x_mean)<0.00001:
+    if abs(x-x0)<0.00001:
         sine_val = 1./s/pi
     else:
         sine_val = (sin(s*(x-x0)))**2/(x-x0)**2/s/pi

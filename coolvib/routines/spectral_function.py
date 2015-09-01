@@ -8,7 +8,7 @@ from math import sqrt, pi
 from coolvib.routines import fermi_occ
 from coolvib.routines import delta_function 
 from coolvib.routines import discretize_peak
-from coolvib.constants import hplanck
+from coolvib.constants import hplanck, hbar, time_to_ps
 
 #def calculate_spectral_function_mode()
 
@@ -21,7 +21,6 @@ def calculate_spectral_function_tensor(
         first_order_H,
         first_order_S,
         masses,
-        pop,
         **kwargs):
     """
     Calculates spectral functions for all cartesian directions and 
@@ -78,6 +77,7 @@ def calculate_spectral_function_tensor(
             'discretization_length' : 0.01,
             'max_energy' : 3.0,
             'temperature': 300,
+            'debug' : 1,
             }
 
     keys = {}
@@ -110,16 +110,19 @@ def calculate_spectral_function_tensor(
     delta_method = keys['discretization_type']
     sigma = keys['discretization_broadening']
     T = keys['temperature']
+    debug = keys['debug']
 
     spectral_function = np.zeros([n_dim*(n_dim+1)/2,n_axis],dtype=np.complex)
 
     counter = 0
     for d in range(n_dim):
         for d2 in range(d,n_dim):
-            print 'Calculating spectral function for components {0} and {1}'.format(d,d2)
+            if debug:
+                print 'Calculating spectral function for components {0} and {1}'.format(d,d2)
             for s in range(n_spin):
                 for k in range(n_kpts):
-                    print 's ', s, 'k ', k
+                    if debug:
+                        print 's ', s, 'k ', k
                     wk = kweights[k]
                     orb_min = 0
                     orb_lumo = 0
@@ -128,16 +131,18 @@ def calculate_spectral_function_tensor(
                     for ei,e in enumerate(eigenvalues[k,s,:]):
                         occ = fermi_occ(e,ef,T)
                         # occ = pop[k,s,ei]
-                        if e<ef-2.00*keys['max_energy']:
+                        if e<=ef-2.00*keys['max_energy']:
                             orb_min = ei
                         if occ>=0.999:
                             orb_lumo = ei
                         if occ>= 0.001:
                             orb_homo = ei
-                        if e<ef+2.00*keys['max_energy']:
+                        if e<=ef+2.00*keys['max_energy']:
                             orb_max = ei
-                    for i in range(orb_min,orb_homo):
-                        for f in range(orb_lumo, orb_max):
+                    if debug:
+                        print orb_min, orb_homo, orb_lumo, orb_max
+                    for i in range(orb_min,orb_homo+1):
+                        for f in range(orb_lumo, orb_max+1):
                             e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
                             occ =fermi_occ(eigenvalues[k,s,i],ef,T) - fermi_occ(eigenvalues[k,s,f],ef,T)
                             # occ =pop[k,s,i] - pop[k,s,f]
@@ -152,11 +157,13 @@ def calculate_spectral_function_tensor(
                                 nacs /= (e*e)
                                 nacs *= wk
                                 nacs *= occ*(3.-n_spin)
-                                # print e, ' ' , fermi_occ(eigenvalues[k,s,i],ef,T)-fermi_occ(eigenvalues[k,s,f],ef,T), ' ', nacs
-                                # print e, ' ' , occ, ' ', nacs
+                                if debug:
+                                    print i, f, e, ' ' , occ, ' ', \
+                                        (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).real, \
+                                        ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag
                                 spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
-            spectral_function[counter,:] *= (pi*hplanck) #/ sqrt(masses[d/3]*masses[d2/3])
+            spectral_function[counter,:] *= (pi*hbar)/sqrt(masses[d/3]*masses[d2/3])
             counter += 1
 
 

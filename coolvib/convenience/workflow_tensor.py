@@ -148,7 +148,6 @@ class workflow_tensor():
                         self.first_order_H,
                         self.first_order_S,
                         masses,
-                        self.occ,
                         **kwargs)
             elif mode is 'momentum':
                 self.x_axis, self.spectral_function = spectral.calculate_spectral_function_tensor_q(

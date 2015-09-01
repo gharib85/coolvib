@@ -75,7 +75,7 @@ for s in ss:
             norm = 0.
             friction = 0.+1.0j*0.
             for b in range(nbins):
-                delta = gauss(xaxis[b],x0,s) 
+                delta = gaussian(xaxis[b],x0,s) 
                 norm += delta
                 friction += delta*xaxis[b]*spectrum[k,b]
             friction /= norm
@@ -84,7 +84,7 @@ for s in ss:
             norm = 0.
             friction = 0.+1.0j*0.
             for b in range(nbins):
-                delta = fermi(xaxis[b],x0,s) 
+                delta = squashed_fermi(xaxis[b],x0,s) 
                 norm += delta
                 friction += delta*xaxis[b]*spectrum[k,b]
             friction /= norm
@@ -102,7 +102,7 @@ for s in ss:
             norm = 0.
             friction = 0.+1.0j*0.
             for b in range(nbins):
-                delta = lorentz(xaxis[b],x0,s) 
+                delta = lorentzian(xaxis[b],x0,s) 
                 norm += delta
                 friction += delta*xaxis[b]*spectrum[k,b]
             friction /= norm
