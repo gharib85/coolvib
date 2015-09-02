@@ -2,8 +2,10 @@
 parser module
 
 This module contains all necessary routines to read
-data from quantum chemistry packages. There are routines 
-that bundle the IO for certain purposes, but one can also 
+precalculated data from quantum chemistry packages. 
+
+There are routines that bundle the IO for certain purposes, such as 
+:py:func:`coolvib.parser.aims.parse_aims_tensor`, but one can also 
 use the individual routines.
 
 """

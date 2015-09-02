@@ -1,3 +1,10 @@
+"""
+
+TEMPORARY FUNCTION BUCKET
+
+TODO
+    Needs to be cleaned out and structured
+"""
 #TODO split this file into different scripts that 
 #each calculate DOS etc. 
 
@@ -5,7 +12,10 @@ import numpy as np
 import os, sys
 import math
 from time import time
-import matplotlib.pyplot as plt
+try:
+    import matplotlib.pyplot as plt
+except:
+    raise ImportError('Cannot import matplotlib!')
 
 broadening_default = 0.1
 bin_width_default = 0.01

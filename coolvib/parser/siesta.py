@@ -7,8 +7,11 @@ import numpy as np
 from os.path import join as pathjoin
 import struct
 from scipy.io import FortranFile
-import siesta_mod
 from coolvib.constants import bohr,ryd
+try:
+    import siesta_mod
+except:
+    pass
 
 def parse_siesta_tensor(model, path='./',seed='MyM',active_atoms=[1], incr=0.01,debug=0):
     """

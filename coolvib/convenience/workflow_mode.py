@@ -129,9 +129,9 @@ class workflow_mode():
                         # self.basis_pos,
                         # **kwargs)
 
-        else:
+        # else:
             #plane wave stuff
-            raise NotImplementedError('calculate_spectral_function: code is not supported!')
+        raise NotImplementedError('calculate_spectral_function: code is not supported!')
 
 
     def print_spectral_function(self, filename='nacs-spectrum.out'):

@@ -51,20 +51,20 @@ def print_jmol_friction_eigenvectors(atoms,active_atoms,
     n_atoms = len(atoms)
 
     for n in range(len(eigenvalues)):
-        file.write("{0:6d}".format(n_atoms))
-        file.write("Mode # {0:3d} f = {1:16.5F} ps".format(n,1./(eigenvalues[n]/time_to_ps)) )
+        file.write("{0:6d}\n".format(n_atoms))
+        file.write("Mode # {0:3d} f = {1:16.5F} ps \n".format(n,1./(eigenvalues[n]/time_to_ps)) )
         
         c = 0
         for a in range(n_atoms):
             symbol = atoms[a].symbol
             pos = atoms[a].position
             if a in active_atoms:
-                file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f}"\
+                file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f} \n"\
                         .format(symbol,pos[0],pos[1],pos[2],\
                         eigenvectors[n,c*3].real,eigenvectors[n,c*3+1].real,eigenvectors[n,c*3+2].real ))
                 c += 1
             else:
-                file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f}"\
+                file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f} \n"\
                         .format(symbol,pos[0],pos[1],pos[2],\
                         0.,0.,0. ))
 
