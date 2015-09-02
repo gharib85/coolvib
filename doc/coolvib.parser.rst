@@ -1,5 +1,15 @@
+.. _parser:
+
 coolvib.parser package
 ======================
+
+Module contents
+---------------
+
+.. automodule:: coolvib.parser
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Submodules
 ----------
@@ -12,10 +22,3 @@ Submodules
    coolvib.parser.castep
 
 
-Module contents
----------------
-
-.. automodule:: coolvib.parser
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -5,11 +5,12 @@
 
 .. image:: ./coolvib.png
    :align: center
+   :width: 85%
 
 Welcome to coolvib's documentation!
 ===================================
 
-coolvib is a python package that calculates quantities related 
+**coolvib** is a python package that calculates quantities related 
 to the friction acting on adsorbate atoms and molecules on metal surfaces 
 induced by the electron-phonon coupling or non-adiabatic coupling between 
 electronic and nuclear motion. Such coupling can induce adsorbate vibrations 

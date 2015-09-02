@@ -10,16 +10,12 @@ tasks such as calculating lifetimes or the friction tensor.
 Convenience functions - coolvib.convenience
 -------------------------------------------
 
-:py:coolvib.convenience:
-
 .. toctree::
 
     coolvib.convenience
 
 Main Routines - coolvib.routines
 --------------------------------
-
-:py:coolvib.routines:
 
 .. toctree::
 

@@ -12,22 +12,6 @@ coolvib.routines.friction_tensor module
     :undoc-members:
     :show-inheritance:
 
-coolvib.routines.lifetime_ext module
-------------------------------------
-
-.. automodule:: coolvib.routines.lifetime_ext
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-coolvib.routines.lifetime_momentum module
------------------------------------------
-
-.. automodule:: coolvib.routines.lifetime_momentum
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 coolvib.routines.output module
 ------------------------------
 

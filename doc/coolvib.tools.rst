@@ -1,6 +1,14 @@
 coolvib.tools package
 =====================
 
+Module contents
+---------------
+
+.. automodule:: coolvib.tools
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -11,6 +19,7 @@ coolvib.tools.fhiaims_add_outputoptions_to_control module
     :members:
     :undoc-members:
     :show-inheritance:
+
 
 coolvib.tools.integrate_tensor module
 ---------------------------------------
@@ -40,15 +49,6 @@ coolvib.tools.spectrum module
 -----------------------------
 
 .. automodule:: coolvib.tools.spectrum
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: coolvib.tools
     :members:
     :undoc-members:
     :show-inheritance:
