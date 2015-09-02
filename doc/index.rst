@@ -17,8 +17,32 @@ electronic and nuclear motion. Such coupling can induce adsorbate vibrations
 to cool down - therefore the name **coolvib**.
 
 
+Features
+========
 
-Contents:
+Current Version 0.1
+^^^^^^^^^^^^^^^^^^^^
+
+    * Individual base routines for calculation of spectral function and friction tensor
+    * Uses input from `FHI-Aims <www.fhi-berlin.mpg.de/aims/>`_ and `Siesta <icmab.es/siesta/>`_ code.
+    * Convenient workflow for calculation of cartesian friction tensor
+    * Useful analysis and visualization tools
+
+
+Planned for next versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    * non-momentum conserving spectral function
+    * workflow class for calculation of friction along given mode
+    * tool that facilitates finite difference calculations
+    * parser and routines for `CASTEP <www.castep.org>`_
+    * extension of tutorial
+    * test suite for main routines
+
+
+
+Contents
+=========
 
 .. toctree::
    :maxdepth: 2
