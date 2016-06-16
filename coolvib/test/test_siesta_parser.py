@@ -6,7 +6,7 @@ if __name__=="__main__":
 else:
     exit()
 
-from vibcooling.parser.siesta import *
+from coolvib.parser.siesta import *
 
 filename = 'siesta_parser_test/MyM'
 
@@ -24,10 +24,10 @@ print 'kpts'
 print kpt_array.shape
 #print kpt_array
 
-psi = siesta_read_coefficients(filename)
+psi, orbital_pos =siesta_read_coefficients(filename)
 
 print 'psi'
-print psi.shape
+print psi.shape, orbital_pos
 
 from time import time
 start = time()

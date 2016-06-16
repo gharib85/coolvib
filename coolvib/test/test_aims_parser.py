@@ -5,11 +5,15 @@ tests the different routines in parser/aims.py
 """
 
 import numpy as np
-from vibcooling.parser.aims import *
+from coolvib.parser.aims import *
+from ase.all import *
 
-filename = 'OUTPUT'
+atoms = read('aims_parser_test/geometry.in')
+cell = atoms.cell
 
-fermi_level, kpoint_weights = aims_read_fermi_and_kpoints(filename)
+filename = 'aims_parser_test/OUTPUT'
+
+fermi_level, kpoint_weights = aims_read_fermi_and_kpoints(filename, cell)
 
 print fermi_level
 
@@ -17,15 +21,13 @@ print kpoint_weights
 
 nkpts = len(kpoint_weights)
 
-eigenvalues, psi, occ, orb_pos = aims_read_eigenvalues_and_coefficients(fermi_level, './', spin=True)
-
+eigenvalues, psi, occ, orb_pos = aims_read_eigenvalues_and_coefficients(fermi_level, './aims_parser_test/', spin=True)
 
 print eigenvalues
-
 print eigenvalues.shape
 print psi.shape
 
-H, S = aims_read_HS('./',spin=True)
+H, S = aims_read_HS('./aims_parser_test/',spin=True)
 
 print H.shape
 
