@@ -1,3 +1,17 @@
+#    This file is part of coolvib
+#
+#        coolvib is free software: you can redistribute it and/or modify
+#        it under the terms of the GNU General Public License as published by
+#        the Free Software Foundation, either version 3 of the License, or
+#        (at your option) any later version.
+#
+#        coolvib is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty of
+#        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#        GNU General Public License for more details.
+#
+#        You should have received a copy of the GNU General Public License
+#        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
 We calculate the (6x6) friction tensor for 
 full-coverage CO adsorbed on a Cu(100) top site.
@@ -43,13 +57,14 @@ print 'successfully read QM input data'
 
 ######CALCULATE SPECTRAL FUNCTION###
 model.calculate_spectral_function(mode='default', **keywords)
+# model.calculate_spectral_function(mode='momentum', **keywords)
 print 'successfully calculated spectral_function'
 model.print_spectral_function('nacs-spectrum.out')
 
-######CALCULATE FRICTION TENSOR###
-model.calculate_friction_tensor(**keywords)
-print 'successfully calculated friction tensor'
+#######CALCULATE FRICTION TENSOR###
+#model.calculate_friction_tensor(**keywords)
+#print 'successfully calculated friction tensor'
 
-model.analyse_friction_tensor()
+#model.analyse_friction_tensor()
 
-model.print_jmol_friction_eigenvectors()
+#model.print_jmol_friction_eigenvectors()

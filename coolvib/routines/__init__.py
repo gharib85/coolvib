@@ -1,3 +1,17 @@
+#    This file is part of coolvib
+#
+#        coolvib is free software: you can redistribute it and/or modify
+#        it under the terms of the GNU General Public License as published by
+#        the Free Software Foundation, either version 3 of the License, or
+#        (at your option) any later version.
+#
+#        coolvib is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty of
+#        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#        GNU General Public License for more details.
+#
+#        You should have received a copy of the GNU General Public License
+#        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
 Routines __init__.py
 """
@@ -34,7 +48,10 @@ def square(x,x0,s):
         return 1./s
 
 def gaussian(x,x0,s):
-    return 1./sqrt(2*pi*s*s)*exp(-0.5*(((x-x0) / (s))**2))
+    try:
+        return 1./sqrt(2*pi*s*s)*exp(-0.5*(((x-x0) / (s))**2))
+    except OverflowError:
+        return 0.0
 
 def squashed_fermi(x,x0,s):
     y = (x/s)*sqrt(2./pi)+sqrt(0.5)
@@ -48,21 +65,13 @@ def lorentzian(x,x0,s):
         ((x-x0)*(x-x0)+(0.5*s)*(0.5*s)))
 
 def sine(x,x0,s):
+    t = 1./s
     if abs(x-x0)<0.00001:
-        sine_val = 1./s/pi
+        sine_val = t/pi
     else:
-        sine_val = (sin(s*(x-x0)))**2/(x-x0)**2/s/pi
+        sine_val = (sin(t*(x-x0)))**2/(x-x0)**2/t/pi
     return sine_val
     
-def sine_VSB(x, x0, s): 
-    if abs(x-x0)<0.00001:
-        sine_VSB_val = 1./2./pi*s
-    else: 
-        x_1 = (x-x0)*(2/s)    #t/2h_bar i.e. t=4h_bar/s
-        sine_VSB_val=2./pi/s*(sin(x_1))**2./x_1**2.
-    return sine_VSB_val
-
-
 def delta_function(x,x0,s, method):
     """
     function generator that returns a function, which 
@@ -122,7 +131,7 @@ def evaluate_delta_function(x_axis, f, x0, sigma, delta_method):
     for i, x in enumerate(x_axis):
         delta = delta_function(x,x0,sigma, delta_method)
         norm += delta
-        result += f[i]*x*delta
+        result += f[i]*delta
 
     result/= norm
 

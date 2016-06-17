@@ -1,3 +1,17 @@
+#    This file is part of coolvib
+#
+#        coolvib is free software: you can redistribute it and/or modify
+#        it under the terms of the GNU General Public License as published by
+#        the Free Software Foundation, either version 3 of the License, or
+#        (at your option) any later version.
+#
+#        coolvib is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty of
+#        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#        GNU General Public License for more details.
+#
+#        You should have received a copy of the GNU General Public License
+#        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
 workflow_tensor.py
 
@@ -136,6 +150,9 @@ class workflow_tensor():
         """
 
         masses = self.atoms.get_masses()[self.active_atoms]
+        atomic_positions = self.atoms.positions
+        cell = self.atoms.get_cell()
+
         #CASE CODE
         if parser.code_type[self.code] is 'local':
             #CASE mode
@@ -158,7 +175,9 @@ class workflow_tensor():
                         self.first_order_H,
                         self.first_order_S,
                         masses,
+                        atomic_positions,
                         self.basis_pos,
+                        cell,
                         **kwargs)
 
         else:

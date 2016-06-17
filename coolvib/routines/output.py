@@ -1,9 +1,23 @@
+#    This file is part of coolvib
+#
+#        coolvib is free software: you can redistribute it and/or modify
+#        it under the terms of the GNU General Public License as published by
+#        the Free Software Foundation, either version 3 of the License, or
+#        (at your option) any later version.
+#
+#        coolvib is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty of
+#        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#        GNU General Public License for more details.
+#
+#        You should have received a copy of the GNU General Public License
+#        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
 output.py
 
 contains functions for output
 """
-
+import numpy as np
 from coolvib.constants import time_to_ps
 
 def print_spectral_function(x_axis, spectral_function, n_dim, filename='nacs-spectrum.out'):
@@ -61,7 +75,10 @@ def print_jmol_friction_eigenvectors(atoms,active_atoms,
             if a in active_atoms:
                 file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f} \n"\
                         .format(symbol,pos[0],pos[1],pos[2],\
-                        eigenvectors[n,c*3].real,eigenvectors[n,c*3+1].real,eigenvectors[n,c*3+2].real ))
+                        # eigenvectors[n,c*3].real,eigenvectors[n,c*3+1].real,eigenvectors[n,c*3+2].real ))
+                        np.sign(eigenvectors[n,c*3])*np.abs(eigenvectors[n,c*3]).real,\
+                        np.sign(eigenvectors[n,c*3+1])*np.abs(eigenvectors[n,c*3+1]).real,\
+                        np.sign(eigenvectors[n,c*3+2])*np.abs(eigenvectors[n,c*3+2]).real))
                 c += 1
             else:
                 file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f} \n"\

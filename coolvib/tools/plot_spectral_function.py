@@ -1,3 +1,18 @@
+#    This file is part of coolvib
+#
+#        coolvib is free software: you can redistribute it and/or modify
+#        it under the terms of the GNU General Public License as published by
+#        the Free Software Foundation, either version 3 of the License, or
+#        (at your option) any later version.
+#
+#        coolvib is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty of
+#        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#        GNU General Public License for more details.
+#
+#        You should have received a copy of the GNU General Public License
+#        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
+
 #!/usr/bin/python
 """
 plot_spectral_function.py plots the spectral function 
@@ -48,7 +63,11 @@ if __name__=="__main__":
         f.readline()
         for b in range(nbins):
             tmp = f.readline().split()
-            spectrum[i,b] = float(tmp[-2])+1.0j*float(tmp[-1])
+            if len(tmp)>2:
+                spectrum[i,b] = float(tmp[-2])+1.0j*float(tmp[-1])
+            else:
+                spectrum[i,b] = float(tmp[-1])
+
 
 
     plt.plot(xaxis, spectrum[index,:].real, xaxis, spectrum[index,:].imag)

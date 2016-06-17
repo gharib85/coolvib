@@ -1,3 +1,18 @@
+#    This file is part of coolvib
+#
+#        coolvib is free software: you can redistribute it and/or modify
+#        it under the terms of the GNU General Public License as published by
+#        the Free Software Foundation, either version 3 of the License, or
+#        (at your option) any later version.
+#
+#        coolvib is distributed in the hope that it will be useful,
+#        but WITHOUT ANY WARRANTY; without even the implied warranty of
+#        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#        GNU General Public License for more details.
+#
+#        You should have received a copy of the GNU General Public License
+#        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
+
 #!/usr/bin/python
 """
 integrate_tensor_along_dir.py takes a given spectral function file 
@@ -56,14 +71,18 @@ if __name__=="__main__":
         f.readline()
         for b in range(nbins):
             tmp = f.readline().split()
-            spectrum[i,b] = float(tmp[-2])+1.0j*float(tmp[-1])
+            if len(tmp)>2:
+                spectrum[i,b] = float(tmp[-2])+1.0j*float(tmp[-1])
+            else:
+                spectrum[i,b] = float(tmp[-1])
+
 
     friction_tensor = np.zeros([n,n,5],dtype=np.complex)
 
     x0 = 0.0
 
     #window
-    ss = np.linspace(0.05,1.0,20)
+    ss = np.linspace(0.10,3.0,20)
 
     names = ['square','gauss','fermi','sine','lorentz']
     print 'window   square     gauss     fermi     sine     lorentz'
@@ -120,7 +139,7 @@ if __name__=="__main__":
 
         #throw away imaginary parts
         friction_tensor = np.array(friction_tensor,dtype=np.float)
-        string =''
+        string =str(s)+'  '
         for f in range(5):
              string += str(float( 1./np.dot(mode.transpose(),np.dot(friction_tensor[:,:,f],mode)))) +' '
         print string
