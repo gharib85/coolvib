@@ -62,42 +62,42 @@ def siesta_calc_HSX(int nspin, np.ndarray[REAL_TYPE_t,ndim=2] kpts_array,
                 phase = np.exp(1.0j*kx)             
                 real_H_r[:,:,N1,N2,:,:,:]+=first_order_H[:,:,l,:,:,:]*phase*kw
                 real_S_r[:,:,N1,N2,:,:]+=first_order_S[:,:,l,:,:]*phase*kw
-    print 'Built real space first_order_H and first_order_S'
+    #print 'Built real space first_order_H and first_order_S'
    
     G = np.zeros([n_atoms,n_cart,nk,nk,ns,n_basis,n_basis],dtype=np.complex)
    
     counter = 0
     for atom in range(n_atoms):
         for cart in range(n_cart):
-    print 'calculating G for atom {0} and cart {1}'.format(atom,cart)
-    for s in range(ns):
-        for k1 in range(nk):
-            print 'k1 ', k1
-            kvec1 = kpts[k1]
-            for k2 in range(nk):
-                print 'k2 ', k2
-                kvec2 = kpts[k2]
-                for N1 in range(nk):
-                    Nvec1 = N[N1] 
-                    for N2 in range(nk):
-                    Nvec2 = N[N2]
-                        tmpH = np.zeros([n_atoms,n_cart,n_basis,n_basis],dtype=np.complex)
-                        tmpS = np.zeros([n_atoms,n_cart,n_basis,n_basis],dtype=np.complex)
-                        for l in range(nk):
-                            kvec = kpts[l]
-                            kw = kweights[l]
-                            kx = kvec[0]*(Nvec2[0]-Nvec1[0])+ \
-                                 kvec[1]*(Nvec2[1]-Nvec1[1])+ \
-                                 kvec[2]*(Nvec2[2]-Nvec1[2])
-                            phase = np.exp(1.0j*kx)             
-                            tmpH += first_order_H[:,:,l,s,:,:]*phase*kw
-                            tmpS += first_order_S[:,:,l,:,:]*phase*kw
+    #print 'calculating G for atom {0} and cart {1}'.format(atom,cart)
+            for s in range(ns):
+                for k1 in range(nk):
+                    print 'k1 ', k1
+                    kvec1 = kpts[k1]
+                    for k2 in range(nk):
+                        print 'k2 ', k2
+                        kvec2 = kpts[k2]
+                        for N1 in range(nk):
+                            Nvec1 = N[N1] 
+                            for N2 in range(nk):
+                                Nvec2 = N[N2]
+                                tmpH = np.zeros([n_atoms,n_cart,n_basis,n_basis],dtype=np.complex)
+                                tmpS = np.zeros([n_atoms,n_cart,n_basis,n_basis],dtype=np.complex)
+                                for l in range(nk):
+                                    kvec = kpts[l]
+                                    kw = kweights[l]
+                                    kx = kvec[0]*(Nvec2[0]-Nvec1[0])+ \
+                                         kvec[1]*(Nvec2[1]-Nvec1[1])+ \
+                                         kvec[2]*(Nvec2[2]-Nvec1[2])
+                                    phase = np.exp(1.0j*kx)             
+                                    tmpH += first_order_H[:,:,l,s,:,:]*phase*kw
+                                    tmpS += first_order_S[:,:,l,:,:]*phase*kw
 
-                        kx = kvec2[0]*Nvec2[0]-kvec1[0]*Nvec1[0]+ \
-                             kvec2[1]*Nvec2[1]-kvec1[1]*Nvec1[1]+ \
-                             kvec2[2]*Nvec2[2]-kvec1[2]*Nvec1[2]
-                        phase = np.exp(1.0j*kx)
-                        G[:,:,k1,k2,s,:,:] += (tmpH-fermi_energy*tmpS)*phase
+                                kx = kvec2[0]*Nvec2[0]-kvec1[0]*Nvec1[0]+ \
+                                     kvec2[1]*Nvec2[1]-kvec1[1]*Nvec1[1]+ \
+                                     kvec2[2]*Nvec2[2]-kvec1[2]*Nvec1[2]
+                                phase = np.exp(1.0j*kx)
+                                G[:,:,k1,k2,s,:,:] += (tmpH-fermi_energy*tmpS)*phase
 
 
     return G
