@@ -297,6 +297,8 @@ def calculate_spectral_function_tensor_q(
     print 'N'
     print N
 
+    raise NotImplementedError('This is work in progress')
+
     # real_H_r = np.zeros([n_atoms,n_cart,nk,nk,ns,n_basis,n_basis],dtype=np.complex) 
     # real_S_r = np.zeros([n_atoms,n_cart,nk,nk,n_basis,n_basis],dtype=np.complex) 
     # for N1 in range(nk):
