@@ -7,13 +7,13 @@ Theory
 Non-adiabatic friction of adsorbate motion on metal surfaces
 ------------------------------------------------------------
 
-Whereas in insulating or most semi-conducting materials the energy spectrum of vibrations and electronic excitations is clearly separated, this is not the case for metals. In metals even the smallest vibrational motion can lead to electronic excitations due to the vanishing gap between occupied and unoccupied states.
+In insulating or most semi-conducting materials the energy spectrum of vibrations and electronic excitations are clearly separated. This is not the case for metals. In metals even the smallest vibrational motion can lead to electronic excitations due to the vanishing gap between occupied and unoccupied states.
 
 .. figure:: ./friction.png
    :align: center
    :width: 70%
 
-   *Figure 1: Schematic view of adsorbate vibration (here shown for a CO on Cu(100) internal stretch motion) leading to changes in the electronic st    ructure that excite electron hole-pairs from below to above the Fermi level of the metal Density-of-States.*
+   *Figure 1: Schematic view of adsorbate vibration (here shown for a CO on Cu(100) internal stretch motion) leading to changes in the electronic structure that excite electron hole-pairs from below to above the Fermi level of the metal Density-of-States.*
 
 
 As shown in Figure 1, adsorbate motion can lead to changes in the electronic structure that facilitate low energy electronic excitations in the metal band structure. We can treat this interaction between electrons and vibrations with perturbation theory if the following assumptions are true:
@@ -25,8 +25,7 @@ As shown in Figure 1, adsorbate motion can lead to changes in the electronic str
 Non-adiabatic relaxation rates from first order time-dependent perturbation theory
 ----------------------------------------------------------------------------------
 
-The relaxation rate of a vibrational mode :math:`\omega_{\mathbf{q}j}` due to electron-phonon scattering events can 
-be derived using Fermi's golden rule and in the absence of spin-orbit coupling is given by
+The relaxation rate of a vibrational mode :math:`\omega_{\mathbf{q}j}` due to nonadiabatic coupling is given by Fermi's Golden Rule as derived from time-dependent perturbation theory and is given by:
 
 .. math::
     :label: gamma

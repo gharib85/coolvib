@@ -24,9 +24,9 @@ Non-adiabatic friction is specifically important for atoms and molecules adsorbe
 How does *coolvib* treat non-adiabatic friction and vibrational cooling?
 ------------------------------------------------------------------------
 
-**coolvib** uses Time Dependent Perturbation Theory [Persson1982]_ [Head-Gordon1992]_ to calculate the tensorial friction acting on adsorbate motion. It thereby assumes that the effect that electronic excitations have on the nuclear motion is *small* and can therefore be treated as a perturbation. The result of this calculation is a decay rate along a given vibrational mode or a full cartesian friction tensor from which vibrational lifetimes can be derived.
+**coolvib** uses Time Dependent Perturbation Theory [Persson1982]_ [Head-Gordon1992]_ to calculate the tensorial friction acting on adsorbate motion. It thereby assumes that the effect that electronic excitations have on the nuclear motion is *small* and can therefore be treated as a perturbation. The result of this calculation is a decay rate along a given vibrational mode or a full cartesian friction tensor from which vibrational lifetimes can be calculated.
 
-For more detail on how this is calculated see the  :ref:`theory` section of this documentation.
+For more details on how this is calculated see the  :ref:`theory` section of this documentation.
 
 
 References

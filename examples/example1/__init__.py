@@ -1,5 +1,5 @@
 """
-Example 1: Calculating a friction tensor from given quantum chemistry data: CO on Cu(100)
+Example 1: Calculating a friction tensor from FHI-aims data: CO on Cu(100)
 =========================================================================================
 
 In this example we calculate the friction tensor from data previously 

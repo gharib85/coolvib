@@ -11,10 +11,10 @@ Welcome to coolvib's documentation!
 ===================================
 
 **coolvib** is a python package that calculates quantities related 
-to the friction acting on adsorbate atoms and molecules on metal surfaces 
-induced by the electron-phonon coupling or non-adiabatic coupling between 
-electronic and nuclear motion. Such coupling can induce adsorbate vibrations 
-to cool down - therefore the name **coolvib**.
+to electronic friction acting on adsorbate atoms and molecules on metal surfaces. 
+This friction is induced by non-adiabatic coupling between 
+electronic and nuclear motion. Such coupling mediates energy loss of adsorbate vibrations 
+and induces vibrational cooling - therefore the name **coolvib**.
 
 
 Features
@@ -24,12 +24,11 @@ Current Version 0.1
 ^^^^^^^^^^^^^^^^^^^^
 
     * Individual base routines for calculation of spectral function and friction tensor
-    * Uses input from `FHI-Aims <www.fhi-berlin.mpg.de/aims/>`_ and `Siesta <icmab.es/siesta/>`_ code.
+    * Uses input from `FHI-Aims <www.fhi-berlin.mpg.de/aims/>`_ and `Siesta <icmab.es/siesta/>`_ codes.
     * Convenient workflow for calculation of cartesian friction tensor
     * Useful analysis and visualization tools
 
-
-Planned for next versions
+Planned for future versions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     * non-momentum conserving spectral function
@@ -38,8 +37,6 @@ Planned for next versions
     * parser and routines for `CASTEP <www.castep.org>`_
     * extension of tutorial
     * test suite for main routines
-
-
 
 Contents
 =========
