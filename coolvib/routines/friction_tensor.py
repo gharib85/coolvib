@@ -54,8 +54,8 @@ def calculate_tensor(n_dim, x_axis, spectral_function, **kwargs):
         for d2 in range(d,n_dim):
             
             friction_tensor[d,d2] = \
-                    evaluate_delta_function(x_axis, spectral_function[c], perturbing_energy ,sigma, delta_method)
-            friction_tensor[d2,d] = friction_tensor[d,d2].conjugate()
+                    np.real(evaluate_delta_function(x_axis, spectral_function[c], perturbing_energy ,sigma, delta_method))
+            friction_tensor[d2,d] = np.real(friction_tensor[d,d2].conjugate())
 
             c += 1
 

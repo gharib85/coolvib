@@ -67,7 +67,18 @@ def print_jmol_friction_eigenvectors(atoms,active_atoms,
     for n in range(len(eigenvalues)):
         file.write("{0:6d}\n".format(n_atoms))
         file.write("Mode # {0:3d} f = {1:16.5F} ps \n".format(n,1./(eigenvalues[n]/time_to_ps)) )
-        
+        c = 0
+        for a in range(n_atoms):
+            mass = atoms.get_masses()[a]
+            if a in active_atoms:
+                norm = 0.0
+                vec = np.zeros(3*len(active_atoms))
+                for v in range(3):
+                   vec[c*3+v] = np.real(eigenvectors[n,c*3+v]/np.sqrt(mass)) 
+                   norm += vec[c*3+v]*vec[c*3+v]
+                c += 1
+        vec /= np.sqrt(norm)
+
         c = 0
         for a in range(n_atoms):
             symbol = atoms[a].symbol
@@ -75,10 +86,7 @@ def print_jmol_friction_eigenvectors(atoms,active_atoms,
             if a in active_atoms:
                 file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f} \n"\
                         .format(symbol,pos[0],pos[1],pos[2],\
-                        # eigenvectors[n,c*3].real,eigenvectors[n,c*3+1].real,eigenvectors[n,c*3+2].real ))
-                        np.sign(eigenvectors[n,c*3])*np.abs(eigenvectors[n,c*3]).real,\
-                        np.sign(eigenvectors[n,c*3+1])*np.abs(eigenvectors[n,c*3+1]).real,\
-                        np.sign(eigenvectors[n,c*3+2])*np.abs(eigenvectors[n,c*3+2]).real))
+                        vec[c*3], vec[c*3+1], vec[c*3+2] ))
                 c += 1
             else:
                 file.write("{0} {1:12.6f} {2:12.6f} {3:12.6f} {4:12.6f} {5:12.6f} {6:12.6f} \n"\
@@ -93,7 +101,7 @@ def print_matrix(matrix):
     print '      '
     print '      '.join(["{0:14d}  ".format(i) for i in range(len(matrix[1])) ])
     for i, element in enumerate(matrix):
-        print "{0:6d}".format(i),''.join(['{0:6.4e} {1:6.4e} '.format(y.real,y.imag) for y in element] ) 
+        print "{0:6d}".format(i),''.join(['{0:6.4e} '.format(y.real) for y in element] ) 
     print '      '
 
 def plot_spectral_function(x_axis, spectral_function):

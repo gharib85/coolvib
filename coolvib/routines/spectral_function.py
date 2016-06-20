@@ -89,7 +89,7 @@ def calculate_spectral_function_tensor(
 
     default_keywords = {
             'discretization_type' : 'gaussian',
-            'discretization_broadening' : 0.05,
+            'discretization_broadening' : 0.01,
             'discretization_length' : 0.01,
             'max_energy' : 3.0,
             'temperature': 300,
@@ -144,8 +144,7 @@ def calculate_spectral_function_tensor(
                     orb_homo = 0
                     orb_max = 0
                     for ei,e in enumerate(eigenvalues[k,s,:]):
-                        occ = fermi_occ(e,ef,T)
-                        # occ = pop[k,s,ei]
+                        occ = fermi_occ(e,ef,T)*(2./n_spin)
                         if e<=ef-2.00*keys['max_energy']:
                             orb_min = ei
                         if occ>=0.999:
@@ -159,11 +158,9 @@ def calculate_spectral_function_tensor(
                     for i in range(orb_min,orb_homo+1):
                         for f in range(orb_lumo, orb_max+1):
                             e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
-                            occ =fermi_occ(eigenvalues[k,s,i],ef,T) - fermi_occ(eigenvalues[k,s,f],ef,T)
-                            # occ =pop[k,s,i] - pop[k,s,f]
+                            occ =(fermi_occ(eigenvalues[k,s,i],ef,T) - fermi_occ(eigenvalues[k,s,f],ef,T))*(2./n_spin)
                             if e>0.0 and e<=1.0*keys['max_energy'] and occ>=1.E-5:
                                 #calculate transition strength
-
                                 nacs1 = np.dot(psi[k,s,i,:].conjugate().transpose(),np.dot(G[d,k,s,:,:],\
                                         psi[k,s,f,:]))
                                 nacs2 = np.dot(psi[k,s,i,:].conjugate().transpose(),np.dot(G[d2,k,s,:,:],\
@@ -171,7 +168,7 @@ def calculate_spectral_function_tensor(
                                 nacs = np.dot(nacs1.conjugate().transpose(),nacs2)
                                 nacs /= (e)
                                 nacs *= wk
-                                nacs *= occ*(3.-n_spin)
+                                nacs *= occ
                                 if debug:
                                     print i, f, e, ' ' , occ, ' ', \
                                         (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).real, \
@@ -180,7 +177,6 @@ def calculate_spectral_function_tensor(
             
             spectral_function[counter,:] *= (pi*hbar)/sqrt(masses[d/3]*masses[d2/3])
             counter += 1
-
 
     return x_axis, spectral_function
 
