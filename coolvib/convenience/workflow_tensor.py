@@ -198,6 +198,19 @@ class workflow_tensor():
                 tensor.analyse_tensor(
                 self.friction_tensor)
 
+    def plot_spectral_function(self):
+        """
+        uses matplotlib to plot the spectral function components
+        """
+        
+        n_dim = len(self.active_atoms)*3
+
+        k = 0
+        for i in range(n_dim):
+            for j in range(i,n_dim):
+                print 'Component {0} {1}'.format(i,j)
+                output.plot_spectral_function(self.x_axis,self.spectral_function[k])
+                k += 1
 
     def print_spectral_function(self, filename='nacs-spectrum.out'):
         """
@@ -212,7 +225,14 @@ class workflow_tensor():
         output.print_spectral_function(
                 self.x_axis, self.spectral_function,len(self.active_atoms)*3,
                 filename)
-    
+   
+    def read_spectral_function(self, filename='nacs-spectrum.out'):
+        """
+        reads spectral function from file
+        """
+            
+        self.x_axis, self.spectral_function = output.read_spectral_function(filename)
+
 
     def print_jmol_friction_eigenvectors(self, filename='friction-eigenvectors.jmol'):
         """

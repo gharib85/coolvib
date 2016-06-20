@@ -53,6 +53,33 @@ def print_spectral_function(x_axis, spectral_function, n_dim, filename='nacs-spe
 
     file.close()
 
+def read_spectral_function(filename='nacs-spectrum.out'):
+    """
+    This function reads the spectral function(s) from a file.
+    """
+
+    file = open(filename, mode='r')
+    lines = file.readlines()
+    file.close()
+
+    n_dim = int(lines[0].split()[-1])
+    de = float(lines[1].split()[-1])
+    n_axis = int(lines[2].split()[-1])
+
+    x_axis = np.array( [de*i for i in range(n_axis)] )
+    n_counter = n_dim*(n_dim+1)/2
+    spectral_function = np.zeros([n_counter,n_axis],dtype=np.complex)
+    
+    c = -1
+    for i, line in enumerate(lines):
+        if 'Friction component for ' in line:
+            c += 1
+            j = i+3
+            for n in range(n_axis):
+                spectral_function[c,n] = float(lines[j+n].split()[1])*time_to_ps+\
+                        1.j*float(lines[j+n].split()[2])*time_to_ps
+
+    return x_axis, spectral_function
 
 def print_jmol_friction_eigenvectors(atoms,active_atoms, 
         eigenvectors, eigenvalues, filename='friction_eigenvectors.jmol'):
@@ -67,18 +94,17 @@ def print_jmol_friction_eigenvectors(atoms,active_atoms,
     for n in range(len(eigenvalues)):
         file.write("{0:6d}\n".format(n_atoms))
         file.write("Mode # {0:3d} f = {1:16.5F} ps \n".format(n,1./(eigenvalues[n]/time_to_ps)) )
+        vec = np.zeros(3*len(active_atoms))
+        norm = 0.0
         c = 0
         for a in range(n_atoms):
             mass = atoms.get_masses()[a]
             if a in active_atoms:
-                norm = 0.0
-                vec = np.zeros(3*len(active_atoms))
                 for v in range(3):
-                   vec[c*3+v] = np.real(eigenvectors[n,c*3+v]/np.sqrt(mass)) 
+                   vec[c*3+v] = np.real(eigenvectors[c*3+v,n]/np.sqrt(mass))
                    norm += vec[c*3+v]*vec[c*3+v]
                 c += 1
         vec /= np.sqrt(norm)
-
         c = 0
         for a in range(n_atoms):
             symbol = atoms[a].symbol
