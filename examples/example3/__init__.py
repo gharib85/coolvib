@@ -13,9 +13,33 @@
 #        You should have received a copy of the GNU General Public License
 #        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
-Example 3: Setting up finite difference calculations: H on Cu(100)
+Example 3: Setting up finite difference calculation for CO on Cu(100)
 =====================================================================
 
-TODO: setup example
+This example uses tools in coolvib/tools/ to perform finite difference displacements 
+with the help of ASE for the tensor and normal mode case.
+
+Code
+-----
+
+.. literalinclude:: ../examples/example3/example3.py
+
+
+
+Detailed Explanation
+--------------------
+
+In the above code we first initialize an ASE atoms object and an ASE 
+FHI-aims calculator object. The output string is essential to guarantee that 
+all input data is being dumped to file for each displacement. The tool 
+coolvib/tools/fhiaims_add_outputoptions_to_control.py helps to identify this 
+complicated string.
+
+After setting the calculator we initialize the finite_difference object and run it.
+The result is a Hessian calculation that also dumps the necessary friction input files 
+into folders.
+
+mode_displacement does the same for a given normal mode
+
 
 """

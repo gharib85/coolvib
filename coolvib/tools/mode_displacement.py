@@ -33,7 +33,7 @@ def mode_displacement(atoms, mode, name='mode', disp=0.01):
             remove(filename)
         fd = opencew(filename)
         if fd is not None:
-            displ = sign * mode * disp /np.sqrt(atoms.get_masses())
+            displ = sign * mode * disp #*np.sqrt(atoms.get_masses())
             print displ
             atoms.positions = p + displ
             atoms.calc.calculate(atoms)

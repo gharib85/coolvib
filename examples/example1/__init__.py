@@ -60,7 +60,7 @@ Using :py:func:`coolvib.convenience.workflow_tensor.workflow_tensor.calculate_sp
         Specifies the bin width of equidistant grid on which the spectral function is represented (in eV).
 
     *max_energy*
-        Specifies the maximum extend beyond the fermi level for which the spectral function is calculated.
+        Specifies the maximum extend beyond the fermi level for which the spectral function is calculated. The default is 3 eV. A safe value is 5 times the delta_function_width+perturbing_energy
 
 The calculated spectral functions can be printed to file using :py:func:`coolvib.convenience.workflow_tensor.workflow_tensor.print_spectral_function`. This file can be post-processed and further analyzed using scripts from :py:mod:`coolvib.tools`.
 

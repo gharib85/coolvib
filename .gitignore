@@ -1,3 +1,4 @@
+*.dat*
 *egg*
 _build
 *.pyc

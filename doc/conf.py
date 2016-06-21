@@ -58,9 +58,9 @@ copyright = u'2015, Reinhard J. Maurer'
 # built documents.
 #
 # The short X.Y version.
-version = '0.1'
+#version = '0.1'
 # The full version, including alpha/beta/rc tags.
-release = '0.1'
+#release = '0.1'
 
 # Sort members by type
 #autodoc_member_order = 'groupwise'

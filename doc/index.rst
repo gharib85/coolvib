@@ -20,8 +20,8 @@ and induces vibrational cooling - therefore the name **coolvib**.
 Features
 ========
 
-Current Version 0.1
-^^^^^^^^^^^^^^^^^^^^
+Current Version
+^^^^^^^^^^^^^^^^^^^
 
     * Individual base routines for calculation of spectral function and friction tensor
     * Uses input from `FHI-Aims <www.fhi-berlin.mpg.de/aims/>`_ and `Siesta <icmab.es/siesta/>`_ codes.

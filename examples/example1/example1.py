@@ -34,12 +34,12 @@ finite_difference_incr = 0.001
 
 keywords = {
     'discretization_type' : 'gaussian',
-    'discretization_broadening' : 0.05,
-    'discretization_length' : 0.01,
-    'max_energy' : 6.00,
+    'discretization_broadening' : 0.01,
+    'discretization_length' : 0.001,
+    'max_energy' : 3.00,
     'temperature' : 300,
     'delta_function_type': 'gaussian',
-    'delta_function_width': 0.80,
+    'delta_function_width': 0.60,
     'perturbing_energy' : 0.0,
         }
 
@@ -57,14 +57,16 @@ print 'successfully read QM input data'
 
 ######CALCULATE SPECTRAL FUNCTION###
 model.calculate_spectral_function(mode='default', **keywords)
-# model.calculate_spectral_function(mode='momentum', **keywords)
+#model.read_spectral_function()
 print 'successfully calculated spectral_function'
 model.print_spectral_function('nacs-spectrum.out')
 
 #######CALCULATE FRICTION TENSOR###
-#model.calculate_friction_tensor(**keywords)
-#print 'successfully calculated friction tensor'
+model.calculate_friction_tensor(**keywords)
+print 'successfully calculated friction tensor'
 
-#model.analyse_friction_tensor()
+model.analyse_friction_tensor()
 
-#model.print_jmol_friction_eigenvectors()
+model.print_jmol_friction_eigenvectors()
+
+#model.plot_spectral_function()

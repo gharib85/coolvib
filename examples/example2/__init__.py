@@ -16,6 +16,31 @@
 Example 2: Calculating the lifetime along a given mode: Co on Cu(100)
 =====================================================================
 
-TODO: setup example
+**ATTENTION** This example/functionality is broken and needs to be fixed
+
+In this example we calculate a single lifetime and relaxation rate along 
+a given vibrational normal mode for CO on Cu(100), namely the internal stretch mode.
+Example 3 shows how to calculate finite difference displacements along a normal mode.
+
+In order to run this example you need to either run example 3 with FHI-aims 
+or download the dataset from following URL and extract it in the example folder
+
+`Download Dataset <http://www.LINK_TO_DATASET.com>`_
+
+Code
+-----
+
+.. literalinclude:: ../examples/example2/example2.py
+
+
+Detailed Explanation
+--------------------
+
+All settings are equivalent to the tensor case in example 1. The only 
+difference is that now there is only one spectral function and routines associated 
+with calculating friction are called friction (rather than friction_tensor).
+
+
+
 
 """
