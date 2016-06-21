@@ -97,12 +97,74 @@ def parse_aims_tensor(model, spin=True, path='./', filename='aims.out', active_a
 
     return model
 
-def parse_aims_mode(model, spin=True, path='./', filename='aims.out', incr=0.01, debug=0):
+def parse_aims_mode(model, spin=True, path='./', prefix='mode', filename='aims.out', incr=0.01, debug=0):
     """
-    TODO
+    This subroutine returns all necessary information stored in the siesta output files
+    and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
+    overlap matrices
+
+    Parameters: 
+    
+        model : workflow_mode class
+            workflow_mode class into which the data is supposed to be
+            written
+
+        spin : boolean
+            True or False for spin collinear or no spin
+
+        path : string
+            path to the main directory that holds the data
+
+        filename : string
+            filename to the main output of the equilibrium run, 
+
+        incr : float
+            finite difference increment that was used to calculate the matrices
+
+        debug : 0 / 1
+            debug flag 0 = no, 1 = yes
+
+    Output
+
+        model: workflow_mode class
+            returns the workflow_mode class including the read data
     """
 
-    raise NotImplementedError('parse_aims_mode still needs to be implemented') 
+    cell = model.atoms.get_cell()
+
+    print 'Reading eigenvalues and eigenvectors'
+    fermi_level, kpoints_weights = aims_read_fermi_and_kpoints(pathjoin(path+'/'+prefix+'_eq', filename), cell)
+    eigenvalues, psi, occ, basis_pos = \
+            aims_read_eigenvalues_and_coefficients(fermi_level, directory=pathjoin(path,prefix+'_eq'),\
+            spin=spin, debug=debug)
+    if spin:
+        n_spin=2
+    else:
+        n_spin=1
+    n_states = psi.shape[2]
+    n_basis = psi.shape[3]
+
+    H_q = np.zeros([len(kpoints_weights), n_spin, n_basis, n_basis],dtype=np.complex)
+    S_q = np.zeros([len(kpoints_weights), n_basis, n_basis],dtype=np.complex)
+
+
+    print 'Reading hamiltonian and overlap matrices'
+    H_plus, S_plus = aims_read_HS(path+'/'+prefix+'_+',spin=spin,debug=debug)
+    H_minus, S_minus = aims_read_HS(path+'/'+prefix+'_-',spin=spin,debug=debug)
+    H_q[:,:,:,:] = (H_plus - H_minus)/2.0/incr
+    S_q[:,:,:] = (S_plus - S_minus)/2.0/incr
+
+    model.eigenvalues = eigenvalues
+    model.fermi_energy = fermi_level
+    model.kpoints = kpoints_weights
+    model.psi = psi
+    model.basis_pos = basis_pos
+    model.occ = occ
+    model.first_order_H = H_q
+    model.first_order_S = S_q
+
+    return model 
+
 
 def aims_read_fermi_and_kpoints(filename,cell=None):
     """

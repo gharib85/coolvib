@@ -34,8 +34,8 @@ def print_spectral_function(x_axis, spectral_function, n_dim, filename='nacs-spe
     string += "Discretization length {0} \n".format(de)
     string += "Number of bins   {0} \n".format(n_axis)
 
-    if n_dim==1:
-        spectral_function = [spectral_function]
+    #if n_dim==1:
+        #spectral_function = [spectral_function]
 
     file.write(string)
 

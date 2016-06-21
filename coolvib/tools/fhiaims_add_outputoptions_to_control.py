@@ -83,10 +83,25 @@ if __name__=="__main__":
                     output += ' {0:8.4f} '.format(kpoints[n*2+i,xyz])
             output += ' 2 \n'
 
-        output += 'output eigenvectors \n' 
-        output += 'output overlap_matrix \n' 
-        output += 'output hamiltonian_matrix \n' 
+        output += 'output eigenvectors \n ' 
+        output += 'output overlap_matrix \n ' 
+        output += 'output hamiltonian_matrix \n ' 
 
+        print output
+
+        print ' '
+        output = '#add this to your python finite difference script using the ASE FHI-aims calculator\n'
+        output += 'output = ["eigenvectors", '
+        output += ' "k_point_list", '
+        output += ' "hamiltonian_matrix", '
+        output += ' "overlap_matrix", '
+        for n in range(n_bands):
+            output += ' "band  '
+            for i in range(2):
+                for xyz in range(3):
+                    output += ' {0:8.4f} '.format(kpoints[n*2+1,xyz])
+            output += ' 2 ", '
+        output += ' ], '
         print output
 
 else:

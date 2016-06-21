@@ -20,7 +20,9 @@ guideline to calculate the non-adiabatic friction induced lifetime
 of a given vibrational mode.
 """
 import coolvib
+from coolvib.constants import time_to_ps
 import coolvib.parser as parser
+import coolvib.routines.friction_tensor as tensor
 import coolvib.routines.spectral_function as spectral
 import coolvib.routines.output as output
 from ase.atoms import Atoms
@@ -31,7 +33,7 @@ class workflow_mode():
         """
         workflow_mode object.
         
-        The workflow_tensor objet is a basic data container and workflow guideline 
+        The workflow_mode objet is a basic data container and workflow guideline 
         for all calculations necessary to generate a friction tensor and 
         calculate vibrational lifetimes due to non-adiabatic couplings. 
 
@@ -103,6 +105,38 @@ class workflow_mode():
         self = method_to_call(self, **kwargs)
 
         self.input_read = True
+    
+    def calculate_friction(self,mode='default',**kwargs):
+        """
+        Calculates the friction for a given window and delta function, 
+        assumes that the spectral function has already been calculated, otherwise 
+        calculates it.
+
+        Parameters:
+
+        mode: str
+
+        This is a wrapper function for :py:coolvib.routines.friction_tensor.calculate_friction:
+        For detailed documentation please look there.
+        """
+
+        calculate_spec = True
+        if hasattr(self, 'spectral_function'):
+            calculate_spec = False
+        
+        #first calculate spectral function
+        if calculate_spec:
+            self.calculate_spectral_function(mode,**kwargs)
+
+        ###calculate the tensor by applying the delta function
+        x_axis = self.x_axis
+        spectral_function = self.spectral_function
+
+        self.friction_tensor = tensor.calculate_tensor(
+                1,
+                x_axis,
+                spectral_function,
+                **kwargs)
 
     def calculate_spectral_function(self,mode='default', **kwargs):
         """
@@ -116,36 +150,35 @@ class workflow_mode():
         
         """
 
-        masses = self.atoms.get_masses()[self.active_atoms]
+        #masses = self.atoms.get_masses()[self.active_atoms]
         #CASE CODE
-        # if parser.code_type[self.code] is 'local':
-            # #CASE mode
-            # if mode is 'default':
-                # self.x_axis, self.spectral_function = spectral.calculate_spectral_function_mode(
-                        # self.fermi_energy,
-                        # self.eigenvalues,
-                        # self.kpoints,
-                        # self.psi,
-                        # self.first_order_H,
-                        # self.first_order_S,
-                        # masses,
-                        # self.occ,
-                        # **kwargs)
-            # elif mode is 'momentum':
-                # self.x_axis, self.spectral_function = spectral.calculate_spectral_function_mode_q(
-                        # self.fermi_energy,
-                        # self.eigenvalues,
-                        # self.kpoints,
-                        # self.psi,
-                        # self.first_order_H,
-                        # self.first_order_S,
-                        # masses,
-                        # self.basis_pos,
-                        # **kwargs)
+        if parser.code_type[self.code] is 'local':
+            #CASE mode
+            if mode is 'default':
+                self.x_axis, self.spectral_function = spectral.calculate_spectral_function_mode(
+                    self.fermi_energy,
+                    self.eigenvalues,
+                    self.kpoints,
+                    self.psi,
+                    self.first_order_H,
+                    self.first_order_S,
+                    **kwargs)
+            elif mode is 'momentum':
+                pass
+            #self.x_axis, self.spectral_function = spectral.calculate_spectral_function_mode_q(
+            #        self.fermi_energy,
+            #        self.eigenvalues,
+            #        self.kpoints,
+            #        self.psi,
+            #        self.first_order_H,
+            #        self.first_order_S,
+            #        masses,
+            #        self.basis_pos,
+            #        **kwargs)
 
-        # else:
+        else:
             #plane wave stuff
-        raise NotImplementedError('calculate_spectral_function: code is not supported!')
+            raise NotImplementedError('calculate_spectral_function: code is not supported!')
 
 
     def print_spectral_function(self, filename='nacs-spectrum.out'):
@@ -163,3 +196,17 @@ class workflow_mode():
                 filename)
     
 
+    def analyse_friction(self):
+        """
+        diagonalizes friction tensor and does spectral analysis
+        """
+
+        if hasattr(self, 'friction_tensor'):
+            pass
+        else:
+            self.calculate_friction_tensor()
+
+        print 'Friction' 
+        print self.friction_tensor/time_to_ps
+        print 'Lifetime'
+        print 1./(self.friction_tensor/time_to_ps)

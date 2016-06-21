@@ -17,3 +17,5 @@ coolvib
 """
 
 from coolvib.convenience.workflow_tensor import workflow_tensor
+from coolvib.convenience.workflow_mode import workflow_mode
+
