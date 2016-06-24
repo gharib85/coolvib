@@ -10,7 +10,7 @@ friction tensor is a (6x6) matrix.
 In order to run this example you need to download the FHI-Aims dataset 
 from following URL and extract it in the example folder
 
-`Download Dataset <http://www.LINK_TO_DATASET.com>`_
+`Download Dataset <http://www.damaurer.at/software/coolvib/example1.tar.gz>`_
 
 
 Code
