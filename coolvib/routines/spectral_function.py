@@ -158,7 +158,7 @@ def calculate_spectral_function_mode(
                                 ' ', (nacs*hbar*pi/(time_to_ps)).imag
                         spectral_function[0,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
-            spectral_function[0,:] *= (pi*hbar) #/sqrt(masses[d/3]*masses[d2/3])
+            spectral_function[0,:] *= (pi*hbar)
 
     return x_axis, spectral_function
 

@@ -2,15 +2,19 @@
 
 ### What does coolvib do? ###
 
+Coolvib uses Fermi's Golden rule to calculate vibrational relaxation rates 
+and lifetimes due to nonadiabatic effects on metal surfaces. The code uses 
+precomputed electronic structure information from software packages such as 
+FHI-aims and SIESTA.
 
-
-
+For more details, have a look at the documentation at www.damaurer.at/software/coolvib/index.html
 
 ### Dependencies ###
 
 * Python 2.7.x
 * Numpy >=1.6
 * Scipy >=0.12
+* matplotlib>=1.2
 * Atomic Simulation Environment [ ASE ](https://wiki.fysik.dtu.dk/ase/)
   (for global optimization)
 
