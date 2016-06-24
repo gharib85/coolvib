@@ -16,7 +16,6 @@ This friction is induced by non-adiabatic coupling between
 electronic and nuclear motion. Such coupling mediates energy loss of adsorbate vibrations 
 and induces vibrational cooling - therefore the name **coolvib**.
 
-
 Features
 ========
 

@@ -3,6 +3,7 @@
 Theory
 ======
 
+The theory described below and the methods in **coolvib** are described in detail in [Askerka2016]_ and [Maurer2016]_. 
 
 Non-adiabatic friction of adsorbate motion on metal surfaces
 ------------------------------------------------------------
@@ -219,5 +220,6 @@ represent the main working equations of this software.
 References
 ----------
 
-
+.. [Askerka2016] M. Askerka, R. J. Maurer, V. S. Batista, J. C. Tully, Phys. Rev. Lett. 116, 217601 (2016)
+.. [Maurer2016]  R. J. Maurer, M. Askerka, V. S. Batista, J. C. Tully, Phys. Rev. B, under Review (2016)
 .. [Hellsing1984] `B.` Hellsing, and M. Persson, *Physi. Scripta* **29**, 360-371 (1984)
