@@ -40,7 +40,7 @@ def gaussian(x, x_mean, broadening):
     return gaussian_val
 
 def dos_binning(eigenvalues,broadening=broadening_default, bin_width=bin_width_default,
-        coeffs=None):
+        coeffs=None,buff=0.0):
     """
     performs binning for a given set of eigenvalues and 
     optionally weight coeffs.
@@ -50,7 +50,7 @@ def dos_binning(eigenvalues,broadening=broadening_default, bin_width=bin_width_d
         coeffs = np.ones(len(eigenvalues))
 
     lowest_e = float(min(eigenvalues)) - 0.05
-    highest_e = float(max(eigenvalues)) + 0.05
+    highest_e = float(max(eigenvalues)) + buff
     num_bins = int((highest_e-lowest_e)/bin_width)
     x_axis = np.zeros([num_bins])
     data = np.zeros([num_bins])
