@@ -18,7 +18,7 @@ full-coverage CO adsorbed on a Cu(100) top site.
 """
 
 import numpy as np
-from ase.all import *
+from ase.io import read
 import os, sys
 import coolvib
 from scipy import linalg as LA

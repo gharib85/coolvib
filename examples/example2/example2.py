@@ -18,7 +18,7 @@ Calculating lifetime along a given mode displacement for
 CO on Cu(100) internal stretch calculated with FHI-Aims
 """
 import numpy as np
-from ase.all import *
+from ase.io import read
 import os, sys
 
 import coolvib
