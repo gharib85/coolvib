@@ -291,7 +291,7 @@ def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=Fal
         filename = name_base + '.band_1.kpt_1.out'
     with open(filename, 'r') as f:
         lines = f.readlines()
-        n_basis = len(lines) - 7
+        n_basis = len(lines) - 8
         n_states = len(lines[4].split()[3:])
     #print n_basis, n_kpts, n_spin
     
@@ -315,10 +315,10 @@ def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=Fal
                     print 'Reading eigenvalues and psi from {0} '.format(filename)
                 lines = f.readlines()
                 #line 4 contains the eigenvalues
-                eigenvalues[k,s,:] = np.array(lines[4].split()[3:]).astype(np.float)
+                eigenvalues[k,s,:] = np.array(lines[5].split()[3:]).astype(np.float)
                 #line 5 contains the occupations
-                occ[k,s,:] = np.array(lines[5].split()[3:]).astype(np.float)
-                nline = 7
+                occ[k,s,:] = np.array(lines[6].split()[3:]).astype(np.float)
+                nline = 8
                 for i in range(n_basis):
                     read_psi = np.array(lines[nline+i].split()[6:]).astype(np.float).reshape(-1,2)
                     psi[k,s,:,i] = read_psi[:,0] + 1j*read_psi[:,1]
@@ -364,7 +364,7 @@ def aims_read_HS(directory='./', spin=False, debug=False):
     filename = directory+'/'+name_base_S + '.band_1.kpt_1.out'
     with open(filename, 'r') as f:
         lines = f.readlines()
-        n_basis = len(lines) -2 
+        n_basis = len(lines) -3 
     
     H = np.zeros([n_kpts, n_spin, n_basis, n_basis],dtype=complex)
     S = np.zeros([n_kpts, n_basis, n_basis],dtype=complex)
@@ -378,12 +378,12 @@ def aims_read_HS(directory='./', spin=False, debug=False):
         with open(filename_S,'r') as f:
             if debug:
                 print 'Reading overlap_matrix from {0} '.format(filename_S)
-            s = np.loadtxt(filename_S).reshape([n_basis,n_basis,2])
+            s = np.loadtxt(filename_S,skiprows=3).reshape([n_basis,n_basis,2])
             S[k, :, :] = s[:,:,0] + 1j*s[:,:,1]
         with open(filename_H,'r') as f:
             if debug:
                 print 'Reading hamiltonian matrix from {0} '.format(filename_H)
-            h = np.loadtxt(filename_H)
+            h = np.loadtxt(filename_H,skiprows=3)
             if spin:
                 h_dn = h[:n_basis].reshape([n_basis,n_basis,2])
                 h_up = h[n_basis:].reshape([n_basis,n_basis,2])
