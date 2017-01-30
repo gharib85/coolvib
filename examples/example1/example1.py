@@ -22,11 +22,13 @@ from ase.io import read
 import os, sys
 import coolvib
 from scipy import linalg as LA
+#from ase.visualize import view
 
 #####DEFINE SYSTEM and PARAMETERS######
 system = read('CO-on-Cu100/eq/geometry.in')
 cell = system
 active_atoms = [3,4] # meaning we have two atoms - C - 0 and O - 1
+#view(system)
 
 model = coolvib.workflow_tensor(system, code='aims', active_atoms=active_atoms)
 
