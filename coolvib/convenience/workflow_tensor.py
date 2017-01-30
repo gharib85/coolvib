@@ -104,7 +104,7 @@ class workflow_tensor():
 
         self.input_read = True
 
-    def calculate_friction_tensor(self,mode='default',**kwargs):
+    def calculate_friction_tensor_from_spectrum(self,**kwargs):
         """
         Calculates the friction tensor for a given window and delta function, 
         assumes that the spectral function has already been calculated, otherwise 
@@ -117,11 +117,11 @@ class workflow_tensor():
         This is a wrapper function for :py:coolvib.routines.friction_tensor.calculate_tensor:
         For detailed documentation please look there.
         """
-
+       
         calculate_spec = True
         if hasattr(self, 'spectral_function'):
             calculate_spec = False
-        
+
         #first calculate spectral function
         if calculate_spec:
             self.calculate_spectral_function(mode,**kwargs)
@@ -135,6 +135,25 @@ class workflow_tensor():
                 n_dim,
                 x_axis,
                 spectral_function,
+                **kwargs)
+
+    def calculate_friction_tensor(self, **kwargs):
+        """
+        directly evaluates friction without first calculating the whole 
+        vibronic spectrum
+        """
+        masses = self.atoms.get_masses()[self.active_atoms]
+        atomic_positions = self.atoms.positions
+        cell = self.atoms.get_cell()
+
+        self.friction_tensor = spectral.evaluate_friction_at_zero(
+                self.fermi_energy,
+                self.eigenvalues,
+                self.kpoints,
+                self.psi,
+                self.first_order_H,
+                self.first_order_S,
+                masses,
                 **kwargs)
 
     def calculate_spectral_function(self,mode='default', **kwargs):
