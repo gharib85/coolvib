@@ -99,7 +99,7 @@ if __name__=="__main__":
             output += ' "band  '
             for i in range(2):
                 for xyz in range(3):
-                    output += ' {0:8.4f} '.format(kpoints[n*2+1,xyz])
+                    output += ' {0:8.4f} '.format(kpoints[n*2+i,xyz])
             output += ' 2 ", '
         output += ' ], '
         print output
