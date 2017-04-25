@@ -13,7 +13,7 @@
 #        You should have received a copy of the GNU General Public License
 #        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
-Example 3: Setting up finite difference calculation for CO on Cu(100)
+Example 3: Setting up finite difference calculation for CO on Pd(111)
 =====================================================================
 
 This example uses tools in coolvib/tools/ to perform finite difference displacements 

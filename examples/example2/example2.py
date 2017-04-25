@@ -15,7 +15,7 @@
 """
 example 2: 
 Calculating lifetime along a given mode displacement for 
-CO on Cu(100) internal stretch calculated with FHI-Aims
+CO on Pd(111) internal stretch calculated with FHI-Aims
 """
 import numpy as np
 from ase.io import read
@@ -26,25 +26,18 @@ from scipy import linalg as LA
 
 #####DEFINE SYSTEM######
 
-system = read('mode_eq/geometry.in')
+system = read('mode/mode_eq/geometry.in')
 cell = system
 
-mode = np.array([
-        [0.,0.,0.],
-        [0.,0.,-1.0],
-        [0.,0.,1.0],
-        ])
-mode /= np.linalg.norm(mode)
+model = coolvib.workflow_mode(system, code='aims')
 
-model = coolvib.workflow_mode(system, code='aims', mode=mode)
-
-finite_difference_incr = 0.001
+finite_difference_incr = 0.0025
 
 keywords = {
     'discretization_type' : 'gaussian',
-    'discretization_broadening' : 0.05,
+    'discretization_broadening' : 0.01,
     'discretization_length' : 0.01,
-    'max_energy' : 6.00,
+    'max_energy' : 7,
     'temperature' : 300,
     'delta_function_type': 'gaussian',
     'delta_function_width': 0.60,
@@ -55,17 +48,20 @@ print 'workflow initialized and keywords set'
 
 ######READ QM INPUT DATA###
 
-model.read_input_data(spin=False, path='./', prefix='mode', filename='aims.out', incr=finite_difference_incr)
+model.read_input_data(spin=False, 
+        path='mode/', 
+        prefix='mode', 
+        filename='aims.out', 
+        incr=finite_difference_incr)
 print 'successfully read QM input data'
 
+# model.calculate_spectral_function(mode='default', **keywords)
+# print 'successfully calculated spectral_function'
+# model.print_spectral_function('nacs-spectrum.out')
+# model.calculate_friction_from_spectrum(**keywords)
 
-model.calculate_spectral_function(mode='default', **keywords)
-print 'successfully calculated spectral_function'
-
-model.print_spectral_function('nacs-spectrum.out')
-
+print 'successfully calculated friction tensor'
 model.calculate_friction(**keywords)
-#print 'successfully calculated friction tensor'
 
 model.analyse_friction()
 

@@ -4,7 +4,7 @@ Example 1: Calculating a friction tensor from FHI-aims data: CO on Cu(100)
 
 In this example we calculate the friction tensor from data previously 
 calculated with `FHI-Aims <https://aimsclub.fhi-berlin.mpg.de/>`_.
-We do this for CO adsorbed at a top site of a Cu(100) surface. The corresponding 
+We do this for CO adsorbed at a top site of a Pd(111) surface. The corresponding 
 friction tensor is a (6x6) matrix.
 
 In order to run this example you need to download the FHI-Aims dataset 
@@ -30,7 +30,7 @@ and we initialize our workflow_tensor class with
 .. code-block:: python
 
     import coolvib
-    model = coolvib.workflow_tensor(system, code='aims', active_atoms=[3,4])
+    model = coolvib.workflow_tensor(system, code='aims', active_atoms=[4,5])
 
 , where *active_atoms* specifies the indices of the atoms we want to include in 
 the calculation of the friction tensor. *Model* is an instance of the :py:class:`coolvib.convenience.workflow_tensor.workflow_tensor` class that guides us through the calculation and bundles all data and functions.
@@ -103,31 +103,30 @@ The expected results are
 Friction Tensor
       
              0                     1                     2                     3                     4                     5  
-     0 3.1366e-02 7.7414e-07 7.7374e-06 -1.6675e-02 -2.7957e-07 -3.0235e-06 
-     1 7.7414e-07 3.1365e-02 7.0913e-06 1.3343e-08 -1.6675e-02 -2.6273e-06 
-     2 7.7374e-06 7.0913e-06 9.0953e-03 -2.1645e-06 -2.1907e-06 -2.8059e-03 
-     3 -1.6675e-02 1.3343e-08 -2.1645e-06 9.6877e-03 -1.2865e-07 6.4511e-07 
-     4 -2.7957e-07 -1.6675e-02 -2.1907e-06 -1.2865e-07 9.6872e-03 4.9371e-07 
-     5 -3.0235e-06 -2.6273e-06 -2.8059e-03 6.4511e-07 4.9371e-07 1.6467e-03 
+     0 3.2947e-01 -5.1951e-05 -1.4243e-04 -9.7699e-02 2.4844e-05 -1.1275e-04 
+     1 -5.1951e-05 3.2955e-01 -1.4646e-04 1.2838e-05 -9.7716e-02 -1.1241e-04 
+     2 -1.4243e-04 -1.4646e-04 1.6286e-01 4.2497e-05 4.2755e-05 -1.1424e-02 
+     3 -9.7699e-02 1.2838e-05 4.2497e-05 2.9649e-02 -5.7152e-06 2.9358e-05 
+     4 2.4844e-05 -9.7716e-02 4.2755e-05 -5.7152e-06 2.9654e-02 3.0400e-05 
+     5 -1.1275e-04 -1.1241e-04 -1.1424e-02 2.9358e-05 3.0400e-05 6.7262e-03 
       
  
 Friction Eigenvalues in 1/ps
          0          1          2          3          4          5
-    0.0006     0.0006     0.0007     0.0100     0.0404     0.0404
+    0.0006     0.0006     0.0059     0.1637     0.3585     0.3586
 Friction Eigenvectors
       
              0                     1                     2                     3                     4                     5  
-     0 -1.3381e-01 4.5781e-01 -1.7908e-03 1.4193e-04 4.9189e-01 -7.2838e-01 
-     1 -4.5780e-01 -1.3383e-01 -2.1490e-03 1.3969e-04 -7.2838e-01 -4.9190e-01 
-     2 -1.4942e-03 6.0177e-04 3.1725e-01 -9.4834e-01 -5.3986e-05 -3.4853e-04 
-     3 -2.4659e-01 8.4361e-01 -3.3172e-03 -3.1598e-04 -2.6695e-01 3.9527e-01 
-     4 -8.4361e-01 -2.4659e-01 -3.9656e-03 -2.7458e-04 3.9528e-01 2.6694e-01 
-     5 -5.1806e-03 2.2797e-03 9.4832e-01 3.1726e-01 1.5499e-05 1.2534e-04 
+     0 -2.7421e-01 -7.6918e-02 -1.3190e-04 6.8885e-04 -8.5161e-01 4.4006e-01 
+     1 7.6930e-02 -2.7419e-01 -1.8838e-04 7.0623e-04 -4.4007e-01 -8.5161e-01 
+     2 -3.7931e-05 -5.5541e-05 -7.2589e-02 9.9736e-01 1.0090e-03 3.3623e-04 
+     3 -9.2294e-01 -2.5899e-01 8.2028e-04 -2.0170e-04 2.5301e-01 -1.3073e-01 
+     4 2.5899e-01 -9.2295e-01 6.3231e-04 -2.1305e-04 1.3071e-01 2.5300e-01 
+     5 -5.7038e-04 -7.3214e-04 -9.9736e-01 -7.2590e-02 4.1327e-04 1.3106e-04 
       
 Principal lifetimes in ps
          0          1          2          3          4          5
- 1566.7157  1566.3840  1412.3889    99.6617    24.7440    24.7431
-
-
+ 1605.4274  1597.3460   169.6452     6.1092     2.7896     2.7885
+      
 
 """

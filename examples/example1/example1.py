@@ -14,7 +14,7 @@
 #        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
 We calculate the (6x6) friction tensor for 
-full-coverage CO adsorbed on a Cu(100) top site.
+a CO molecule adsorbed on a Pd(111) top site.
 """
 
 import numpy as np
@@ -24,9 +24,9 @@ import coolvib
 from scipy import linalg as LA
 
 #####DEFINE SYSTEM and PARAMETERS######
-system = read('CO-on-Cu100/eq/geometry.in')
+system = read('CO_on_Pd111/eq/geometry.in')
 cell = system
-active_atoms = [3,4] # meaning we have two atoms - C - 0 and O - 1
+active_atoms = [4,5] # meaning we have two atoms - C - 0 and O - 1
 
 model = coolvib.workflow_tensor(system, code='aims', active_atoms=active_atoms)
 
@@ -49,7 +49,7 @@ print 'workflow initialized and keywords set'
 ######READ QM INPUT DATA###
 model.read_input_data(
         spin=False, 
-        path='./CO-on-Cu100',
+        path='./CO_on_Pd111/',
         filename='aims.out', 
         active_atoms=active_atoms, 
         incr=finite_difference_incr,
@@ -62,8 +62,8 @@ print 'successfully read QM input data'
 #from there (discretization commands)
 
 ######CALCULATE SPECTRAL FUNCTION###
-#model.calculate_spectral_function(mode='default', **keywords)
-# model.read_spectral_function()
+# model.calculate_spectral_function(mode='default', **keywords)
+# # model.read_spectral_function()
 # print 'successfully calculated spectral_function'
 # model.print_spectral_function('nacs-spectrum.out')
 # model.calculate_friction_tensor_from_spectrum(**keywords)
@@ -78,4 +78,22 @@ print 'successfully calculated friction tensor'
 
 model.analyse_friction_tensor()
 model.print_jmol_friction_eigenvectors()
+
+
+######project lifetimes along vibrations
+hessian_modes = np.loadtxt('CO_on_Pd111/hessian')
+for i in range(len(hessian_modes)):
+    hessian_modes[i,:]/=np.linalg.norm(hessian_modes[i,:])
+
+from coolvib.constants import time_to_ps
+ft= np.dot(hessian_modes,np.dot(model.friction_tensor,hessian_modes.transpose()))/time_to_ps
+E, V = np.linalg.eigh(ft)
+coolvib.routines.output.print_matrix(ft)
+
+print 'Relaxation rates along vibrational modes in 1/ps'
+for i in range(len(ft)):
+    print ft[i,i]
+print 'Vibrational lifetimes along vibrational modes in 1/ps'
+for i in range(len(ft)):
+    print 1./ft[i,i]
 

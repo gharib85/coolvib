@@ -18,6 +18,8 @@
 
     Example 1: Calculating the friction tensor from FHI-aims<example1>
     Example 2: Calculating lifetimes along a given normal mode<example2>
-    Example 3: Setting up finite difference calculations<example3>
+    Example 3: Setting up finite difference calculations for Example 1 and Example 2<example3>
+    Example 4: Calculate the nonadiabatic energy loss for hydrogen diffusion<example4>
+    Example 5: Calculations with SIESTA input <example5>
 
 """

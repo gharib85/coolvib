@@ -13,13 +13,13 @@
 #        You should have received a copy of the GNU General Public License
 #        along with coolvib.  If not, see <http://www.gnu.org/licenses/>.
 """
-Example 2: Calculating the lifetime along a given mode: Co on Cu(100)
+Example 2: Calculating the lifetime along a given mode: CO on Pd(111)
 =====================================================================
 
 **ATTENTION** This example/functionality is broken and needs to be fixed
 
 In this example we calculate a single lifetime and relaxation rate along 
-a given vibrational normal mode for CO on Cu(100), namely the internal stretch mode.
+a given vibrational normal mode for CO on Pd(111), namely the internal stretch mode.
 Example 3 shows how to calculate finite difference displacements along a normal mode.
 
 In order to run this example you need to either run example 3 with FHI-aims 
