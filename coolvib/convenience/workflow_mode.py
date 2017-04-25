@@ -65,8 +65,9 @@ class workflow_mode():
         else:
             raise ValueError('model needs an instance of an ase Atoms class')
         self.code = code
-        self.mode = np.array(mode)
-        self.mode = self.mode/np.linalg.norm(self.mode)
+        if mode is not None:
+            self.mode = np.array(mode)
+            self.mode = self.mode/np.linalg.norm(self.mode)
 
         self.input_read=False
 
@@ -106,7 +107,7 @@ class workflow_mode():
 
         self.input_read = True
     
-    def calculate_friction(self,mode='default',**kwargs):
+    def calculate_friction_from_spectrum(self,mode='default',**kwargs):
         """
         Calculates the friction for a given window and delta function, 
         assumes that the spectral function has already been calculated, otherwise 
@@ -195,6 +196,20 @@ class workflow_mode():
                 self.x_axis, self.spectral_function,1,
                 filename)
     
+
+    def calculate_friction(self, **kwargs):
+        """
+
+        """
+        self.friction_tensor = spectral.evaluate_friction_at_zero_mode(
+            self.fermi_energy,
+            self.eigenvalues,
+            self.kpoints,
+            self.psi,
+            self.first_order_H,
+            self.first_order_S,
+            **kwargs)
+
 
     def analyse_friction(self):
         """
