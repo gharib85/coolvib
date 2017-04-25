@@ -25,6 +25,8 @@ Example 3 shows how to calculate finite difference displacements along a normal 
 In order to run this example you need to either run example 3 with FHI-aims 
 or download the dataset from following URL and extract it in the example folder
 
+`Download Dataset <http://www.damaurer.at/software/coolvib/example2.tar.gz>`_
+
 
 Code
 -----
