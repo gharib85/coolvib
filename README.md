@@ -16,7 +16,6 @@ For more details, have a look at the documentation at www.damaurer.at/software/c
 * Scipy >=0.12
 * matplotlib>=1.2
 * Atomic Simulation Environment [ ASE ](https://wiki.fysik.dtu.dk/ase/)
-  (for global optimization)
 
 ### Installation ###
 
