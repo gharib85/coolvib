@@ -28,7 +28,7 @@ coolvib is licensed under the GNU General Public License, version 3 (gnu.org/lic
 
 ### Who do I talk to? ###
 
-reinhard.maurer@yale.edu
+r.maurer@warwick.ac.uk
 
 ### Contributors ###
 Reinhard Maurer,  

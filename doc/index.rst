@@ -43,7 +43,7 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-
+    includeme
     Introduction<intro>
     Theory and Methods<methods>
     Tutorial<tutorial>
