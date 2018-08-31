@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Derivation &mdash; coolvib  documentation</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="coolvib  documentation" href="index.html" />
+    <link rel="up" title="Theory" href="methods.html" />
+    <link rel="next" title="Tutorial" href="tutorial.html" />
+    <link rel="prev" title="Theory" href="methods.html" /> 
+  </head>
+  <body role="document">
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">coolvib  documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="methods.html" title="Theory"
+             accesskey="P">previous</a> |
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="N">next</a> |
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="derivation">
+<span id="derivaton"></span><h1>Derivation<a class="headerlink" href="#derivation" title="Permalink to this headline">¶</a></h1>
+<p>The following derivations are directly taken from <a class="reference internal" href="#maurer2015" id="id1">[Maurer2015]</a>.</p>
+<div class="section" id="the-electron-phonon-interaction">
+<h2>The electron-phonon interaction<a class="headerlink" href="#the-electron-phonon-interaction" title="Permalink to this headline">¶</a></h2>
+<p>Our starting point is the molecular many-body problem in the
+Born-Oppenheimer approximation.
+Herein we define an electronic Schrödinger equation (SGE):</p>
+<div class="math">
+<p><img src="_images/math/caef17033a10bb63318642cf0862707ea59ca19d.png" alt="\hat{H}_{\mathrm{e}}\Phi(t,\mathbf{r};\mathbf{R}) = i\hbar\frac{d}{dt} \Phi(t,\mathbf{r};\mathbf{R})"/></p>
+</div><p>with</p>
+<div class="math" id="equation-Helec">
+<p><span class="eqno">(1)</span><img src="_images/math/54581d5db79acc4c3aaf12c242fb84fbd0a73d46.png" alt="\hat{H}_{\mathrm{e}} &amp;= -\sum_{i=1}^N\frac{\hbar^2}{2}\nabla_i^2 +\sum_{i=1}^N\sum_{j&gt;i}^N\frac{1}{r_{ij}}-\sum_{i=1}^N\sum_{A=1}^M \frac{Z_A}{r_{iA}}+ \\ \nonumber &amp;+ \sum_{A=1}^M\sum_{B&gt;A}^M \frac{Z_AZ_B}{R_{AB}}"/></p>
+</div><p>and a nuclear Schrödinger equation as</p>
+<div class="math">
+<p><img src="_images/math/d718b1d4049190ec996e11ad0f40e40aa3a9d041.png" alt="\hat{H}_{\mathrm{n}}\chi(t,\mathbf{R}) = i\hbar\frac{d}{dt} \chi(t,\mathbf{R})"/></p>
+</div><p>with</p>
+<div class="math">
+<p><img src="_images/math/c147c882120e7e38f0fca56ae3afd01cf202794a.png" alt="\hat{H}_{\mathrm{n}} = -\sum_{A=1}^M\frac{\hbar^2}{2M_A}\nabla_A^2  + E_{\mathrm{e}}(\mathbf{R}) ."/></p>
+</div><p>All of the above is given in atomic units, with the exception of explicitly stating <img class="math" src="_images/math/aa3efc18aad15b1e19ffbf1427cb686e116094ef.png" alt="\hbar(=1)" style="vertical-align: -4px"/>.
+The electronic SGE and its eigenfunctions depend parametrically on the nuclear coordinates.
+Due to separation of time-scales at which electrons and nuclei move, these equations are solved independently.</p>
+<p>We can introduce coupling between the two systems by constructing the full molecular wavefunction
+as linear combination of products of nuclear and adiabatic electronic wavefunctions in a
+so-called Born expansion</p>
+<div class="math">
+<p><img src="_images/math/95f57fb96671502fde7b97875e63a28a4d99b793.png" alt="\Psi(t,\mathbf{r},\mathbf{R}) = \sum_j \chi_j(t,\mathbf{R}) \Phi_j(\mathbf{r};\mathbf{R})"/></p>
+</div><p>The coupling is introduced by the third term in eq. <a href="#equation-Helec">(1)</a>.
+Insertion into the full time-dependent Schrödinger equation,
+multiplication from the left with an electronic wavefunction <img class="math" src="_images/math/57be4f26a8fd7fc6ecfebe576f20df6f15332f32.png" alt="\Phi_i" style="vertical-align: -3px"/>
+and integration over electronic degrees of freedom we find an additional term in the nuclear Schrödinger equation:</p>
+<div class="math">
+<p><img src="_images/math/dea4dd6251ae98db87809b1f6643828031369bbb.png" alt="(\underbrace{\hat{T}_{{\mathrm{n}}} + E^{\mathrm{e}}_j}_{\hat{H}_{\mathrm{n}}}+ \hat{H}_{\mathrm{ep}})\chi_j = i\hbar\frac{d}{dt}\chi_j"/></p>
+</div><p>with the action of the electron-phonon coupling term on the nuclear wavefunction defined as</p>
+<div class="math" id="equation-app-Hep">
+<p><span class="eqno">(2)</span><img src="_images/math/5bd45667556a45ed99711e9553a06590796cbe3a.png" alt="\hat{H}_{\mathrm{ep}}\chi_j =-\frac{\hbar^2}{2M}\sum_{i\neq j}\left[2\langle\Phi_i|\nabla_{\mathbf{R}}\Phi_j\rangle\cdot\nabla_{\mathbf{R}}+\langle\Phi_i|\nabla^2_{\mathbf{R}}\Phi_j\rangle \right]\chi_i"/></p>
+</div><p>One way to understand this interaction is by viewing it as hybridization between
+electronic and nuclear wavefunctions.
+Each nuclear wavefunction is split into as many states as there are electronic excitations (and <em>vice versa</em>).
+Throughout the remainder of this documentation we will assume <img class="math" src="_images/math/7f5102133f86ce3286558ad8c5c2a1ad4ddf9656.png" alt="\hat{H}_{\mathrm{ep}}" style="vertical-align: -6px"/> to be small
+compared to <img class="math" src="_images/math/b459ff417c5a7d89eeccdee96d70894059286aec.png" alt="\hat{H}_n" style="vertical-align: -3px"/>, i.e. it does not change the nuclear dynamics qualitatively.
+This enables application of perturbation theory. In the following we will find an expression for the
+interaction matrix elements and subsequently use Time Dependent Perturbation Theory
+to derive our working expressions.</p>
+</div>
+<div class="section" id="derivation-of-coupling-matrix-elements">
+<h2>Derivation of coupling matrix elements<a class="headerlink" href="#derivation-of-coupling-matrix-elements" title="Permalink to this headline">¶</a></h2>
+<p>Next we will find an expression for the matrix elements</p>
+<div class="math">
+<p><img src="_images/math/907053c145cc93652fe126b4cc99852f0d406f14.png" alt="g_{fj} = \braket{\chi_f|\hat{H}_{\mathrm{ep}}|\chi_j} = -\frac{\hbar^2}{2M}\sum_{i}\bra{\chi_f}\biggl[2\braket{\Phi_i|\nabla_{\mathbf{R}}\Phi_j}\cdot\nabla_{\mathbf{R}}  +\braket{\Phi_i|\nabla^2_{\mathbf{R}}\Phi_j} \biggr]\ket{\chi_i}."/></p>
+</div><p>Our starting point is a periodic condensed phase material in which the electronic structure underlying the nuclear motion is given by effectively independent quasi-particles such as calculated with semi-local approximations to Density Functional Theory or the GW method. The unperturbed nuclear motion is described in terms of harmonic vibrations as given by the following Hamiltonian:</p>
+<div class="math" id="equation-app-HO">
+<p><span class="eqno">(3)</span><img src="_images/math/1bf02e0f1da4ef33ba18ab8a198623d2df1775b9.png" alt="H_0 = \sum_{\mathbf{q}j} \hbar \omega_{\mathbf{q}j}\left(b^\dagger_{\mathbf{q}j}b_{\mathbf{qj}} +\frac{1}{2} \right) ."/></p>
+</div><p>Herein <img class="math" src="_images/math/11818b0f0c1375704e1fb0b4ae4ce2142ef0c59c.png" alt="b^\dagger_{\mathbf{q}j}" style="vertical-align: -8px"/> and <img class="math" src="_images/math/d10823f80e1741e0426f4843a556e6db59c7b7a7.png" alt="b_{\mathbf{qj}}" style="vertical-align: -6px"/> are the usual particle annihilation and creation operators for a phonon <img class="math" src="_images/math/b3b72ec6eb3132f4ba17cfb6ec360cc2f7428f84.png" alt="j" style="vertical-align: -4px"/> at wavevector <img class="math" src="_images/math/fc8a8b20ced1e39afcaf498aab7fa894eecb48ac.png" alt="\mathbf{q}" style="vertical-align: -4px"/>. Phonon normal mode displacement vectors are given as <img class="math" src="_images/math/6f95fce67c17390a78f3574928794782ea0fc24f.png" alt="\mathbf{e}_{\mathbf{q}j}" style="vertical-align: -6px"/>. With this choice the scalar coupling term in eq. <a href="#equation-app-Hep">(2)</a> vanishes due to orthonormality of the nuclear wavefunctions. The matrix element between two many-body nuclear wavefunction states, which only differ by a single one-particle state reduces to</p>
+<div class="math">
+<p><img src="_images/math/54a93f8f33b8df3b39fbfddf704303867e9fb4bf.png" alt="\braket{\chi_f|\hat{H}_{\mathrm{ep}}|\chi_j} \Rightarrow \braket{\chi_{\mathbf{q}f}|\hat{H}_{\mathrm{ep}}|\chi_{\mathbf{q}j}}."/></p>
+</div><p>Furthermore, by taking the many-body electronic wavefunction as a product of quasi-particle states with quantum states specified by the quantum numbers <img class="math" src="_images/math/868dda0140c6077ce3663d3eae705cf87fe70fff.png" alt="s" style="vertical-align: 0px"/>, <img class="math" src="_images/math/c5d47e1a75f7d42d0a9e18bfbd1ae09e84bf0487.png" alt="\mathbf{k}" style="vertical-align: -1px"/>, and <img class="math" src="_images/math/2b56587632cf6e99dc9a182c49075b9226642ee7.png" alt="\nu" style="vertical-align: 0px"/> representing spin, wave vector, and band index, all possible single-particle excited states are defined with the above indices for electrons and phonons. Correspondingly the matrix elements are</p>
+<div class="math">
+<p><img src="_images/math/8a85ec7eefbca5c7e1c9e268bc896a12aedf5cb5.png" alt="\braket{\chi_{\mathbf{q}f}|\hat{H}_{\mathrm{ep}}|\chi_{\mathbf{q}j}} = -\frac{\hbar^2}{M} \sum_{i}\cdot \braket{\chi_{\mathbf{q}f}|\sum_{s}\sum_{\mathbf{k}\nu\mathbf{k}'\nu'}  \braket{\psi_{s\mathbf{k}\nu}|\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}\psi_{s\mathbf{k}'\nu'}}\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}|\chi_{\mathbf{q}i}} ,"/></p>
+</div><p>where the different sums run over occupied and unoccupied states in the ground state, respectively. The occupations of the one-particle electronic states and thereby the Fermi level are defined by Fermi-Dirac statistics. With harmonic displacements as starting point we have defined the nuclear derivative in <img class="math" src="_images/math/e8cbfc63f90e8e79b0ccebcd3fcc64692e167deb.png" alt="H_{ep}" style="vertical-align: -6px"/> in the basis of these displacements.</p>
+<p>The matrix element describing the coupling between two nuclear wavefunctions which differ by replacing a single phonon <img class="math" src="_images/math/0772bf98a98325e060dbf8a2c51c8711b50630a4.png" alt="\mathbf{q}j" style="vertical-align: -4px"/> with a phonon <img class="math" src="_images/math/347cba99e7015e438e2aa39f8712e0e7bda313f8.png" alt="\mathbf{q}j'" style="vertical-align: -4px"/> therefore reads</p>
+<div class="math">
+<p><img src="_images/math/38e4317fedc3af1192018d7953bb1814bd98a1a1.png" alt="g^{\mathbf{q}f,\mathbf{q}j} = -\frac{\hbar^2}{M}\sum_i \braket{\chi_{\mathbf{q}f}|\mathbf{e}_{\mathbf{q}j} \nabla_{\mathbf{R}}\chi_{\mathbf{q}i}} \cdot \sum_{s\mathbf{k}}w_{\mathbf{k}}\sum_{\nu&lt;\epsilon_F}\sum_{\nu'&gt;\epsilon_F} \braket{\psi_{s\mathbf{k+q}\nu'}|\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}\psi_{s\mathbf{k}\nu}}  ,"/></p>
+</div><p>where Brillouin sampling weights <img class="math" src="_images/math/245e46915f3bfafb23b838bbabb0c04c0763b953.png" alt="w_{\mathbf{k}}" style="vertical-align: -4px"/> have been accounted for and final state indices follow from momentum conservation. Utilizing the ladder operator technique for harmonic oscillator eigenstates <a class="reference internal" href="#mahan2013" id="id2">[Mahan2013]</a>, <a class="reference internal" href="intro.html#head-gordon1992" id="id3">[Head-Gordon1992]</a> we find</p>
+<div class="math" id="equation-app-HO-braket">
+<p><span class="eqno">(4)</span><img src="_images/math/73ef3df308222451d3a94a2547d5aa956f801c93.png" alt="\braket{\chi_{\mathbf{q}f}| \mathbf{e}_{\mathbf{q}i}\nabla_{\mathbf{R}}\chi_{\mathbf{q}i}} &amp;= \sqrt{\frac{\omega_{\mathbf{q}i} M}{2\hbar}} (\sqrt{n_{\mathbf{q},f}}\hat{\delta}_{\mathbf{q}f,\mathbf{q},i+1}- \sqrt{n_{\mathbf{q},f}+1}\hat{\delta}_{\mathbf{q}f,\mathbf{q},i-1}) ."/></p>
+</div><p>As a result transitions can only occur between vibrational states with <img class="math" src="_images/math/451b7b5d82395e7d76afa822f480e7e2d237721a.png" alt="f=i\pm1" style="vertical-align: -4px"/>. If we assume that we start out in the first vibrationally excited state and are interested in decay to the ground state we arrive at following expression for the matrixelement</p>
+<div class="math" id="equation-app-matrixelement">
+<p><span class="eqno">(5)</span><img src="_images/math/811a0fbf2c59486b6d90e71efbb94399b9fc2dd0.png" alt="g^{\mathbf{q}j} &amp;= \sqrt{\frac{\hbar^3\omega_{\mathbf{q}j}}{2M}}\sum_{s\mathbf{k}}w_{\mathbf{k}}  \sum_{\nu&lt;\epsilon_F}\sum_{\nu'&gt;\epsilon_F} g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j} ."/></p>
+</div><p>with</p>
+<div class="math" id="equation-matrixelement2">
+<p><span class="eqno">(6)</span><img src="_images/math/9d211fffc354fac9e48947c3ad8a9bc4af75bec4.png" alt="g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j} = \braket{\psi_{s\mathbf{k+q}\nu'}|\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}\psi_{s\mathbf{k}\nu}}."/></p>
+</div><p>Therefore, the excitation or deexcitation probability of a phonon <img class="math" src="_images/math/0772bf98a98325e060dbf8a2c51c8711b50630a4.png" alt="\mathbf{q}j" style="vertical-align: -4px"/> is given by the coupling of all possible electronic excitations that do not violate momentum conservation.</p>
+<p>Often it is more desirable to express the matrix elements <img class="math" src="_images/math/3923bb65575d69686dd306dc540fd8c3cbfff74b.png" alt="g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j}" style="vertical-align: -8px"/> in a different form, namely in terms of nuclear derivatives of the unperturbed Hamiltonian and overlap matrices. In the case of a local atomic orbital representation of the wavefunctions, such a representation was derived by Head-Gordon and Tully <a class="reference internal" href="intro.html#head-gordon1992" id="id4">[Head-Gordon1992]</a> as well as Savrasov and Savrasov <a class="reference internal" href="#savrasov1996" id="id5">[Savrasov1996]</a> in the current context. To review this derivation we express the wavefunctions in terms of a non-orthogonal, incomplete basis set</p>
+<div class="math" id="equation-app-lcao">
+<p><span class="eqno">(7)</span><img src="_images/math/33517435c8bb00cc57867d67c21a5918b803d3d1.png" alt="\ket{\psi_{s\mathbf{k}i}} = \sum_a c_{s\mathbf{k}i}^a \ket{\phi_{\mathbf{k}}^a}"/></p>
+</div><p>such that following generalized eigenvalue matrix equation is satisfied (In the following intermediate results we will drop the spin index):</p>
+<div class="math" id="equation-app-eigenvalue">
+<p><span class="eqno">(8)</span><img src="_images/math/9545cf9436ae82a56905134c1476d9cb393a54f3.png" alt="\mathbf{H}_{\mathbf{k}} \mathbf{c}_{\mathbf{k}i} = \mathbf{S}_{\mathbf{k}} \mathbf{c}_{\mathbf{k}i}\epsilon_{\mathbf{k}i}"/></p>
+</div><p>with</p>
+<div class="math">
+<p><img src="_images/math/a0d667208fd1cc53bc674d6bdb454e0d61621f49.png" alt="H_{\mathbf{k}}^{ab} = \braket{\phi_{\mathbf{k}}^b|\hat{H}_e|\phi_{\mathbf{k}}^a}"/></p>
+</div><p>and</p>
+<div class="math">
+<p><img src="_images/math/c5a05389c62bece9888c9f5b33d2a5fff6a50b73.png" alt="S_{\mathbf{k}}^{ab} = \braket{\phi_{\mathbf{k}}^b|\phi_{\mathbf{k}}^a} ."/></p>
+</div><p>Substituting <a href="#equation-app-lcao">(7)</a> into the Dirac-braket of eq. <a href="#equation-app-matrixelement">(5)</a> gives</p>
+<div class="math" id="equation-app-braket">
+<p><span class="eqno">(9)</span><img src="_images/math/1bee0ce6b9d1c783e12bc09bbf8f7d37740f1b65.png" alt="\braket{\psi_{s\mathbf{k+q}\nu'}|\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}\psi_{s\mathbf{k}\nu}} = \sum_{a,b} c^b_{s\mathbf{k+q}\nu'}\braket{\phi_{\mathbf{k+q}}^b|\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}\phi_{\mathbf{k}}^a}c^a_{s\mathbf{k}\nu}  +c^b_{s\mathbf{k+q}\nu'}\braket{\phi_{\mathbf{k+q}}^b|\phi_{\mathbf{k}}^a}\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}c^a_{s\mathbf{k}\nu}"/></p>
+</div><p>The second term of this equality can be reexpressed as follows using the nuclear derivative of eq. <a href="#equation-app-eigenvalue">(8)</a></p>
+<div class="math" id="equation-app-HandS-deriv">
+<p><span class="eqno">(10)</span><img src="_images/math/ac29a49137bb9e75a147a08a1a725a400ca1dd0b.png" alt="c^b_{s\mathbf{k+q}\nu'}S_{\mathbf{k+q}\mathbf{k}}^{ab}\mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}} c^a_{s\mathbf{k}\nu} = \frac{1}{\epsilon_{\mathbf{k+q}\nu'}-\epsilon_{\mathbf{k}\nu}} c^b_{s\mathbf{k+q}\nu'}\left(H_{\mathbf{k+q},\mathbf{k}}^{\mathbf{q}j,ab}-\epsilon_{\mathbf{k}\nu} S_{\mathbf{k+q},\mathbf{k}}^{\mathbf{q}j,ab} \right) c^a_{s\mathbf{k}\nu}"/></p>
+</div><p>with</p>
+<div class="math">
+<p><img src="_images/math/b1b7401f2ae15b1a4c3c349aa94184b8da53f1c4.png" alt="S_{\mathbf{k+q},\mathbf{k}}^{ab} = \braket{\phi_{\mathbf{k+q}}^b|\phi_{\mathbf{k}}^a}"/></p>
+</div><p>and the nuclear derivative of an operator in matrix representation defined as</p>
+<div class="math">
+<p><img src="_images/math/d9a2c1ffb443323643f00a1f35cdc72fb0fc9ac5.png" alt="O_{\mathbf{k+q},\mathbf{k}}^{\mathbf{q}j,ab} = \mathbf{e}_{\mathbf{q}j}\nabla_{\mathbf{R}}\braket{\phi_{\mathbf{k+q}}^b|O|\phi_{\mathbf{k}}^a} ."/></p>
+</div><p>Inserting this result into eq. <a href="#equation-app-matrixelement">(5)</a> and changing to matrix representation we find</p>
+<div class="math" id="equation-app-g-HandS">
+<p><span class="eqno">(11)</span><img src="_images/math/2d6756510f46c06d6ca708817426f5bffec0d30b.png" alt="g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j} \approx\frac{ \mathbf{c}_{s\mathbf{k+q}\nu'}\left(\mathbf{H}_{\mathbf{k+q},\mathbf{k}}^{\mathbf{q}j}-\epsilon_{F} \mathbf{S}_{\mathbf{k+q},\mathbf{k}}^{\mathbf{q}j} \right) \mathbf{c}_{s\mathbf{k}\nu}} {\epsilon_{s\mathbf{k+q}\nu'}-\epsilon_{s\mathbf{k}\nu}}"/></p>
+</div><p>In eq. <a href="#equation-app-g-HandS">(11)</a> we assume that the energy difference between states <img class="math" src="_images/math/8fb5f69a49703e6b4bbe41a0391dba688a750218.png" alt="\epsilon_{s\mathbf{k}\nu}" style="vertical-align: -4px"/> and <img class="math" src="_images/math/3a2be1ddb61053a38596276acc897ed9c5aaa3e3.png" alt="\epsilon_{s\mathbf{k+q}\nu'}" style="vertical-align: -6px"/> is very small and that both are close to the Fermi level and can be replaced therewith <a class="reference internal" href="intro.html#head-gordon1992" id="id6">[Head-Gordon1992]</a>.</p>
+<p>Unfortunately the above terms can not straightforwardly be extracted from an electronic structure calculation in reciprocal space representation due to the dependence on different wavevectors <img class="math" src="_images/math/c5d47e1a75f7d42d0a9e18bfbd1ae09e84bf0487.png" alt="\mathbf{k}" style="vertical-align: -1px"/> and <img class="math" src="_images/math/de657aef4a4aa3a9e8c76a63604cb0136c14aebd.png" alt="\mathbf{k+q}" style="vertical-align: -4px"/> and <img class="math" src="_images/math/f5278ecb8e84dce3e1349d5abe71947376344101.png" alt="\braket{\mathbf{k}|\mathbf{H}|\mathbf{k}'}\neq \delta_{\mathbf{k}\mathbf{k}'}\cdot\braket{\mathbf{k}|\mathbf{H}|\mathbf{k}}" style="vertical-align: -5px"/>. In the case of a plane-wave representation a solution to this problem has been given by Trail <em>et al.</em> with coupling elements given in terms of eq. <a href="#equation-app-matrixelement2">(?)</a> <a class="reference internal" href="#trail2001" id="id7">[Trail2001]</a>. In the current case, we can approach this by transforming the Hamiltonian and overlap matrices themselves to their real-space representations using a Fourier sum over wavevectors within the first Brillouin zone:</p>
+<div class="math" id="equation-app-Hreal">
+<p><span class="eqno">(12)</span><img src="_images/math/f6238856c4892e8ffcc0b0ee1a68b770afb15070.png" alt="\mathbf{H}(|\mathbf{N}-\mathbf{N}'|)=\sum_{\mathbf{k}} w_{\mathbf{k}} e^{i\mathbf{k}\cdot(\mathbf{R}_{\mathbf{N}'}-\mathbf{R}_{\mathbf{N}})}\mathbf{H}_{\mathbf{k}}"/></p>
+</div><p>and</p>
+<div class="math" id="equation-app-Sreal">
+<p><span class="eqno">(13)</span><img src="_images/math/be50a8e646cfb25dbb1edb32c46d3ff1093ee343.png" alt="\mathbf{S}(|\mathbf{N}-\mathbf{N}'|)= \sum_{\mathbf{k}} w_{\mathbf{k}} e^{i\mathbf{k}\cdot(\mathbf{R}_{\mathbf{N}'}-\mathbf{R}_{\mathbf{N}})} \mathbf{S}_{\mathbf{k}} ."/></p>
+</div><p>In eq. <a href="#equation-app-Hreal">(12)</a> and <a href="#equation-app-Sreal">(13)</a>, <img class="math" src="_images/math/e04988a8ecc84861b59fd7b4978afd56654058b5.png" alt="\mathbf{N}" style="vertical-align: -1px"/> and <img class="math" src="_images/math/9412e56da350f4a9bfae7758b56591c4513b98d3.png" alt="\mathbf{N}'" style="vertical-align: -1px"/> are integer index-vectors that define the absolute position of a unit cell image in the crystal volume <img class="math" src="_images/math/36ad179563b20543e453d3efe5b15069d10c0eca.png" alt="\Omega" style="vertical-align: 0px"/> and <img class="math" src="_images/math/245e46915f3bfafb23b838bbabb0c04c0763b953.png" alt="w_{\mathbf{k}}" style="vertical-align: -4px"/> is the normalization weight of wavevector <img class="math" src="_images/math/c5d47e1a75f7d42d0a9e18bfbd1ae09e84bf0487.png" alt="\mathbf{k}" style="vertical-align: -1px"/>. We have furthermore defined crystal translation vectors as</p>
+<div class="math">
+<p><img src="_images/math/96bdecf06121cd0f837cd41962bebb4b43aae9a3.png" alt="\mathbf{R}_\mathbf{N} = \mathbf{R}_0 + \mathbf{T}_\mathbf{N},"/></p>
+</div><p>where <img class="math" src="_images/math/cdfe339dc472b7a4c96ed218bfb36abc2cf2798d.png" alt="\mathbf{R}_0" style="vertical-align: -3px"/> is the center of the principal unit cell and <img class="math" src="_images/math/076fe902db6c8c8923dddff502f23b804bf33e89.png" alt="\mathbf{T}_\mathbf{N}" style="vertical-align: -3px"/> is a lattice translation vector to the unit cell image with index vector <img class="math" src="_images/math/e04988a8ecc84861b59fd7b4978afd56654058b5.png" alt="\mathbf{N}" style="vertical-align: -1px"/> <a class="reference internal" href="#soler2002" id="id8">[Soler2002]</a>, <a class="reference internal" href="#blum2009" id="id9">[Blum2009]</a>.</p>
+<p>From the above results <img class="math" src="_images/math/3705fb3fcf32c13c64b798c7867d836a0ac94784.png" alt="\mathbf{H}^{\mathbf{q}j}(|\mathbf{N}-\mathbf{N}'|)" style="vertical-align: -5px"/> and <img class="math" src="_images/math/c9913d3ff88c1fb323caf621fb6a1b7d5120ed02.png" alt="\mathbf{S}^{\mathbf{q}j}(|\mathbf{N}-\mathbf{N}'|)" style="vertical-align: -5px"/> can be directly calculated using the finite-difference method or Density Functional Perturbation Theory (Coupled Perturbed Kohn-Sham) <a class="reference internal" href="#savrasov1996" id="id10">[Savrasov1996]</a>, <a class="reference internal" href="#baroni2001" id="id11">[Baroni2001]</a>. With the definition of the inverse transformation</p>
+<div class="math">
+<p><img src="_images/math/74f1de0822fc7b0a79d7bbcd4dab85337093ea4c.png" alt="\mathbf{H}^{\mathbf{q}j}_{\mathbf{k},\mathbf{k}'}=\sum_{\mathbf{N},\mathbf{N}'\in\Omega} e^{i(\mathbf{k}'\cdot\mathbf{R}_{\mathbf{N}'}-\mathbf{k}\cdot\mathbf{R}_{\mathbf{N}})} \mathbf{H}^{\mathbf{q}j}(|\mathbf{N}-\mathbf{N}'|)"/></p>
+</div><p>and</p>
+<div class="math">
+<p><img src="_images/math/9dc8c473256d5c585856c0be1ec275b4427e0e56.png" alt="\mathbf{S}^{\mathbf{q}j}_{\mathbf{k},\mathbf{k}'}= \sum_{\mathbf{N},\mathbf{N}'\in\Omega} e^{i(\mathbf{k}'\cdot\mathbf{R}_{\mathbf{N}'}-\mathbf{k}\cdot\mathbf{R}_{\mathbf{N}})} \mathbf{S}^{\mathbf{q}j}(|\mathbf{N}-\mathbf{N}'|)"/></p>
+</div><p>we may finally express the coupling element of eq. <a href="#equation-app-g-HandS">(11)</a> as</p>
+<div class="math">
+<p><img src="_images/math/4de5bdedd50d91f3f9fee17ca6c8532d65c77e6f.png" alt="&amp; g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j} \approx\sqrt{\frac{\hbar}{M}}\frac{1}{\epsilon_{\mathbf{k+q}\nu'}-\epsilon_{\mathbf{k}\nu}}\sum_{\mathbf{N,N}'}e^{i((\mathbf{k+q})\cdot\mathbf{R}_{\mathbf{N}'}-\mathbf{k}\cdot\mathbf{R}_{\mathbf{N}})} \cdot \\ \nonumber &amp;  \cdot \mathbf{c}_{s\mathbf{k+q}\nu'}\left(\mathbf{H}^{\mathbf{q}j}(|\mathbf{N}-\mathbf{N}'|)-\epsilon_{F} \mathbf{S}^{\mathbf{q}j}(|\mathbf{N}-\mathbf{N}'|) \right) \mathbf{c}_{s\mathbf{k}\nu}"/></p>
+</div></div>
+<div class="section" id="derivation-using-first-order-time-dependent-perturbation-theory">
+<h2>Derivation using first order time dependent perturbation theory<a class="headerlink" href="#derivation-using-first-order-time-dependent-perturbation-theory" title="Permalink to this headline">¶</a></h2>
+<p>Our starting point is given by eqs. <a href="#equation-app-HO">(3)</a> and <a href="#equation-app-matrixelement">(5)</a>.
+The harmonic nuclear wavefunctions are perturbed by a potential <img class="math" src="_images/math/fe5ba1c9f9a303a1e1386d60c85d3c74addc2b9a.png" alt="H_{\mathrm{ep}}" style="vertical-align: -6px"/>,
+which we assume to be harmonic in time, namely with the frequency <img class="math" src="_images/math/0f2031547fef7549452db498d18de1923dd586f7.png" alt="\omega_{\mathbf{q}j}" style="vertical-align: -6px"/> of the vibration itself.
+This can be understood by considering that at the equilibrium position of the
+nuclei the friction effects due to the electronic structure are zero,
+while they are strongest at the maximum displacement.
+The effect, as already discussed, is that electronic and vibrational states hybridize.
+Therefore all &#8216;vibronic&#8217; states that can be excited by the phonon frequency <img class="math" src="_images/math/0f2031547fef7549452db498d18de1923dd586f7.png" alt="\omega_{\mathbf{q}j}" style="vertical-align: -6px"/>
+will contribute to the decay of the phonon.
+As a result, in the following we will not distinguish between energies of electronic or vibrational states.
+The potential introduces mixing between the nuclear eigenfunctions <img class="math" src="_images/math/ff03540aee20dd7cd751ddd2cd9e5b63965e3ee6.png" alt="\chi" style="vertical-align: -4px"/>  characterized with coefficients <img class="math" src="_images/math/dc241ad10dd2ccc88cbd0f10ef17f7b0a716f5db.png" alt="c_n(t)" style="vertical-align: -4px"/>:</p>
+<div class="math">
+<p><img src="_images/math/380ced6ec044b66c15f9baf46ef06c539fe1df5b.png" alt="\ket{\chi(t)} = \sum_n c_n(t) \operatorname{e}^{-iE_n t/\hbar} \ket{\chi_n}"/></p>
+</div><p>Expanding the coefficients and wavefunctions in a perturbation series and truncating after the first perturbation term, we can define the probability of excitation between two states (both differing by occupation change between phonons <img class="math" src="_images/math/0772bf98a98325e060dbf8a2c51c8711b50630a4.png" alt="\mathbf{q}j" style="vertical-align: -4px"/> to <img class="math" src="_images/math/8d964d1ce0ed42e569cd91b906f93885b09cb82f.png" alt="\mathbf{q}f" style="vertical-align: -4px"/>) by the absolute square of the first order coefficients:</p>
+<div class="math">
+<p><img src="_images/math/31c5fdf3cf87c3d2eac7fd3a1d6d05c4773bca12.png" alt="&amp;P_{\mathbf{q}j\rightarrow \mathbf{q}f}(t)=|c^{(1)}_{jf}(t)|^2 = \\ \nonumber &amp; =\frac{1}{\hbar^2}|\braket{\chi_{\mathbf{q}f}|H_{\mathrm{ep}}|\chi_{\mathbf{q}j}}|^2 \left( \frac{\sin((\Delta\omega-\omega_{\mathbf{q}j})t/2)}{(\Delta\omega-\omega_{\mathbf{q}j})} \right)^2 ,"/></p>
+</div><p>with <img class="math" src="_images/math/8b5396ba170f4e987f4ecc08f4df23dfce5b05b1.png" alt="\Delta\omega" style="vertical-align: 0px"/> as energy difference between all vibronic states generated
+by the perturbation. Due to our previous assumption of harmonic oscillator states every
+phonon state can only decay into the next lowest state with the result that the overall
+probability of finding state <img class="math" src="_images/math/0772bf98a98325e060dbf8a2c51c8711b50630a4.png" alt="\mathbf{q}j" style="vertical-align: -4px"/> being the excitation probability into this state from the next lowest state</p>
+<div class="math" id="equation-app-probab">
+<p><span class="eqno">(14)</span><img src="_images/math/82c89d80512b524bf3f278ff45969fe944201822.png" alt="P_{\mathbf{q}j}(t) =|\braket{\chi_{\mathbf{q}f}|H_{\mathrm{ep}}|\chi_{\mathbf{q}i}}|^2 \left( \frac{\sin((\Delta\epsilon-\hbar\omega_{\mathbf{q}j})t/2\hbar)}{(\Delta\epsilon-\hbar\omega_{\mathbf{q}j})} \right)^2"/></p>
+</div><p>At this point we can introduce our previous result for the coupling matrix element by inserting eq. <a href="#equation-app-matrixelement">(5)</a> into eq. <a href="#equation-app-probab">(14)</a></p>
+<div class="math" id="equation-app-probab2">
+<p><span class="eqno">(15)</span><img src="_images/math/2f2257f1ccbc3740e49c81f091d978140a354781.png" alt="P_{\mathbf{q}j}(t) = \frac{\hbar^3\omega_{\mathbf{q}j}}{2M}\sum_{s\mathbf{k}}w_{\mathbf{k}} \sum_{\nu&lt;\epsilon_F}\sum_{\nu'&gt;\epsilon_F}|g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j}|^2 \left( \frac{\sin((\Delta\epsilon-\hbar\omega_{\mathbf{q}j})t/2\hbar)}{(\Delta\epsilon-\hbar\omega_{\mathbf{q}j})} \right)^2"/></p>
+</div><p>We are interested in the decay rate in the limit of small perturbing frequencies or, equally,
+the limit of long time (<img class="math" src="_images/math/3ed8af724ba6487620d255ba2637eaea7f81054a.png" alt="t&gt;&gt;1/(\Delta\omega-\omega_{\mathbf{q}j})" style="vertical-align: -6px"/>).
+Taking this limit we can assume exponential decay and we arrive at the well known Fermi&#8217;s Golden Rule expression:</p>
+<div class="math">
+<p><img src="_images/math/235205fdcad41156927fa47a0b981166b27cb4cb.png" alt="\Gamma_{\mathbf{q}j} = \lim_{t\rightarrow\infty} \frac{P_{\mathbf{q}j}(t)}{t} = \frac{\pi\hbar^2\omega_{\mathbf{q}j}}{M}\sum_{s\mathbf{k}}w_{\mathbf{k}} \sum_{\nu&lt;\epsilon_F}\sum_{\nu'&gt;\epsilon_F}|g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j}|^2
+  \delta(\Delta\epsilon-\hbar\omega_{\mathbf{q}j})"/></p>
+</div><p>However, even without taking the limit of <img class="math" src="_images/math/adc62119a2c8e1a4340140ac7651377f8cbfbe9b.png" alt="t\rightarrow\infty" style="vertical-align: -1px"/>, applying the <img class="math" src="_images/math/1d38866521884e0598c4cbd9d300a7cf5724a4e1.png" alt="\sin" style="vertical-align: -1px"/>-function
+in eq. <a href="#equation-app-probab2">(15)</a> with a reasonably chosen time would yield a similarly narrow
+integration kernel for the typical range of vibrational frequencies found for atomic or molecular adsorbates.
+Finally, we can generalize to non-integer finite-temperature occupations and arrive at:</p>
+<div class="math" id="equation-final-gamma">
+<p><span class="eqno">(16)</span><img src="_images/math/df55562e7ba19e353f2f50fd62b07e70ea07274f.png" alt="\Gamma_{\mathbf{q}j} = \frac{\pi\hbar^2\omega_{\mathbf{q}j}}{M}\sum_{s\mathbf{k}}\sum_{\nu}\sum_{\nu'} (f(\epsilon_{s\mathbf{k+q}\nu'})-f(\epsilon_{s\mathbf{k}\nu}))|g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j}|^2
+      \delta(\epsilon_{s\mathbf{k+q}\nu'}-\epsilon_{s\mathbf{k}\nu}-\hbar\omega_{\mathbf{q}j}) ."/></p>
+</div><p>With <img class="math" src="_images/math/c912491ece1730bb2cfedb11fa78f439b29c5b72.png" alt="\hbar\omega_{\mathbf{q}j}" style="vertical-align: -6px"/> being the perturbing energy for which we apply the delta function in <a href="#equation-final-gamma">(16)</a> we can re-express the above equation as</p>
+<div class="math">
+<p><img src="_images/math/b5238c2cc535c2a20fd61f5c4a8babdd55334a08.png" alt="\Gamma_{\mathbf{q}j} = \frac{\pi\hbar}{M}\sum_{s\mathbf{k}}\sum_{\nu}\sum_{\nu'} (f(\epsilon_{s\mathbf{k+q}\nu'})-f(\epsilon_{s\mathbf{k}\nu}))|g_{s\mathbf{k+q}\nu',s\mathbf{k}\nu}^{\mathbf{q}j}|^2 \cdot (\epsilon_{s\mathbf{k+q}\nu'}-\epsilon_{s\mathbf{k}\nu}) \cdot\delta(\epsilon_{s\mathbf{k+q}\nu'}-\epsilon_{s\mathbf{k}\nu}-\hbar\omega_{\mathbf{q}j}) ."/></p>
+</div><p>For details on how this equation is used in this software, see <a class="reference internal" href="methods.html#theory"><span>Theory</span></a>.</p>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="maurer2015" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Maurer2015]</a></td><td>R.J. Maurer, M. Askerka, and J. Tully, <em>in preparation</em>  (2015)</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="mahan2013" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Mahan2013]</a></td><td>G.D. Mahan, <em>Many-particle physics</em>, Springer Science &amp; Business Media (2013)</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="savrasov1996" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Savrasov1996]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id10">2</a>)</em> <cite>S.</cite> Savrasov, and D. Savrasov, <em>Phys. Rev. B</em> <strong>54</strong>, 16487-16501 (1996)</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="baroni2001" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[Baroni2001]</a></td><td><cite>S.</cite> Baroni, S. de Gironcoli, and A. Dal Corso, <em>Rev. Mod. Phys.</em> <strong>73</strong>, 515-562 (2001)</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="blum2009" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[Blum2009]</a></td><td><cite>V.</cite> Blum, R. Gehrke, F. Hanke, P. Havu, V. Havu, X. Ren, K. Reuter, adM. Scheffler, <em>Comp. Phys. Comm.</em> <strong>180</strong>, 2175-2196 (2009)</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="soler2002" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[Soler2002]</a></td><td>J.M. Soler, E. Artacho, J.D Gale, A. Garcia, J. Junquera, P. Ordejon, and D. Sanchez-Portal, <em>J. Phys.: Condens. Matter</em> <strong>14</strong>, 2745 (2002)</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="trail2001" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[Trail2001]</a></td><td><cite>J.</cite> Trail, M. Graham, and D. Bird, <em>Comp. Phys. Comm.</em> <strong>137</strong>, 163-173 (2001)</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html"> Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="methods.html"> Theory and Methods</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="methods.html#non-adiabatic-friction-of-adsorbate-motion-on-metal-surfaces">Non-adiabatic friction of adsorbate motion on metal surfaces</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="methods.html#non-adiabatic-relaxation-rates-from-first-order-time-dependent-perturbation-theory">Non-adiabatic relaxation rates from first order time-dependent perturbation theory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#the-friction-tensor">The Friction Tensor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#vibrational-relaxation-rates-of-adsorbates">Vibrational relaxation rates of adsorbates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#numerical-considerations-and-working-equations">Numerical considerations and working equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="methods.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html"> Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coolvib.html"> Coolvib: Modules and Classes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="methods.html" title="Theory"
+              >previous</a> |
+            <a href="tutorial.html" title="Tutorial"
+              >next</a> |
+            <a href="py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/derivation.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Reinhard J. Maurer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

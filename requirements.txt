@@ -1,5 +1,0 @@
-Requirements
-============
-
-ase, Atomic Simulation Environment
-`Atomic Simulation Environment <https://wiki.fysik.dtu.dk/ase/>`_

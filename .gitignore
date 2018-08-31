@@ -1,7 +1,0 @@
-*.dat*
-*egg*
-_build
-*.pyc
-build/
-*~
-*.c
