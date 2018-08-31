@@ -7,7 +7,7 @@ and lifetimes due to nonadiabatic effects on metal surfaces. The code uses
 precomputed electronic structure information from software packages such as 
 FHI-aims and SIESTA.
 
-For more details, have a look at the documentation at www.damaurer.at/software/coolvib/index.html
+For more details, have a look at the documentation at https://maurergroup.github.io/coolvib/
 
 ### Dependencies ###
 
