@@ -45,26 +45,24 @@ if __name__=="__main__":
         kpoints = []
         for l,line in enumerate(lines):
             #if 'k_point_list' in line:
-                #pass
+            #    pass
             #else:
-                #raise RuntimeError('OUTPUT file has to have been generated with \
-                        #keyword: output k_point_list.')
+            #    raise RuntimeError('OUTPUT file has to have been generated with \
+            #keyword: output k_point_list.')
 
-            if 'K-points in task  ' in line:
+            if '| Number of k-points           ' in line:
                 nkpts = int(line.split()[-1])
                 n_line = l+1
-                while 'K-points in task  ' in lines[n_line]:
-                    nkpts += int(lines[n_line].split()[-1])
-                    n_line += 1
-                for nk in range(nkpts):
-                    kpoint = []
-                    kpoint.append(float(lines[n_line].split()[4]))
-                    kpoint.append(float(lines[n_line].split()[5]))
-                    kpoint.append(float(lines[n_line].split()[6]))
-                    kpoint.append(float(lines[n_line].split()[9]))
-                    kpoints.append(kpoint)
-                    n_line += 1
-                break
+            #if 'K-points in task  ' in lines[n_line]:
+                    #nkpts += int(lines[n_line].split()[-1])
+                    #n_line += 1
+            if '| k-point: ' in line:
+                kpoint = []
+                kpoint.append(float(line.split()[4]))
+                kpoint.append(float(line.split()[5]))
+                kpoint.append(float(line.split()[6]))
+                kpoint.append(float(line.split()[9]))
+                kpoints.append(kpoint)
 
         kpoints = np.array(kpoints)
 
