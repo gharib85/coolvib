@@ -22,7 +22,7 @@ from os.path import join as pathjoin
 
 def parse_aims_tensor(model, spin=True, path='./', filename='aims.out', active_atoms=[1], incr=0.01, debug=0):
     """
-    This subroutine returns all necessary information stored in the siesta output files
+    This subroutine returns all necessary information stored in the aims output files
     and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
     overlap matrices
 
@@ -99,7 +99,7 @@ def parse_aims_tensor(model, spin=True, path='./', filename='aims.out', active_a
 
 def parse_aims_mode(model, spin=True, path='./', prefix='mode', filename='aims.out', incr=0.01, debug=0):
     """
-    This subroutine returns all necessary information stored in the siesta output files
+    This subroutine returns all necessary information stored in the aims output files
     and returns the fermi level, the eigenvalues, the kpoints and the hamiltonian and the 
     overlap matrices
 
@@ -223,6 +223,7 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
                 if '| Number of k-points          ' in line:
                     nkpts = int(line.split()[-1])
                 if '| k-point: ' in line and not k_points_are_done:
+                    print(line)
                     kpoint = []
                     kpoint.append(float(line.split()[4]))
                     kpoint.append(float(line.split()[5]))
