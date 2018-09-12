@@ -92,7 +92,7 @@ if __name__=="__main__":
         output += 'output = ["eigenvectors", '
         output += ' "k_point_list", '
         output += ' "hamiltonian_matrix", '
-        output += ' "overlap_matrix", '
+        output += ' "overlap_matrix", \n'
         for n in range(n_bands):
             output += ' "band  '
             for i in range(2):
