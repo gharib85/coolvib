@@ -224,10 +224,10 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
                     nkpts = int(line.split()[-1])
                 if '| k-point: ' in line and not k_points_are_done:
                     kpoint = []
-                    kpoint.append(float(content[n_line].split()[4]))
-                    kpoint.append(float(content[n_line].split()[5]))
-                    kpoint.append(float(content[n_line].split()[6]))
-                    kpoint.append(float(content[n_line].split()[9]))
+                    kpoint.append(float(line.split()[4]))
+                    kpoint.append(float(line.split()[5]))
+                    kpoint.append(float(line.split()[6]))
+                    kpoint.append(float(line.split()[9]))
                     kpoints.append(kpoint)
                     n_k += 1
                 if n_k == nkpts:
