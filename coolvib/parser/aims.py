@@ -207,7 +207,7 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
                 print 'Found k_point_list keyword, extracting kpoint_weights'
                 kweights_exist = True
 
-            if '| Chemical potential (Fermi level) in eV  ' in line \
+            if '| Chemical potential (Fermi level):' in line \
                     and not fermi_level_exists:
                 print 'Found Fermi Level, extracting fermi level'
                 fermi_level_exists = True
@@ -217,24 +217,21 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
             kpoints = []
             fermi_level = 0.0
             k_points_are_done = False
+            n_k = 0
             for l, line in enumerate(content):
-                if '| K-points in task ' in line and not k_points_are_done:
+                if '| Number of k-points               ' in line:
                     nkpts = int(line.split()[-1])
-                    n_line = l+1
-                    while 'K-points in task  ' in content[n_line]:
-                        nkpts += int(content[n_line].split()[-1])
-                        n_line += 1
-                    for nk in range(nkpts):
-                        kpoint = []
-                        kpoint.append(float(content[n_line].split()[4]))
-                        kpoint.append(float(content[n_line].split()[5]))
-                        kpoint.append(float(content[n_line].split()[6]))
-                        kpoint.append(float(content[n_line].split()[9]))
-                        kpoints.append(kpoint)
-                        n_line += 1
+                if '| k-points: ' in line and not k_points_are_done:
+                    kpoint = []
+                    kpoint.append(float(content[n_line].split()[4]))
+                    kpoint.append(float(content[n_line].split()[5]))
+                    kpoint.append(float(content[n_line].split()[6]))
+                    kpoint.append(float(content[n_line].split()[9]))
+                    kpoints.append(kpoint)
+                    n_k += 1
+                if n_k == nkpts:
                     k_points_are_done = True
-
-                if '| Chemical potential (Fermi level) in eV      ' in line:
+                if '| Chemical potential (Fermi level):' in line:
                     fermi_level = float(line.split()[-1])
             
             kpoint_weights = np.array(kpoints)
@@ -245,7 +242,8 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
 
         else:
             raise RuntimeError('Cannot extract fermi level and/or kpoint_weights \n \
-                    Either k_point_list keyword not set, or run is not converged')
+                    Either k_point_list keyword not set, or run is not converged \n \
+                    or you are using an unsupported FHI-aims version.')
 
 
 def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=False, debug=False):
