@@ -218,10 +218,11 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
             fermi_level = 0.0
             k_points_are_done = False
             n_k = 0
+            nkpts = -1
             for l, line in enumerate(content):
-                if '| Number of k-points               ' in line:
+                if '| Number of k-points          ' in line:
                     nkpts = int(line.split()[-1])
-                if '| k-points: ' in line and not k_points_are_done:
+                if '| k-point: ' in line and not k_points_are_done:
                     kpoint = []
                     kpoint.append(float(content[n_line].split()[4]))
                     kpoint.append(float(content[n_line].split()[5]))
