@@ -233,7 +233,7 @@ def aims_read_fermi_and_kpoints(filename,cell=None):
                 if n_k == nkpts:
                     k_points_are_done = True
                 if '| Chemical potential (Fermi level):' in line:
-                    fermi_level = float(line.split()[-1])
+                    fermi_level = float(line.split()[-2])
             
             kpoint_weights = np.array(kpoints)
             #transform k points fromr reciprocal to absolute values
