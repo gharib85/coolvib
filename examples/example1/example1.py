@@ -95,7 +95,7 @@ coolvib.routines.output.print_matrix(ft)
 print 'Relaxation rates along vibrational modes in 1/ps'
 for i in range(len(ft)):
     print ft[i,i]
-print 'Vibrational lifetimes along vibrational modes in 1/ps'
+print 'Vibrational lifetimes along vibrational modes in ps'
 for i in range(len(ft)):
     print 1./ft[i,i]
 
