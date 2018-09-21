@@ -99,3 +99,14 @@ print 'Vibrational lifetimes along vibrational modes in ps'
 for i in range(len(ft)):
     print 1./ft[i,i]
 
+######Print vibrational lifetimes and relaxation rates to a file instead######   
+#file_output = 'relax_rate_CO_on_Pd111.txt'    
+#with open(file_output, 'w') as f:
+#    f.write("Relaxation rates along vibrational modes in 1/ps \n")
+#    for i in range(len(ft)):
+#        f.write(str(ft[i,i]))
+#        f.write("\n")
+#    f.write("Vibrational lifetimes along vibrational modes in ps \n")
+#    for i in range(len(ft)):
+#        f.write(str(1./ft[i,i]))
+#        f.write("\n")
