@@ -258,7 +258,7 @@ def aims_read_eigenvalues_and_coefficients(fermi_level, directory='./', spin=Fal
     KS_eigenvectors_XX.band_X.kpt_X.out files lie, the value of the fermi_level, 
     and a logical specifying if the calculation was spin-collinear or without spin.
 
-    the routine returns the eigenvalues, eigenvectors, and occupations
+    the routine returns the eigenvalues, eigenvectors, occupations and orbital positions
     in this order as np.arrays
 
     """
