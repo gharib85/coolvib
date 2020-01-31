@@ -33,8 +33,8 @@ basisset = 'light'
 
 #setting up Aims calculator in ASE
 calc=Aims(xc='PBE',
-    run_command = 'mpirun -np 4 <insert_path>/bin/aims.160210.mpi.x > aims.out',
-    species_dir='<insert path>/aimsfiles/species_defaults/'+basisset,
+    aims_command = 'mpirun -np 4 /home/chem/msrvhs/software/aims/fhiaims/bin/ipi.aims.200112.scalapack.mpi.x > aims.out',
+    species_dir='/home/chem/msrvhs/software/aims/fhiaims/species_defaults/'+basisset,
     occupation_type = ['gaussian',0.1],
     sc_iter_limit = 100,
     #spin = 'collinear',
@@ -44,7 +44,7 @@ calc=Aims(xc='PBE',
     sc_accuracy_eev=0.001,
     sc_accuracy_rho=1e-5,
     sc_accuracy_forces=1e-3,
-    load_balancing = True,
+    #load_balancing = True,
     #empty_states=10,
     k_grid = [12,12,1],
     restart_aims='wvfn.dat',
@@ -98,7 +98,7 @@ f.summary()
 f.write_jmol()
 
 #printing the Hessian
-print 'Vibrational hessian just for reference'
+print('Vibrational hessian just for reference')
 print_matrix(f.modes)
 
 fl = open('hessian', 'w')
@@ -141,7 +141,7 @@ mode = np.array([
 #mode = f.get_mode(-1)
 #we normalize
 mode /= np.linalg.norm(mode)
-print mode
+print(mode)
 #we mass-weight
 # print np.diag(ab.get_masses())
 # w = np.diag(np.sqrt(ab.get_masses()))

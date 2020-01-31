@@ -28,11 +28,12 @@ class finite_difference(Vibrations):
         on the existence of files and the subsequent creation of the file in
         case it is not found.
         """
+        atoms = self.atoms
 
         filename = self.name + '.eq.pckl'
         fd = opencew(filename)
         if fd is not None:
-            self.calculate(filename, fd)
+            self.calculate(atoms,filename, fd)
             try:
                 os.mkdir('./eq')
             except:
@@ -57,7 +58,7 @@ class finite_difference(Vibrations):
                         if fd is not None:
                             disp = ndis * sign * self.delta
                             self.atoms.positions[a, i] = p[a, i] + disp
-                            self.calculate(filename, fd)
+                            self.calculate(atoms,filename, fd)
                             try:
                                 os.mkdir(filename2)
                             except:
