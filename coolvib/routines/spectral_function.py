@@ -89,7 +89,7 @@ def calculate_spectral_function_mode(
             }
 
     keys = {}
-    for key in default_keywords.keys():
+    for key in list(default_keywords.keys()):
         if  key in kwargs:
             keys[key] = kwargs[key] 
         else:
@@ -116,11 +116,11 @@ def calculate_spectral_function_mode(
 
     spectral_function = np.zeros([1,n_axis],dtype=np.complex)
 
-    print 'Calculating spectral function' 
+    print('Calculating spectral function') 
     for s in range(n_spin):
         for k in range(n_kpts):
             if debug:
-                print 's ', s, 'k ', k
+                print('s ', s, 'k ', k)
             wk = kweights[k]
             orb_min = 0
             orb_lumo = 0
@@ -137,7 +137,7 @@ def calculate_spectral_function_mode(
                 if e<=ef+2.00*keys['max_energy']:
                     orb_max = ei
             if debug:
-                print orb_min, orb_homo, orb_lumo, orb_max
+                print(orb_min, orb_homo, orb_lumo, orb_max)
             for i in range(orb_min,orb_homo+1):
                 for f in range(orb_lumo, orb_max+1):
                     e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
@@ -153,9 +153,9 @@ def calculate_spectral_function_mode(
                         nacs *= wk
                         nacs *= occ
                         if debug:
-                            print i, f, e, ' ' , occ, ' ', \
+                            print(i, f, e, ' ' , occ, ' ', \
                                 (nacs*hbar*pi/(time_to_ps)).real, \
-                                ' ', (nacs*hbar*pi/(time_to_ps)).imag
+                                ' ', (nacs*hbar*pi/(time_to_ps)).imag)
                         spectral_function[0,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
             spectral_function[0,:] *= (pi*hbar)
@@ -231,7 +231,7 @@ def calculate_spectral_function_tensor(
             }
 
     keys = {}
-    for key in default_keywords.keys():
+    for key in list(default_keywords.keys()):
         if  key in kwargs:
             keys[key] = kwargs[key] 
         else:
@@ -267,11 +267,11 @@ def calculate_spectral_function_tensor(
     counter = 0
     for d in range(n_dim):
         for d2 in range(d,n_dim):
-            print 'Calculating spectral function for components {0} and {1}'.format(d,d2)
+            print('Calculating spectral function for components {0} and {1}'.format(d,d2))
             for s in range(n_spin):
                 for k in range(n_kpts):
                     if debug:
-                        print 's ', s, 'k ', k
+                        print('s ', s, 'k ', k)
                     wk = kweights[k]
                     orb_min = 0
                     orb_lumo = 0
@@ -288,7 +288,7 @@ def calculate_spectral_function_tensor(
                         if e<=ef+2.00*keys['max_energy']:
                             orb_max = ei
                     if debug:
-                        print orb_min, orb_homo, orb_lumo, orb_max
+                        print(orb_min, orb_homo, orb_lumo, orb_max)
                     for i in range(orb_min,orb_homo+1):
                         for f in range(orb_lumo, orb_max+1):
                             e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
@@ -304,9 +304,9 @@ def calculate_spectral_function_tensor(
                                 nacs *= wk
                                 nacs *= occ
                                 if debug:
-                                    print i, f, e, ' ' , occ, ' ', \
+                                    print(i, f, e, ' ' , occ, ' ', \
                                         (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).real, \
-                                        ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag
+                                        ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag)
                                 spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
             spectral_function[counter,:] *= (pi*hbar)/sqrt(masses[d/3]*masses[d2/3])
@@ -395,7 +395,7 @@ def calculate_spectral_function_tensor_q(
             }
 
     keys = {}
-    for key in default_keywords.keys():
+    for key in list(default_keywords.keys()):
         if  key in kwargs:
             keys[key] = kwargs[key] 
         else:
@@ -410,7 +410,7 @@ def calculate_spectral_function_tensor_q(
     kpts = kpoints[:,:3]
 
     #THIS IS WHERE CYTHON STUFF GOES
-    print 'Setting up the coupling matrix '
+    print('Setting up the coupling matrix ')
 
     #prepare N vector
     rec_cell = 2*np.pi*np.linalg.inv(cell.T)
@@ -424,8 +424,8 @@ def calculate_spectral_function_tensor_q(
     for n, nvec in enumerate(N):
         N[n] = np.dot(nvec, cell)
 
-    print 'N'
-    print N
+    print('N')
+    print(N)
 
     raise NotImplementedError('This is work in progress')
 
@@ -495,7 +495,7 @@ def calculate_spectral_function_tensor_q(
             fermi_energy,
             ) 
 
-    print 'Finished setting up the coupling matrix'
+    print('Finished setting up the coupling matrix')
 
     assert 0
 
@@ -515,7 +515,7 @@ def calculate_spectral_function_tensor_q(
     for d in range(n_dim):
         for d2 in range(d,n_dim):
             if debug:
-                print 'Calculating spectral function for components {0} and {1}'.format(d,d2)
+                print('Calculating spectral function for components {0} and {1}'.format(d,d2))
             for k1 in range(n_kpts):
                 for k2 in range(n_kpts):
                     #TODO could be a good place to build G matrix for this set of k points
@@ -523,7 +523,7 @@ def calculate_spectral_function_tensor_q(
                     for s in range(n_spin):
 
                         if debug:
-                            print 's ', s, 'k1 ', k1, 'k2 ', k2
+                            print('s ', s, 'k1 ', k1, 'k2 ', k2)
                         wk1 = kweights[k1]
                         wk2 = kweights[k2]
                         wk = wk1*wk2
@@ -544,7 +544,7 @@ def calculate_spectral_function_tensor_q(
                             if e<=ef+2.00*keys['max_energy']:
                                 orb_max = ei
                         if debug:
-                            print orb_min, orb_homo, orb_lumo, orb_max
+                            print(orb_min, orb_homo, orb_lumo, orb_max)
                         for i in range(orb_min,orb_homo+1):
                             for f in range(orb_lumo, orb_max+1):
                                 e = eigenvalues[k2,s,f] - eigenvalues[k1,s,i]
@@ -561,9 +561,9 @@ def calculate_spectral_function_tensor_q(
                                     nacs *= wk
                                     nacs *= occ*(3.-n_spin)
                                     if debug:
-                                        print i, f, e, ' ' , occ, ' ', \
+                                        print(i, f, e, ' ' , occ, ' ', \
                                             (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).real, \
-                                            ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag
+                                            ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag)
                                     
                                     spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             
@@ -642,7 +642,7 @@ def evaluate_friction_at_zero(
             }
 
     keys = {}
-    for key in default_keywords.keys():
+    for key in list(default_keywords.keys()):
         if  key in kwargs:
             keys[key] = kwargs[key] 
         else:
@@ -677,11 +677,11 @@ def evaluate_friction_at_zero(
     for d in range(n_dim):
         for d2 in range(d,n_dim):
             friction = 0.0
-            print 'Calculating spectral function for components {0} and {1}'.format(d,d2)
+            print('Calculating spectral function for components {0} and {1}'.format(d,d2))
             for s in range(n_spin):
                 for k in range(n_kpts):
                     if debug:
-                        print 's ', s, 'k ', k
+                        print('s ', s, 'k ', k)
                     wk = kweights[k]
                     orb_min = 0
                     orb_lumo = 0
@@ -698,7 +698,7 @@ def evaluate_friction_at_zero(
                         if e<=ef+2.00*keys['max_energy']:
                             orb_max = ei
                     if debug:
-                        print orb_min, orb_homo, orb_lumo, orb_max
+                        print(orb_min, orb_homo, orb_lumo, orb_max)
                     for i in range(orb_min,orb_homo+1):
                         for f in range(orb_lumo, orb_max+1):
                             e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
@@ -714,9 +714,9 @@ def evaluate_friction_at_zero(
                                 nacs *= wk
                                 nacs *= occ
                                 if debug:
-                                    print i, f, e, ' ' , occ, ' ', \
+                                    print(i, f, e, ' ' , occ, ' ', \
                                         (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).real, \
-                                        ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag
+                                        ' ', (nacs*hbar*pi/(time_to_ps*sqrt(masses[d/3]*masses[d2/3]))).imag)
                                 friction += nacs*delta_function(e, perturbation_e, sigma, delta_method)/ \
                                         (0.5*(1.-np.math.erf((-e/sigma)*(1./np.sqrt(2.)))))
                                 #spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
@@ -786,7 +786,7 @@ def evaluate_friction_at_zero_mode(
             }
 
     keys = {}
-    for key in default_keywords.keys():
+    for key in list(default_keywords.keys()):
         if  key in kwargs:
             keys[key] = kwargs[key] 
         else:
@@ -814,7 +814,7 @@ def evaluate_friction_at_zero_mode(
     for s in range(n_spin):
         for k in range(n_kpts):
             if debug:
-                print 's ', s, 'k ', k
+                print('s ', s, 'k ', k)
             wk = kweights[k]
             orb_min = 0
             orb_lumo = 0
@@ -831,7 +831,7 @@ def evaluate_friction_at_zero_mode(
                 if e<=ef+2.00*keys['max_energy']:
                     orb_max = ei
             if debug:
-                print orb_min, orb_homo, orb_lumo, orb_max
+                print(orb_min, orb_homo, orb_lumo, orb_max)
             for i in range(orb_min,orb_homo+1):
                 for f in range(orb_lumo, orb_max+1):
                     e = eigenvalues[k,s,f] - eigenvalues[k,s,i]
@@ -847,9 +847,9 @@ def evaluate_friction_at_zero_mode(
                         nacs *= wk
                         nacs *= occ
                         if debug:
-                            print i, f, e, ' ' , occ, ' ', \
+                            print(i, f, e, ' ' , occ, ' ', \
                                 (nacs*hbar*pi/(time_to_ps)).real, \
-                                ' ', (nacs*hbar*pi/(time_to_ps)).imag
+                                ' ', (nacs*hbar*pi/(time_to_ps)).imag)
                         friction += nacs*delta_function(e, perturbation_e, sigma, delta_method)/ \
                                 (0.5*(1.-np.math.erf((-e/sigma)*(1./np.sqrt(2.)))))
                         #spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)

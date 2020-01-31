@@ -79,7 +79,7 @@ class workflow_mode():
         if code in codes:
             self.code = code
         else:
-            print 'This code is not supported, choose one of ', codes
+            print('This code is not supported, choose one of ', codes)
 
     def set_mode(self, mode=None):
         """
@@ -100,7 +100,7 @@ class workflow_mode():
         """
 
         if self.code is None:
-            print 'Please set code first using .set_code'
+            print('Please set code first using .set_code')
 
         method_to_call =getattr(parser,parser.codes[self.code]+'_mode')
         self = method_to_call(self, **kwargs)
@@ -221,7 +221,7 @@ class workflow_mode():
         else:
             self.calculate_friction_tensor()
 
-        print 'Friction' 
-        print self.friction_tensor/time_to_ps
-        print 'Lifetime'
-        print 1./(self.friction_tensor/time_to_ps)
+        print('Friction') 
+        print(self.friction_tensor/time_to_ps)
+        print('Lifetime')
+        print(1./(self.friction_tensor/time_to_ps))
