@@ -22,6 +22,9 @@ For more details, have a look at the documentation at https://maurergroup.github
 * After installing all dependencies, just issue make 
 and include build/ into PYTHONPATH
 
+* export PYTHONPATH=<path to coolvib>/coolvib/build/lib.<arch>-x86_64-<py-version>:$PYTHONPATH
+* export PATH=<path to coolvib>/coolvib/build/lib.<arch>-x86_64-<py-version>/coolvib/tools:$PATH
+
 ## Licensing ##
 
 coolvib is licensed under the GNU General Public License, version 3 (gnu.org/licenses/gpl.html)

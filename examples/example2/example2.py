@@ -44,7 +44,7 @@ keywords = {
     'perturbing_energy' : 0.0,
         }
 
-print 'workflow initialized and keywords set'
+print('workflow initialized and keywords set')
 
 ######READ QM INPUT DATA###
 
@@ -53,14 +53,14 @@ model.read_input_data(spin=False,
         prefix='mode', 
         filename='aims.out', 
         incr=finite_difference_incr)
-print 'successfully read QM input data'
+print('successfully read QM input data')
 
 # model.calculate_spectral_function(mode='default', **keywords)
-# print 'successfully calculated spectral_function'
+# print('successfully calculated spectral_function')
 # model.print_spectral_function('nacs-spectrum.out')
 # model.calculate_friction_from_spectrum(**keywords)
 
-print 'successfully calculated friction tensor'
+print('successfully calculated friction tensor')
 model.calculate_friction(**keywords)
 
 model.analyse_friction()

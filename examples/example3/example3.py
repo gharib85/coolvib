@@ -118,7 +118,7 @@ fl.close()
 
 #Calculate finite difference along a given mode
 
-print ' Now calculating finite difference along a given normal mode'
+print(' Now calculating finite difference along a given normal mode')
 #follow the internal stretch mode
 
 #You can define your own mode displacement or use one calculated from 
