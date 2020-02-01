@@ -721,7 +721,7 @@ def evaluate_friction_at_zero(
                                         (0.5*(1.-np.math.erf((-e/sigma)*(1./np.sqrt(2.)))))
                                 #spectral_function[counter,:] += discretize_peak(e,nacs, x_axis, sigma, delta_method)
             friction_tensor[d,d2] = friction 
-            friction_tensor[d,d2] *= (pi*hbar)/sqrt(masses[d/3]*masses[d2/3])
+            friction_tensor[d,d2] *= (pi*hbar)/sqrt(masses[int(d/3)]*masses[int(d2/3)])
             friction_tensor[d2,d] = friction_tensor[d,d2]
             #spectral_function[counter,:] *= (pi*hbar)/sqrt(masses[d/3]*masses[d2/3])
             counter += 1
