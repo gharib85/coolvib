@@ -17,7 +17,7 @@ def mode_displacement(atoms, mode, name='mode', disp=0.001):
     if fd is not None:
         e0 = atoms.get_potential_energy()
         # print e0
-        fd.write('calculated')
+        fd.write(b'calculated')
         try:
             os.mkdir(name+'_eq')
         except:
@@ -42,7 +42,7 @@ def mode_displacement(atoms, mode, name='mode', disp=0.001):
             atoms.positions = p + displ
             #print atoms.positions
             atoms.calc.calculate(atoms)
-            fd.write('calculated')
+            fd.write(b'calculated')
             try:
                 os.mkdir(filename2)
             except:
