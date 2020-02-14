@@ -162,3 +162,47 @@ def calculate_spectrum_scattering(eigenvalues, fermi_level, cutoff = 5.0,
     x_axis, spectrum = dos_binning(energies, broadening, bin_width, weights)
     return x_axis, spectrum
 
+
+def read_memory_kernel(path):
+
+    head_count =0
+    header = ["No of","Discretization","Number of Bins","Excitation energy","==========","k-point","Friction"] #skip lines
+    with open(path, "r") as f:
+        for line in f:
+            if "Friction" in line:
+                dimension = int(line.split()[3])
+                head_count += 1
+            if "Discretization" in line:
+                discretization=float(line.split()[-1])
+            if any(x in line for x in header):
+                continue
+            max_e = float(line.split()[0])
+#    print("Friction max energy = "+str(max_e))
+#    print("The dimensions of the tensor are " + str(dimension) + "x" + str(dimension))
+    elements = (((dimension*dimension)-dimension)/2)+dimension
+#    print("There are " + str(elements) + " coupling components")
+    if elements < head_count:
+        n_spin = 2
+#        print("This system is spin unrestricted")
+
+    bins=np.zeros((int(max_e/discretization)+1))
+#    print(len(bins))
+    re_memory_kernel=np.zeros((dimension,dimension,len(bins)))
+    im_memory_kernel=np.zeros_like(re_memory_kernel)
+    
+    with open(path, "r") as f:
+        for line in f:
+            if "Friction" in line:
+                i = int(line.split()[3])
+                j = int(line.split()[4])
+                head_count += 1
+                c=0
+            if any(x in line for x in header):
+                continue
+            else:
+                re_memory_kernel[i-1,j-1,c]=float(line.split()[1])
+                im_memory_kernel[i-1,j-1,c]=float(line.split()[2])
+                bins[c]=float(line.split()[0])
+                c +=1
+    return(bins,re_memory_kernel,im_memory_kernel,dimension,max_e)
+
